@@ -1,0 +1,36 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #1f1f1f;
+  background-color: #f5f5f5;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  font-weight: 500;
+  margin: 0px 10px;
+}
+
+input, select {
+  width: 450px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
