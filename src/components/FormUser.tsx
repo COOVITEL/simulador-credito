@@ -8,9 +8,17 @@ import Salary from "./form/Salary";
 import Others from "./form/Others";
 import Debit from "./form/Debit";
 import Score from "./form/Score";
+import Aportes from "./form/Aportes";
+import useSimulatorStore from "../store/store";
+import Cooviahorro from "./form/Cooviahorro";
+import Cdats from "./form/Cdat";
+import Fidelizaciones from "./Fidelizacion";
+import Sociales from "./Sociales";
 
 
-export default function FormUser({ typeUsers }: any) {
+export default function FormUser() {
+
+    const { inputAfiliacion } = useSimulatorStore()
 
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -26,11 +34,16 @@ export default function FormUser({ typeUsers }: any) {
                 <Id />
                 <Date />
                 <Years />
-                <Afiliacion typeUsers={typeUsers}/>
+                <Afiliacion/>
                 <Salary />
                 <Others />
                 <Debit />
                 <Score />
+                <Cooviahorro />
+                <Cdats />
+                {inputAfiliacion&&<Aportes />}
+                {/* <Fidelizaciones /> */}
+                <Sociales />
                 <button>Enviar</button>
             </form>
         </div>

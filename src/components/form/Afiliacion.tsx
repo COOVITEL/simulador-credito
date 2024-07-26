@@ -1,15 +1,25 @@
+import React from "react";
+import useSimulatorStore from "../../store/store";
+
 interface User {
     name: string;
+    id: number;
 }
 
-export default function Afiliacion({ typeUsers }: any) {
+export default function Afiliacion() {
+    const { asociados, updateAfiliacion } = useSimulatorStore()
+
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        updateAfiliacion(event.target.value)
+    }
+
     return (
         <div className="flex flex-row justify-between my-3">
             <label htmlFor="afiliacion">Tipo de Afiliación:</label>
-            <select name="afiliacion" id="afiliacion" required>
+            <select onChange={handleChange} name="afiliacion" id="afiliacion" required >
                 <option key="emptyAfi" value="">-- Seleccione Tipo --</option>
-                {typeUsers.map((typeuser: User) => (
-                    <option key={typeUsers.name} value={typeuser.name}>{typeuser.name}</option>
+                {asociados.map((typeuser: User) => (
+                    <option key={typeuser.name} value={typeuser.id}>{typeuser.name}</option>
                 ))}
             </select>
         </div>

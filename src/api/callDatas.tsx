@@ -1,4 +1,4 @@
-export const getPopularMovies = async (url: string) => {
+export const getDatas = async (url: string) => {
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
