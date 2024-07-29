@@ -1,17 +1,28 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { setValue } from "../../utils/setValue"
 import useSimulatorStore from "../../store/store"
+import Saludypension from "../../utils/saludypension"
 
 export default function Salary() {
     
     const [salaryValue, setSalaryValue] = useState("")
-    const { updateSalary } = useSimulatorStore()
+    const { updateSalary, updateSaludypension, inputAfiliacion, updateAhorroMensual } = useSimulatorStore()
+
+    useEffect(() => {
+        const value = salaryValue.replace(/\./g, '')
+        updateSaludypension(Saludypension(parseInt(value), inputAfiliacion))
+    }, [inputAfiliacion])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value
         const newValue = setValue(val)
         setSalaryValue(newValue)
-        updateSalary(parseInt(val.replace(/\./g, '')))
+        const valueSalary = val.replace(/\./g, '')
+        updateSalary(parseInt(valueSalary))
+        updateAhorroMensual(parseInt(valueSalary) * 0.02)
+        if (inputAfiliacion.length > 0) {
+            updateSaludypension(Saludypension(parseInt(valueSalary), inputAfiliacion))
+        }
     }
 
     return (

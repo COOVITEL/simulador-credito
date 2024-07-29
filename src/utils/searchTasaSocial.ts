@@ -16,7 +16,7 @@ export function searchTasaSocial(list: Sociales, cuota: number) {
         tasa = list.tasa60
     } else if (cuota >= 66 && cuota < 72) {
         tasa = list.tasa72
-    } else if (cuota >= 72 && cuota <=82 ) {
+    } else if (cuota >= 72 && cuota <=84 ) {
         tasa = list.tasa84
     } else {
         tasa = 0

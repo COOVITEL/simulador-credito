@@ -2,17 +2,41 @@ import React, { useEffect, useState } from "react"
 import useSimulatorStore from "../store/store"
 import { Sociales } from "../store/types"
 import { searchTasaSocial } from "../utils/searchTasaSocial"
+import { CapacidadPago } from "../utils/capacidadPago"
+import { MontoMax } from "../utils/montoMax"
+import { setValue } from "../utils/setValue"
+import { PagoMensual } from "../utils/cuota"
 
 export default function Social() {
 
-    const { sociales } = useSimulatorStore()
+    const {
+        sociales,
+        salary,
+        others,
+        debit,
+        saludypension,
+        formadepago,
+        capacidadPago,
+        updateCapacidadPago,
+        montoMax,
+        updateMontoMax,
+        tasa,
+        updateTasa,
+        cuota,
+        updateCuota,
+        inputAfiliacion,
+        monto,
+        updateMonto,
+        pagoMensual,
+        updatePagoMensual,
+        ahorroMensual,
+    } = useSimulatorStore()
     const [currentType, setCurrentType] = useState<Sociales>()
     const [listSociales, setListSociales] = useState<Sociales[]>([])
     const [selectOption, setSeletOption] = useState("")
-    const [cuotas, setCuotas] = useState("")
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [controCuotas, setControlCuotas] = useState(false)
-    const [tasa, setTasa] = useState(0)
+    const [controlMax, setControlMax] = useState(false)
 
     useEffect(() => {
         if (sociales) setListSociales(sociales)
@@ -23,25 +47,52 @@ export default function Social() {
         if (current) {
             setMaxCuotas(current.plazoMax)
             setCurrentType(current)
+            updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, formadepago, ahorroMensual))
         }
-    }, [selectOption])
+    }, [selectOption, formadepago, debit, saludypension, cuota])
+
+    useEffect(() => {
+        updateMontoMax(MontoMax(capacidadPago, tasa, cuota))
+        updateMonto(0)
+    }, [tasa, capacidadPago, cuota, inputAfiliacion, debit, others])
+
+    useEffect(() => {
+        if (isNaN(monto)) {
+        updatePagoMensual(0)
+        } else {
+            updatePagoMensual(PagoMensual(monto, tasa, cuota))
+        }
+    }, [monto])
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSeletOption(event.target.value)
         setMaxCuotas(0)
-        setCuotas("")
+        updateCuota(0)
         setControlCuotas(false)
-        setTasa(0)
+        updateTasa(0)
     }
 
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCuotas(event.target.value)
-        if (currentType) setTasa(searchTasaSocial(currentType, parseInt(event.target.value)))
+        updateCuota(parseInt(event.target.value))
+        if (currentType) updateTasa(searchTasaSocial(currentType, parseInt(event.target.value)))
         if (parseInt(event.target.value) > maxCuotas) {
             setControlCuotas(true)
-            setCuotas(maxCuotas.toString())
+            updateCuota(maxCuotas)
+            if (currentType) updateTasa(searchTasaSocial(currentType, maxCuotas))
         } else {
             setControlCuotas(false)
+        }
+    }
+
+    const handleChangeMonto = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const cleanValue = event.target.value.replace(/\./g, '')
+        const value = parseInt(cleanValue)
+        updateMonto(value)
+        if (value > montoMax) {
+            setControlMax(true)
+            updateMonto(montoMax)
+        } else {
+            setControlMax(false)
         }
     }
     
@@ -63,7 +114,7 @@ export default function Social() {
                 <label htmlFor="cuotas">Cuotas</label>
                 <input
                     onChange={handleChangeCuotas}
-                    value={cuotas}
+                    value={cuota>0 ? cuota : ""}
                     className="px-4 py-1"
                     type="number"
                     id="cuotas"
@@ -72,12 +123,21 @@ export default function Social() {
                     placeholder="Cuotas"
                     required/>
             </div>
-
+            <span>{`Salario: ${salary}`}</span>
+            <span>{`Otros ingresos ${others}`}</span>
+            <span>{`Debitos: ${debit}`}</span>
+            <span>{`Tasa: ${tasa}`}</span>
+            <span>{`Salud y pension: ${saludypension}`}</span>
+            <span>{`Ahorro Mensual: ${ahorroMensual}`}</span>
+            <span>{`Forma de pago: ${formadepago}`}</span>
+            <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span>
             {controCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
 
             <div className="flex w-full justify-between">
                 <label htmlFor="monto">Monto a Solicitar</label>
                 <input
+                    onChange={handleChangeMonto}
+                    value={monto > 0 ? setValue(monto.toString()) : ""}
                     className="px-4 py-1"
                     type="text"
                     id="monto"
@@ -85,9 +145,9 @@ export default function Social() {
                     placeholder="Monto"
                     required/>
             </div>
-
-            <span>Tasa: {tasa}</span>
-
+            <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
+            {controlMax&&<span>{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
+            <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
         </div>
     )
 }

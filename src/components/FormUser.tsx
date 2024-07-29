@@ -14,6 +14,7 @@ import Cooviahorro from "./form/Cooviahorro";
 import Cdats from "./form/Cdat";
 import Fidelizaciones from "./Fidelizacion";
 import Sociales from "./Sociales";
+import FormaPago from "./form/Formadepago";
 
 
 export default function FormUser() {
@@ -35,6 +36,7 @@ export default function FormUser() {
                 <Date />
                 <Years />
                 <Afiliacion/>
+                <FormaPago />
                 <Salary />
                 <Others />
                 <Debit />

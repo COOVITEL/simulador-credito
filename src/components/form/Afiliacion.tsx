@@ -10,7 +10,8 @@ export default function Afiliacion() {
     const { asociados, updateAfiliacion } = useSimulatorStore()
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        updateAfiliacion(event.target.value)
+        const typeAfi = event.target.value
+        updateAfiliacion(typeAfi)
     }
 
     return (
@@ -18,8 +19,8 @@ export default function Afiliacion() {
             <label htmlFor="afiliacion">Tipo de Afiliación:</label>
             <select onChange={handleChange} name="afiliacion" id="afiliacion" required >
                 <option key="emptyAfi" value="">-- Seleccione Tipo --</option>
-                {asociados.map((typeuser: User) => (
-                    <option key={typeuser.name} value={typeuser.id}>{typeuser.name}</option>
+                {asociados.map((typeuser: User, index) => (
+                    <option key={`${typeuser.name}-${index}`} value={`${typeuser.id}-${typeuser.name}`}>{typeuser.name}</option>
                 ))}
             </select>
         </div>
