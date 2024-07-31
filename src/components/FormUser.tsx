@@ -12,7 +12,6 @@ import Aportes from "./form/Aportes";
 import useSimulatorStore from "../store/store";
 import Cooviahorro from "./form/Cooviahorro";
 import Cdats from "./form/Cdat";
-import Fidelizaciones from "./Fidelizacion";
 import Sociales from "./Sociales";
 import FormaPago from "./form/Formadepago";
 
@@ -20,11 +19,15 @@ import FormaPago from "./form/Formadepago";
 export default function FormUser() {
 
     const { inputAfiliacion } = useSimulatorStore()
+    const store = useSimulatorStore()
 
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
         const fields = Object.fromEntries(new window.FormData(event.target))
         console.log(fields)
+        console.log(store)
+        const garantias = store.fondoGarantias()
+        console.log(garantias)
     }
 
 

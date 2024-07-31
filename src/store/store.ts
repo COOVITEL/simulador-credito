@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { SimuladorStore, Descuentos } from "./types";
 
 
-const useSimulatorStore = create<SimuladorStore>((set) => ({
+const useSimulatorStore = create<SimuladorStore>((set, get) => ({
     sociales: [],
     nosociales: [],
     fidelizacion: [],
@@ -76,7 +76,17 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
         descuentos: listDes,
         asociados: listAso,
         salarioMinimo: salMin,
-    }))
+    })),
+    fondoGarantias: () => {
+        const { tasas, score, inputAfiliacion } = get();
+        const typeAfi = inputAfiliacion.split("-")[0];
+        const listTypes = tasas.filter(tasa => tasa.perfil == typeAfi)
+            .find(current => score <= current.maxScore && score > current.minScore)
+            .fg
+        console.log(listTypes)
+
+        return 3
+    }
 }))
 
 export default useSimulatorStore

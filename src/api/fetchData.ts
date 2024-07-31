@@ -6,6 +6,5 @@ export const fetchMovies = async (url: string) => {
       return results
     } catch (err) {
       console.error('Error fetching movies:', err);
-    } finally {
     }
-  };
+};

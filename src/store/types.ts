@@ -36,6 +36,7 @@ export interface SimuladorStore {
     updateDebit: (newOthers: number) => void;
     updateAfiliacion: (newValue: string) => void;
     updateList: ({}: any) => void;
+    fondoGarantias: () => number;
 }
 
 export interface Sociales {
