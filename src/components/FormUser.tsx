@@ -21,8 +21,9 @@ import Nosociales from "./NoSociales";
 export default function FormUser() {
 
     const { inputAfiliacion } = useSimulatorStore()
+    const [controlType, setControlType] = useState(0)
+    const [dialog, setDialog] = useState(false) 
     const store = useSimulatorStore()
-    const [controlType, setControlType] = useState(2)
 
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -32,32 +33,51 @@ export default function FormUser() {
     }
 
     return (
-        <div className="m-10">
-            <form className="flex flex-col justify-center bg-slate-200 p-8 rounded-xl border-blue-200 border-2" action="" onSubmit={handleSubmit}>
-                <Name />
-                <Id />
-                <Date />
-                <Years />
-                <Afiliacion/>
-                <FormaPago />
-                <Salary />
-                <Others />
-                <Debit />
-                <Score />
-                <Cooviahorro />
-                <Cdats />
-                {inputAfiliacion&&<Aportes />}
-                <div className="flex border-spacing-1 flex-row justify-around bg-gray-300 rounded-lg m-6">
+        <div className="w-[80%] m-10">
+            <div></div>
+            <form className="flex flex-col justify-center items-center gap-10 p-8" action="" onSubmit={handleSubmit}>
+                <div className="flex flex-wrap gap-6 justify-center">
+                    <Name />
+                    <Id />
+                </div>
+                <div className="flex flex-wrap gap-6 justify-center">
+                    <Date />
+                    <Years />
+                </div>
+                <div className="flex flex-wrap gap-6 justify-center">
+                    <Afiliacion/>
+                </div>
+                <div className="flex flex-wrap justify-center">
+                    <FormaPago />
+                </div>
+                <div className="flex flex-wrap gap-6 justify-center">
+                    <Salary />
+                    <Others />
+                </div>
+                <div className="flex flex-wrap gap-6 justify-center">
+                    <Debit />
+                    <Score />
+                </div>
+                <div className="flex flex-wrap gap-6 justify-center">
+                    <Cooviahorro />
+                    <Cdats />
+                </div>
+                <div className="flex flex-wrap gap-6 justify-center">
+                    {inputAfiliacion&&<Aportes />}
+                </div>
+                <div
+                    className="w-full flex border-spacing-1 flex-row justify-around bg-gray-200 rounded-lg m-6
+                                text-2xl font-semibold border-2 border-gray-300">
                     <button
-                        className={controlType === 0 ? 'bg-blue-400 px-4 py-1 rounded-lg' : `px-4 py-1 rounded-lg`}
+                        className={controlType === 0 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : `text-[2D2D83] duration-500 w-[33.3%] px-4 py-1 rounded-lg`}
                         type="button"
-                        onClick={() => setControlType(0)}>Fideliacion</button>
+                        onClick={() => setControlType(0)}>Fidelización</button>
                     <button
-                        className={controlType === 1 ? 'bg-blue-400 px-4 py-1 rounded-lg' : 'px-4 py-1 rounded-lg'}
+                        className={controlType === 1 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
                         type="button"
                         onClick={() => setControlType(1)}>Sociales</button>
                     <button
-                        className={controlType === 2 ? 'bg-blue-400 px-4 py-1 rounded-lg' : 'px-4 py-1 rounded-lg'}
+                        className={controlType === 2 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
                         type="button"
                         onClick={() => setControlType(2)}>No Sociales</button>
                 </div>
@@ -65,7 +85,11 @@ export default function FormUser() {
                 {controlType==1&&<Sociales />}
                 {controlType==2&&<Nosociales />}
 
-                <button>Enviar</button>
+                <button
+                    className="bg-[#1D71B9] w-[400px] rounded-xl text-2xl font-semibold text-white py-2 border-2
+                                hover:scale-105 hover:bg-[#2D2D83] duration-300">
+                    Calcular
+                </button>
             </form>
         </div>
     )

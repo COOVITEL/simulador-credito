@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { SimuladorStore, Descuentos } from "./types";
 
 
-const useSimulatorStore = create<SimuladorStore>((set, get) => ({
+const useSimulatorStore = create<SimuladorStore>((set) => ({
     sociales: [],
     nosociales: [],
     fidelizacion: [],
@@ -30,6 +30,30 @@ const useSimulatorStore = create<SimuladorStore>((set, get) => ({
     pagaduria: "",
     tasaMaxima: 0,
     porcentajeDescuento: 0,
+    beneficionTasa: 0,
+    cdat: 0,
+    cooviahorro: 0,
+    aportes: 0,
+    desScore: 0,
+    tasaDescuento: 0,
+    updateTasaDescuento: (newTasa: number) => set(() => ({
+        tasaDescuento: newTasa,
+    })),
+    updateDesScore: (newValue: number) => set(() => ({
+        desScore: newValue
+    })),
+    updateCdat: (newValue: number) => set(() => ({
+        cdat: newValue
+    })),
+    updateCooviahorro: (newValue: number) => set(() => ({
+        cooviahorro: newValue
+    })),
+    updateAportes: (newValue: number) => set(() => ({
+        aportes: newValue
+    })),
+    updateBeneficioTasa: (newTasa: number) => set(() => ({
+        beneficionTasa: newTasa
+    })),
     updatePorcentajeDescuento: (newPorcentaje: number) => set(() => ({
         porcentajeDescuento: newPorcentaje,
     })),

@@ -34,12 +34,13 @@ export default function Fidelizaciones() {
     const [montoValue, setMontoValue] = useState("")
     const [selectedOption, setSelectedOption] = useState("");
     const [porcentaje, setPorcentaje] = useState(0)
-    const [maxValue, setMaxValue] = useState("")
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [cuotas, setCuotas] = useState(0)
     const [controlCuotas, setControlCuotas] = useState(false)
     const [currentType, setCurrentType] = useState<Fidelizacion>()
     const [maxValueAportes, setMaxValueAportes] = useState(0)
+    const [controlMax, setControlMax] = useState(false)
+    const [controlMaxAportes, setControlMaxAportes] = useState(false)
     
     useEffect(() => {
         if (fidelizacion) setListFidelizacion(fidelizacion)
@@ -72,7 +73,8 @@ export default function Fidelizaciones() {
         const setAportes = event.target.value
         setAportesValue(setValue(setAportes))
         const value = setAportes.replace(/\./g, '')
-        setMaxValueAportes((porcentaje / 100) * parseInt(value))
+        const curValue = (porcentaje / 100) * parseInt(value)
+        setMaxValueAportes(curValue)
     }
 
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,24 +97,35 @@ export default function Fidelizaciones() {
         const setCurrentValue = value.replace(/\./g, '')
         updateMonto(parseInt(setCurrentValue))
         setMontoValue(setValue(value))
+        console.log(maxValueAportes)
         if (parseInt(setCurrentValue) > maxValueAportes) {
+            setControlMaxAportes(true)
             setMontoValue(setValue(maxValueAportes.toString()))
             updateMonto(maxValueAportes)
+        } else {
+            setControlMaxAportes(false)
         }
         if (parseInt(setCurrentValue) > montoMax) {
+            setControlMax(true)
             setMontoValue(setValue(montoMax.toString()))
             updateMonto(montoMax)
+        } else {
+            setControlMax(false)
         }
     }
 
 
     return (
-        <div className="flex flex-col justify-center items-center mt-5 gap-4">
-            <h3 className="text-3xl m-2 text-black font-bold">Fidelización</h3>
+        <div className="w-full flex flex-col justify-center items-center mt-5 gap-4 border-2 border-gray-300 rounded-3xl shadow-2xl p-6 pb-10">
+            <h3 className="text-4xl m-2 font-bold text-[#2D2D83]">Fidelización</h3>
 
-            <div className="w-full flex justify-between">
-                <label htmlFor="typeCredit">Años de Vinculación:</label>
-                <select name="typeCredit" id="typeCredit" onChange={handleChangeSelect}>
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="typeCredit">Años de Vinculación:</label>
+                <select
+                    className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                    name="typeCredit" id="typeCredit" onChange={handleChangeSelect}>
                     <option key="empty-type-1" value=""> -- Seleccione un rango -- </option>
                     {listFideliacion.map((data: any) => (
                         <option key={`${data.name}-${data.id}`} value={data.name}>{data.name}</option>
@@ -121,24 +134,28 @@ export default function Fidelizaciones() {
 
             </div>
 
-            <div className="flex w-full justify-between">
-                <label htmlFor="numberAportes">Cantidad de Aportes</label>
-                <input 
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="numberAportes">Cantidad de Aportes</label>
+                <input
+                    className="px-3 focus:outline-none text-xl w-full font-semibold"
                     onChange={handleChangeAportes}
                     value={aportesValue}
-                    className="px-4 py-1"
                     type="text"
                     id="numberAportes"
                     name="numberAportes"
                     placeholder="Aportes"
                     required/>
             </div>
-            <div className="flex w-full justify-between">
-                <label htmlFor="cuotas">Cuotas</label>
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="cuotas">Cuotas</label>
                 <input
+                    className="px-3 focus:outline-none text-xl w-full font-semibold"
                     onChange={handleChangeCuotas}
                     value={cuotas>0 ? cuotas : ""}
-                    className="px-4 py-1"
                     type="number"
                     max={maxCuotas}
                     id="cuotas"
@@ -147,12 +164,14 @@ export default function Fidelizaciones() {
             </div>
 
             {controlCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
-            <div className="flex w-full justify-between">
-                <label htmlFor="monto">Monto a Solicitar</label>
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="monto">Monto a Solicitar</label>
                 <input
+                    className="px-3 focus:outline-none text-xl w-full font-semibold"
                     onChange={handleChangeMonto}
                     value={montoValue}
-                    className="px-4 py-1"
                     type="text"
                     id="monto"
                     name="monto"
@@ -160,8 +179,9 @@ export default function Fidelizaciones() {
                     required/>
             </div>
 
-            <span>El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>
-            <span>Porcentaje: {porcentaje}</span>
+            {controlMaxAportes&&<span>El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
+            {controlMax&&<span>{`Monto maximo segun su capacidad de endeudamiento: $${setValue(montoMax.toString())}`}</span>}
+            {/* <span>Porcentaje: {porcentaje}</span>
             <span>Cuotas maxima: {maxCuotas}</span>
             <span>{`Salario: ${salary}`}</span>
             <span>{`Otros ingresos ${others}`}</span>
@@ -170,9 +190,8 @@ export default function Fidelizaciones() {
             <span>{`Salud y pension: ${saludypension}`}</span>
             <span>{`Ahorro Mensual: ${ahorroMensual}`}</span>
             <span>{`Forma de pago: ${formadepago}`}</span>
-            <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span>
-            <span>{`Monto maximo segun su capacidad de endeudamiento: $${setValue(montoMax.toString())}`}</span>
-            <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
+            <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span> */}
+            {/* <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span> */}
 
         </div>
 

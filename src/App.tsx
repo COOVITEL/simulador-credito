@@ -9,7 +9,7 @@ function App() {
   const { updateList } = useSimulatorStore()
 
   useEffect(() => {
-    const url = `http://127.0.0.1:8000/api/simuladorcredito/`
+    const url = `http://127.0.0.1:8001/api/simuladorcredito/`
 
     const fetchAndSetMovies = async () => {
       const result = await fetchMovies(url);
@@ -40,8 +40,8 @@ function App() {
   }, []);
 
   return (
-    <main className="h-full w-full flex justify-center items-center flex-col">
-      <h1 className="text-5xl font-bold mt-6">Simulador Credito</h1>
+    <main className="h-full w-full flex justify-center items-center flex-col bg-white">
+      <img src="/images/credito.jpg"></img>
       <FormUser/>
     </main>
   )

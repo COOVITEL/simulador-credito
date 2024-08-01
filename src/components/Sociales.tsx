@@ -97,6 +97,7 @@ export default function Social() {
     const handleChangeMonto = (event: React.ChangeEvent<HTMLInputElement>) => {
         const cleanValue = event.target.value.replace(/\./g, '')
         const value = parseInt(cleanValue)
+
         updateMonto(value)
         if (value > montoMax) {
             setControlMax(true)
@@ -107,25 +108,31 @@ export default function Social() {
     }
     
     return (
-        <div className="flex flex-col justify-center items-center mt-5 gap-4">
-            <h3 className="text-3xl m-2 text-black font-bold">Lineas Sociales</h3>
+        <div className="w-full flex flex-col justify-center items-center mt-5 gap-4 border-2 border-gray-300 rounded-3xl shadow-2xl pb-10 p-6">
+            <h3 className="text-4xl m-2 font-bold text-[#2D2D83]">Lineas Sociales</h3>
 
-            <div className="w-full flex justify-between">
-                <label htmlFor="typeCredit">Tipo de Credito:</label>
-                <select name="typeCredit" id="typeCredit" onChange={handleSelectChange}>
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="typeCredit">Tipo de Credito:</label>
+                <select
+                    className="px-3 focus:outline-none text-xl w-full font-semibold"
+                    name="typeCredit" id="typeCredit" onChange={handleSelectChange}>
                     <option key="empty-type-1" value=""> -- Seleccione de credito -- </option>
-                    {listSociales.map((data: any) => (
+                    {listSociales.map((data: Sociales) => (
                         <option key={`${data.name}-${data.id}`} value={data.name}>{data.name}</option>
                     ))}
                 </select>
             </div>
 
-            <div className="flex w-full justify-between">
-                <label htmlFor="cuotas">Cuotas</label>
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="cuotas">Cuotas</label>
                 <input
+                    className="px-3 focus:outline-none text-xl w-full font-semibold"
                     onChange={handleChangeCuotas}
                     value={cuota>0 ? cuota : ""}
-                    className="px-4 py-1"
                     type="number"
                     id="cuotas"
                     max={maxCuotas}
@@ -133,6 +140,23 @@ export default function Social() {
                     placeholder="Cuotas"
                     required/>
             </div>
+            {controCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
+
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="monto">Monto a Solicitar</label>
+                <input
+                    className="px-3 focus:outline-none text-xl w-full font-semibold"
+                    onChange={handleChangeMonto}
+                    value={monto > 0 ? setValue(monto.toString()) : ""}
+                    type="text"
+                    id="monto"
+                    name="monto"
+                    placeholder="Monto"
+                    required/>
+            </div>
+            {/* <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
             <span>{`Salario: ${salary}`}</span>
             <span>{`Otros ingresos ${others}`}</span>
             <span>{`Debitos: ${debit}`}</span>
@@ -140,26 +164,11 @@ export default function Social() {
             <span>{`Salud y pension: ${saludypension}`}</span>
             <span>{`Ahorro Mensual: ${ahorroMensual}`}</span>
             <span>{`Forma de pago: ${formadepago}`}</span>
-            <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span>
-            {controCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
-
-            <div className="flex w-full justify-between">
-                <label htmlFor="monto">Monto a Solicitar</label>
-                <input
-                    onChange={handleChangeMonto}
-                    value={monto > 0 ? setValue(monto.toString()) : ""}
-                    className="px-4 py-1"
-                    type="text"
-                    id="monto"
-                    name="monto"
-                    placeholder="Monto"
-                    required/>
-            </div>
-            <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
+            <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span> */}
             {controlMax&&<span>{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
-            <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
+            {/* <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
             <span>Valor fondo de garantias: ${setValue(fondo.toString())}</span>
-            <span>Valor a desembolsar: ${setValue((monto - fondo).toString())}</span>
+            <span>Valor a desembolsar: ${setValue((monto - fondo).toString())}</span> */}
         </div>
     )
 }

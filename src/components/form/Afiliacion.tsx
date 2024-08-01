@@ -66,16 +66,18 @@ export default function Afiliacion() {
         const value = event.target.value
         if (value == "Indefinido, Propiedad, Carrera") {
             updateTasaMaxima(72)
-        } else {
-
         }
     }
 
     return (
-        <div className="flex flex-col">
-            <div className="flex flex-row justify-between my-3">
-                <label htmlFor="afiliacion">Tipo de Afiliación:</label>
-                <select onChange={handleChange} name="afiliacion" id="afiliacion" required >
+        <div className="flex flex-col gap-6 justify-center items-center">
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="afiliacion">Tipo de Afiliación:</label>
+                <select
+                    className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                    onChange={handleChange} name="afiliacion" id="afiliacion" required >
                     <option key="emptyAfi" value="">-- Seleccione Tipo Afiliación --</option>
                     {asociados.map((typeuser: User, index) => (
                         <option key={`${typeuser.name}-${index}`} value={`${typeuser.id}-${typeuser.name}`}>{typeuser.name}</option>
@@ -83,21 +85,45 @@ export default function Afiliacion() {
                 </select>
             </div>
             {control==1&&
-            <div className="flex flex-row justify-between my-3">
-                <label htmlFor="tipocontrato">Tipo de Empleado y Contrato:</label>
-                <select onChange={handleChangeSelect} name="tipocontrato" id="tipocontrato" required >
-                    <option key="emptytipoempleado" value="">-- Seleccione Tipo de Empleado --</option>
-                    <option key="publico1" value="Publico Propiedad / C.Administrativa">Publico Propiedad / C.Administrativa</option>
-                    <option key="publico2" value="Publico Provisional / P.Servicios">Publico Provisional / P.Servicios</option>
-                    <option key="privado3" value="Privado e Indefinido">Privado e Indefinido</option>
-                    <option key="privado4" value="Privado T.fijo / P.Servicios">Privado T.fijo / P.Servicios</option>
-                </select>
+            <div className="flex flex-wrap gap-6 justify-center">
+                <div
+                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                    <label className="text-sm text-gray-400" htmlFor="tipocontrato">Tipo de Empleado y Contrato:</label>
+                    <select
+                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                        onChange={handleChangeSelect}
+                        name="tipocontrato"
+                        id="tipocontrato"
+                        required >
+                        <option key="emptytipoempleado" value="">-- Seleccione Tipo de Empleado --</option>
+                        <option key="publico1" value="Publico Propiedad / C.Administrativa">Publico Propiedad / C.Administrativa</option>
+                        <option key="publico2" value="Publico Provisional / P.Servicios">Publico Provisional / P.Servicios</option>
+                        <option key="privado3" value="Privado e Indefinido">Privado e Indefinido</option>
+                        <option key="privado4" value="Privado T.fijo / P.Servicios">Privado T.fijo / P.Servicios</option>
+                    </select>
+                </div>
+                <div
+                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
+                    <input
+                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                        type="date"
+                        name="antiguedad"
+                        id="antiguedad"
+                        onChange={handleChangeAntiguedad}/>
+                </div>
             </div>
             }
             {control==2&&
-            <div className="flex flex-row justify-between my-3">
-                <label htmlFor="tipopagaduria">Tipo de Pagaduria:</label>
-                <select onChange={handleChangePagaduria} name="tipopagaduria" id="tipopagaduria" required >
+            <div
+                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                <label className="text-sm text-gray-400" htmlFor="tipopagaduria">Tipo de Pagaduria:</label>
+                <select
+                    className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                    onChange={handleChangePagaduria} name="tipopagaduria" id="tipopagaduria" required >
                     <option key="emptytipopen" value="">-- Seleccione Tipo de Pagaduria --</option>
                     {tiposPensionados.map(tipe => (
                         <option key={tipe.name} value={tipe.name}>{tipe.name}</option>
@@ -106,21 +132,30 @@ export default function Afiliacion() {
             </div>
             }
             {control==3&&
-            <div className="flex flex-row justify-between my-3">
-                <label htmlFor="tipocontraVentanilla">Tipo de Contrato:</label>
-                <select onChange={handleChangeContrato} name="tipocontraVentanilla" id="tipocontraVentanilla" required >
-                    <option key="emptycontratoventa1" value="">-- Seleccione Tipo de Contrato --</option>
-                    <option key="emptycontratoventa2" value="Indefinido, Propiedad, Carrera">Indefinido, Propiedad, Carrera</option>
-                    <option key="emptycontratoventa3" value="Provisional, Fijo, P.Servicios">Provisional, Fijo, P.Servicios</option>
-                </select>
+            <div className="flex flex-wrap gap-6 justify-center">
+                <div
+                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                    <label className="text-sm text-gray-400" htmlFor="tipocontraVentanilla">Tipo de Contrato:</label>
+                    <select
+                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                        onChange={handleChangeContrato} name="tipocontraVentanilla" id="tipocontraVentanilla" required >
+                        <option key="emptycontratoventa1" value="">-- Seleccione Tipo de Contrato --</option>
+                        <option key="emptycontratoventa2" value="Indefinido, Propiedad, Carrera">Indefinido, Propiedad, Carrera</option>
+                        <option key="emptycontratoventa3" value="Provisional, Fijo, P.Servicios">Provisional, Fijo, P.Servicios</option>
+                    </select>
+                </div>
+                <div
+                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
+                    <input
+                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                        type="date" name="antiguedad" id="antiguedad" onChange={handleChangeAntiguedad}/>
+                </div>
             </div>
             }
-            {time&&
-            <div className="flex flex-row justify-between my-3">
-                <label htmlFor="antiguedad">Antiguedad Laboral:</label>
-                <input type="date" name="antiguedad" id="antiguedad" onChange={handleChangeAntiguedad}/>
-            </div>}
-            {controlTime&&<span>{valueTime}</span>}
+            {controlTime&&<span className="text-center">{valueTime}</span>}
         </div>
     )
 }

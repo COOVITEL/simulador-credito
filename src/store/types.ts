@@ -26,6 +26,18 @@ export interface SimuladorStore {
     pagaduria: string;
     tasaMaxima: number;
     porcentajeDescuento: number;
+    cdat: number;
+    cooviahorro: number;
+    aportes: number;
+    desScore: number;
+    beneficionTasa: number;
+    tasaDescuento: number;
+    updateTasaDescuento: (newTasa: number) => void;
+    updateDesScore: (newValue: number) => void;
+    updateCdat: (newValue: number) => void;
+    updateCooviahorro: (newValue: number) => void;
+    updateAportes: (newValue: number) => void;
+    updateBeneficioTasa: (newTasa: number) => void;
     updatePorcentajeDescuento: (newPorcentaje: number) => void;
     updateTasaMaxima: (newTasa: number) => void; 
     updatePagaduria: (newPagaduria: string) => void;
@@ -48,6 +60,29 @@ export interface SimuladorStore {
     updateList: ({}: any) => void;
 }
 
+export interface Descuento {
+    id: number,
+    name: string,
+    value: number
+
+}
+
+export interface DescuentosScore {
+    id: number,
+    scoreMin: number,
+    scoreMax: number,
+    ajuste: number,
+    asociado: number
+}
+
+export interface DescuentosPlazo {
+    id: number,
+    plazoMax: number,
+    plazoMin: number,
+    ajuste: number,
+    asociado: number
+}
+
 export interface Sociales {
     id: number;
     name: string;
@@ -66,7 +101,7 @@ export interface NoSociales {
     id: number;
     name: string;
     usura: number;
-    descuento: number;
+    descuentos: number;
     techoEA: number;
     techoNMV: number;
     plazo: number;

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSimulatorStore from "../../store/store";
 import { Aporte } from "../../store/types";
 
 
 export default function Aportes() {
 
-    const { descuentos, inputAfiliacion } = useSimulatorStore()
+    const { descuentos, inputAfiliacion, updateAportes } = useSimulatorStore()
     const [aportes, setAportes] = useState<Aporte[]>([])
 
     useEffect(() => {
@@ -15,11 +15,18 @@ export default function Aportes() {
         }
     }, [descuentos , inputAfiliacion])
 
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        updateAportes(parseInt(event.target.value))
+    }
     
     return (
-        <div className="flex flex-row justify-between my-3">
-            <label htmlFor="aportes">Promedio de Aportes:</label>
-            <select name="aportes" id="aportes" required>
+        <div
+            className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+            duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+            <label className="text-sm text-gray-400" htmlFor="aportes">Promedio de Aportes:</label>
+            <select
+                className="px-3 text-left focus:outline-none text-xl w-full font-semibold text-center"
+                name="aportes" id="aportes" onChange={handleChange} required>
                 <option key="emptyAporte" value="">-- Seleccione un Rango --</option>
                 {aportes.map((aporte) => (
                     <option key={aporte.id} value={aporte.ajuste}>Entre {aporte.aporteMin} y {aporte.aporteMax}</option>
