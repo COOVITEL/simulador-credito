@@ -31,24 +31,32 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
     tasaMaxima: 0,
     porcentajeDescuento: 0,
     beneficionTasa: 0,
-    cdat: 0,
-    cooviahorro: 0,
-    aportes: 0,
+    cdat: "",
+    cooviahorro: "",
+    aportes: "",
     desScore: 0,
     tasaDescuento: 0,
+    datasAsociado: {},
+    garantia: "",
+    updateGarantia: (newValue: string) => set(() => ({
+        garantia: newValue
+    })),
+    updateDatasAsociado: (newDatas: any) => set(() => ({
+        datasAsociado: newDatas
+    })),
     updateTasaDescuento: (newTasa: number) => set(() => ({
         tasaDescuento: newTasa,
     })),
     updateDesScore: (newValue: number) => set(() => ({
         desScore: newValue
     })),
-    updateCdat: (newValue: number) => set(() => ({
+    updateCdat: (newValue: string) => set(() => ({
         cdat: newValue
     })),
-    updateCooviahorro: (newValue: number) => set(() => ({
+    updateCooviahorro: (newValue: string) => set(() => ({
         cooviahorro: newValue
     })),
-    updateAportes: (newValue: number) => set(() => ({
+    updateAportes: (newValue: string) => set(() => ({
         aportes: newValue
     })),
     updateBeneficioTasa: (newTasa: number) => set(() => ({

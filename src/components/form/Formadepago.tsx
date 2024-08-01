@@ -14,8 +14,8 @@ export default function FormaPago() {
             duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
             <label className="text-sm text-gray-400" htmlFor="afiliacion">Forma de pago:</label>
             <select
-                className="px-3 text-left focus:outline-none text-xl w-full font-semibold text-center"
-                onChange={handleSelectChange} name="afiliacion" id="afiliacion" required >
+                className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                onChange={handleSelectChange} name="formapago" id="formapago" required >
                 <option key="type1" value="">-- Seleccione Tipo --</option>
                 <option key="type2" value="Libranza">Libranza</option>
                 <option key="type3" value="Ventanilla">Ventanilla</option>

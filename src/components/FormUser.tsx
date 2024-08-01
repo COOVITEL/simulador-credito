@@ -16,25 +16,25 @@ import Sociales from "./Sociales";
 import FormaPago from "./form/Formadepago";
 import Fidelizaciones from "./Fidelizacion";
 import Nosociales from "./NoSociales";
+import { Dialog } from "./Dialog";
 
 
 export default function FormUser() {
 
-    const { inputAfiliacion } = useSimulatorStore()
+    const { inputAfiliacion, updateDatasAsociado } = useSimulatorStore()
     const [controlType, setControlType] = useState(0)
     const [dialog, setDialog] = useState(false) 
-    const store = useSimulatorStore()
 
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
         const fields = Object.fromEntries(new window.FormData(event.target))
-        console.log(fields)
-        console.log(store)
+        updateDatasAsociado(fields)
+        setDialog(true)
     }
 
     return (
         <div className="w-[80%] m-10">
-            <div></div>
+            {dialog&&<Dialog setDialog={setDialog}/>}
             <form className="flex flex-col justify-center items-center gap-10 p-8" action="" onSubmit={handleSubmit}>
                 <div className="flex flex-wrap gap-6 justify-center">
                     <Name />
@@ -69,15 +69,15 @@ export default function FormUser() {
                     className="w-full flex border-spacing-1 flex-row justify-around bg-gray-200 rounded-lg m-6
                                 text-2xl font-semibold border-2 border-gray-300">
                     <button
-                        className={controlType === 0 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : `text-[2D2D83] duration-500 w-[33.3%] px-4 py-1 rounded-lg`}
+                        className={controlType === 0 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : `text-[#2D2D83] duration-500 w-[33.3%] px-4 py-1 rounded-lg`}
                         type="button"
                         onClick={() => setControlType(0)}>Fidelización</button>
                     <button
-                        className={controlType === 1 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
+                        className={controlType === 1 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[#2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
                         type="button"
                         onClick={() => setControlType(1)}>Sociales</button>
                     <button
-                        className={controlType === 2 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
+                        className={controlType === 2 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[#2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
                         type="button"
                         onClick={() => setControlType(2)}>No Sociales</button>
                 </div>

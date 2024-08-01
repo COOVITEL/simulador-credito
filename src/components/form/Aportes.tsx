@@ -16,7 +16,7 @@ export default function Aportes() {
     }, [descuentos , inputAfiliacion])
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        updateAportes(parseInt(event.target.value))
+        updateAportes(event.target.value)
     }
     
     return (
@@ -25,11 +25,11 @@ export default function Aportes() {
             duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
             <label className="text-sm text-gray-400" htmlFor="aportes">Promedio de Aportes:</label>
             <select
-                className="px-3 text-left focus:outline-none text-xl w-full font-semibold text-center"
+                className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
                 name="aportes" id="aportes" onChange={handleChange} required>
                 <option key="emptyAporte" value="">-- Seleccione un Rango --</option>
                 {aportes.map((aporte) => (
-                    <option key={aporte.id} value={aporte.ajuste}>Entre {aporte.aporteMin} y {aporte.aporteMax}</option>
+                    <option key={aporte.id} value={`${aporte.ajuste}-Entre ${aporte.aporteMin} y ${aporte.aporteMax}`}>Entre {aporte.aporteMin} y {aporte.aporteMax}</option>
                 ))}
             </select>
         </div>

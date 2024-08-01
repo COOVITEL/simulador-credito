@@ -42,7 +42,7 @@ export default function Score() {
                 <input
                     onChange={handleChangeScore}
                     value={valueScore>0 ? valueScore : ""}
-                    className="px-3 text-left focus:outline-none text-xl w-full font-semibold"
+                    className="px-3 text-cemter focus:outline-none text-xl w-full font-semibold"
                     type="number"
                     id="score"
                     name="score"

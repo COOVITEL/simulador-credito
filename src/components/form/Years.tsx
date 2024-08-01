@@ -13,7 +13,7 @@ export default function Years() {
                 min="1940"
                 max="2024"
                 name="years"
-                placeholder="Año de Afiliacion"
+                placeholder="Año de Afiliación"
                 required/>
         </div>
     )

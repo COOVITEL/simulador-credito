@@ -15,7 +15,7 @@ export default function Cdats() {
     }, [descuentos])
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        updateCdat(parseInt(event.target.value))
+        updateCdat(event.target.value)
     }
 
     return (
@@ -28,7 +28,7 @@ export default function Cdats() {
                 onChange={handleChange} name="cdat" id="cdat" required>
                 <option key="emptyCoovi" value="">-- Seleccione un Rango --</option>
                 {listCdat.map((cdat) => (
-                    <option key={cdat.id} value={cdat.ajuste}>Entre {cdat.montoMin} y {cdat.montoMax}</option>
+                    <option key={cdat.id} value={`${cdat.ajuste}-Entre ${cdat.montoMin} y ${cdat.montoMax}`}>Entre {cdat.montoMin} y {cdat.montoMax}</option>
                 ))}
             </select>
         </div>

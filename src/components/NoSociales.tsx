@@ -66,7 +66,10 @@ export default function Nosociales() {
             updatePagoMensual(0)
         } else {
             if (inputAfiliacion.length > 0) {
-                const descuento = calTasaDescuento(descuentos, cdat, cooviahorro, aportes, desScore, cuota, maximoDescuento, porcentajeDescuento, inputAfiliacion)
+                const valueCoovi = parseInt(cooviahorro.split("-")[0])
+                const valueCdat = parseInt(cdat.split("-")[0])
+                const valueAportes = parseInt(aportes.split("-")[0])
+                const descuento = calTasaDescuento(descuentos, valueCdat, valueCoovi, valueAportes, desScore, cuota, maximoDescuento, porcentajeDescuento, inputAfiliacion)
                 updateBeneficioTasa(descuento)
                 updateTasaDescuento(tasa - descuento)
             }

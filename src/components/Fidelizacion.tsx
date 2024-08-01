@@ -25,9 +25,8 @@ export default function Fidelizaciones() {
         updateMontoMax,
         cuota,
         montoMax,
-        pagoMensual,
         updatePagoMensual,
-        updateMonto, monto
+        updateMonto, monto, updateGarantia
     } = useSimulatorStore()
     const [listFideliacion, setListFidelizacion] = useState<Fidelizacion[]>([])
     const [aportesValue, setAportesValue] = useState("")
@@ -48,6 +47,7 @@ export default function Fidelizaciones() {
 
     useEffect(() => {
         const type = fidelizacion.filter(fide => fide.name == selectedOption)[0]
+        updateGarantia("Aportes")
         setCurrentType(type)
         updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, formadepago, ahorroMensual))
     }, [selectedOption])
@@ -97,7 +97,6 @@ export default function Fidelizaciones() {
         const setCurrentValue = value.replace(/\./g, '')
         updateMonto(parseInt(setCurrentValue))
         setMontoValue(setValue(value))
-        console.log(maxValueAportes)
         if (parseInt(setCurrentValue) > maxValueAportes) {
             setControlMaxAportes(true)
             setMontoValue(setValue(maxValueAportes.toString()))

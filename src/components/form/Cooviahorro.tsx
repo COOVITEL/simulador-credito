@@ -15,7 +15,7 @@ export default function Cooviahorro() {
     }, [descuentos])
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        updateCooviahorro(parseInt(event.target.value))
+        updateCooviahorro(event.target.value)
     }
     
     return (
@@ -28,7 +28,7 @@ export default function Cooviahorro() {
                 onChange={handleChange} name="cooviahorro" id="cooviahorro" required>
                 <option key="emptyCoovi" value="">-- Seleccione un Rango --</option>
                 {coovi.map((coo) => (
-                    <option key={coo.id} value={coo.ajuste}>Entre {coo.montoMin} y {coo.montoMax}</option>
+                    <option key={coo.id} value={`${coo.ajuste}-Entre ${coo.montoMin} y ${coo.montoMax}`}>Entre {coo.montoMin} y {coo.montoMax}</option>
                 ))}
             </select>
         </div>

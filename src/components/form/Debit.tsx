@@ -20,7 +20,7 @@ export default function Debit() {
             duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
             <label className="text-sm text-gray-400" htmlFor="debit">Debitos:</label>
             <input
-                className="px-3 text-left focus:outline-none text-xl w-full font-semibold"
+                className="px-3 text-center focus:outline-none text-xl w-full font-semibold"
                 value={debit}
                 onChange={handleChange}
                 type="text"
