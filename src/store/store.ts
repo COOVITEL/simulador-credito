@@ -25,6 +25,26 @@ const useSimulatorStore = create<SimuladorStore>((set, get) => ({
     pagoMensual: 0,
     ahorroMensual: 0,
     score: 0,
+    fondo: 0,
+    tipoContrato: "",
+    pagaduria: "",
+    tasaMaxima: 0,
+    porcentajeDescuento: 0,
+    updatePorcentajeDescuento: (newPorcentaje: number) => set(() => ({
+        porcentajeDescuento: newPorcentaje,
+    })),
+    updateTasaMaxima: (newTasa: number) => set(() => ({
+        tasaMaxima: newTasa,
+    })),
+    updatePagaduria: (newPagaduria: string) => set(() => ({
+        pagaduria: newPagaduria,
+    })),
+    updateTipoContrato: (newText: string) => set(() => ({
+        tipoContrato: newText,
+    })),
+    updateFondo: (newFondo: number) => set(() => ({
+        fondo: newFondo
+    })),
     updateScore: (newScore: number) => set(() => ({
         score: newScore
     })),
@@ -77,16 +97,6 @@ const useSimulatorStore = create<SimuladorStore>((set, get) => ({
         asociados: listAso,
         salarioMinimo: salMin,
     })),
-    fondoGarantias: () => {
-        const { tasas, score, inputAfiliacion } = get();
-        const typeAfi = inputAfiliacion.split("-")[0];
-        const listTypes = tasas.filter(tasa => tasa.perfil == typeAfi)
-            .find(current => score <= current.maxScore && score > current.minScore)
-            .fg
-        console.log(listTypes)
-
-        return 3
-    }
 }))
 
 export default useSimulatorStore

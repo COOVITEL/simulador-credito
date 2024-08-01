@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Name from "./form/Name";
 import Id from "./form/Id";
 import Date from "./form/Date";
@@ -14,22 +14,22 @@ import Cooviahorro from "./form/Cooviahorro";
 import Cdats from "./form/Cdat";
 import Sociales from "./Sociales";
 import FormaPago from "./form/Formadepago";
+import Fidelizaciones from "./Fidelizacion";
+import Nosociales from "./NoSociales";
 
 
 export default function FormUser() {
 
     const { inputAfiliacion } = useSimulatorStore()
     const store = useSimulatorStore()
+    const [controlType, setControlType] = useState(2)
 
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
         const fields = Object.fromEntries(new window.FormData(event.target))
         console.log(fields)
         console.log(store)
-        const garantias = store.fondoGarantias()
-        console.log(garantias)
     }
-
 
     return (
         <div className="m-10">
@@ -47,8 +47,24 @@ export default function FormUser() {
                 <Cooviahorro />
                 <Cdats />
                 {inputAfiliacion&&<Aportes />}
-                {/* <Fidelizaciones /> */}
-                <Sociales />
+                <div className="flex border-spacing-1 flex-row justify-around bg-gray-300 rounded-lg m-6">
+                    <button
+                        className={controlType === 0 ? 'bg-blue-400 px-4 py-1 rounded-lg' : `px-4 py-1 rounded-lg`}
+                        type="button"
+                        onClick={() => setControlType(0)}>Fideliacion</button>
+                    <button
+                        className={controlType === 1 ? 'bg-blue-400 px-4 py-1 rounded-lg' : 'px-4 py-1 rounded-lg'}
+                        type="button"
+                        onClick={() => setControlType(1)}>Sociales</button>
+                    <button
+                        className={controlType === 2 ? 'bg-blue-400 px-4 py-1 rounded-lg' : 'px-4 py-1 rounded-lg'}
+                        type="button"
+                        onClick={() => setControlType(2)}>No Sociales</button>
+                </div>
+                {controlType==0&&<Fidelizaciones />}
+                {controlType==1&&<Sociales />}
+                {controlType==2&&<Nosociales />}
+
                 <button>Enviar</button>
             </form>
         </div>

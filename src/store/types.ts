@@ -1,8 +1,8 @@
 export interface SimuladorStore {
     sociales: Sociales[];
-    nosociales: [];
+    nosociales: NoSociales[];
     fidelizacion: Fidelizacion[];
-    tasas: [];
+    tasas: Tasas[];
     maximoDescuento: [];
     descuentos: Descuentos;
     asociados: [];
@@ -21,6 +21,16 @@ export interface SimuladorStore {
     pagoMensual: number;
     ahorroMensual: number;
     score: number;
+    fondo: number;
+    tipoContrato: string;
+    pagaduria: string;
+    tasaMaxima: number;
+    porcentajeDescuento: number;
+    updatePorcentajeDescuento: (newPorcentaje: number) => void;
+    updateTasaMaxima: (newTasa: number) => void; 
+    updatePagaduria: (newPagaduria: string) => void;
+    updateTipoContrato: (newText: string) => void;
+    updateFondo: (newFondo: number) => void;
     updateScore: (newScore: number) => void;
     updateAhorroMensual: (newValue: number) => void;
     updatePagoMensual: (newMonto: number) => void;
@@ -36,7 +46,6 @@ export interface SimuladorStore {
     updateDebit: (newOthers: number) => void;
     updateAfiliacion: (newValue: string) => void;
     updateList: ({}: any) => void;
-    fondoGarantias: () => number;
 }
 
 export interface Sociales {
@@ -51,6 +60,16 @@ export interface Sociales {
     tasa72: number;
     tasa84: number;
     plazoMax: number
+}
+
+export interface NoSociales {
+    id: number;
+    name: string;
+    usura: number;
+    descuento: number;
+    techoEA: number;
+    techoNMV: number;
+    plazo: number;
 }
 
 export interface Descuentos {
@@ -96,4 +115,15 @@ export interface Cdat {
     montoMin: string;
     montoMax: string;
     ajuste: number
+}
+
+export interface Tasas {
+    id: number;
+    maxScore: number;
+    minScore: number;
+    fg: number;
+    plazo: number;
+    garantia: string;
+    piso: number;
+    perfil: number
 }

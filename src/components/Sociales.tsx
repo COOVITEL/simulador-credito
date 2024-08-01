@@ -6,6 +6,7 @@ import { CapacidadPago } from "../utils/capacidadPago"
 import { MontoMax } from "../utils/montoMax"
 import { setValue } from "../utils/setValue"
 import { PagoMensual } from "../utils/cuota"
+import { FindFondo } from "../utils/findFondo"
 
 export default function Social() {
 
@@ -30,6 +31,10 @@ export default function Social() {
         pagoMensual,
         updatePagoMensual,
         ahorroMensual,
+        updateFondo,
+        fondo,
+        tasas,
+        score
     } = useSimulatorStore()
     const [currentType, setCurrentType] = useState<Sociales>()
     const [listSociales, setListSociales] = useState<Sociales[]>([])
@@ -58,9 +63,14 @@ export default function Social() {
 
     useEffect(() => {
         if (isNaN(monto)) {
-        updatePagoMensual(0)
+            updatePagoMensual(0)
         } else {
             updatePagoMensual(PagoMensual(monto, tasa, cuota))
+            const typeAfi = inputAfiliacion.split("-")[0];
+            const currentFondo = FindFondo(tasas, typeAfi, score)
+            if (currentFondo) {
+                updateFondo(currentFondo / 100 * monto)
+            }
         }
     }, [monto])
 
@@ -148,6 +158,8 @@ export default function Social() {
             <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
             {controlMax&&<span>{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
             <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
+            <span>Valor fondo de garantias: ${setValue(fondo.toString())}</span>
+            <span>Valor a desembolsar: ${setValue((monto - fondo).toString())}</span>
         </div>
     )
 }
