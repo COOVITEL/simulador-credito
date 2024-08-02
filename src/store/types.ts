@@ -34,6 +34,12 @@ export interface SimuladorStore {
     tasaDescuento: number;
     datasAsociado: any;
     garantia: string;
+    interesAnticipado: number;
+    cuotaMaxima: number;
+    tipoGarantia: string,
+    updatipoGarantia: (newValue: string) => void;
+    updateCuotaMaxima: (newValue: number) => void;
+    updateInteresAnticipado: (newValue: number) => void;
     updateGarantia: (newValue: string) => void;
     updateDatasAsociado: (newDatas: any) => void;
     updateTasaDescuento: (newTasa: number) => void;

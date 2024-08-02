@@ -17,7 +17,6 @@ export default function Fidelizaciones() {
         tasa,
         saludypension,
         ahorroMensual,
-        formadepago,
         capacidadPago,
         updateCuota,
         updateTasa,
@@ -25,8 +24,9 @@ export default function Fidelizaciones() {
         updateMontoMax,
         cuota,
         montoMax,
+        cuotaMaxima,
         updatePagoMensual,
-        updateMonto, monto, updateGarantia
+        updateMonto, monto, updateGarantia, inputAfiliacion
     } = useSimulatorStore()
     const [listFideliacion, setListFidelizacion] = useState<Fidelizacion[]>([])
     const [aportesValue, setAportesValue] = useState("")
@@ -40,6 +40,8 @@ export default function Fidelizaciones() {
     const [maxValueAportes, setMaxValueAportes] = useState(0)
     const [controlMax, setControlMax] = useState(false)
     const [controlMaxAportes, setControlMaxAportes] = useState(false)
+    const [controlMaxCuotaPerfil, setControlMaxCuotaPerfil] = useState(false)
+
     
     useEffect(() => {
         if (fidelizacion) setListFidelizacion(fidelizacion)
@@ -49,7 +51,7 @@ export default function Fidelizaciones() {
         const type = fidelizacion.filter(fide => fide.name == selectedOption)[0]
         updateGarantia("Aportes")
         setCurrentType(type)
-        updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, formadepago, ahorroMensual))
+        updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual))
     }, [selectedOption])
 
     useEffect(() => {
@@ -89,6 +91,11 @@ export default function Fidelizaciones() {
             if (currentType) updateTasa(searchTasaFide(currentType, maxCuotas))
         } else {
             setControlCuotas(false)
+        }
+        if (parseInt(event.target.value) > cuotaMaxima) {
+            setControlMaxCuotaPerfil(true)
+            setControlCuotas(false)
+            updateCuota(cuotaMaxima)
         }
     }
 
@@ -158,9 +165,10 @@ export default function Fidelizaciones() {
                     type="number"
                     max={maxCuotas}
                     id="cuotas"
-                    name="scocuotasre"
+                    name="cuotas"
                     placeholder="Cuotas" required/>
             </div>
+            {controlMaxCuotaPerfil&&<span>El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
 
             {controlCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
             <div
@@ -191,7 +199,6 @@ export default function Fidelizaciones() {
             <span>{`Forma de pago: ${formadepago}`}</span>
             <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span> */}
             {/* <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span> */}
-
         </div>
 
     )

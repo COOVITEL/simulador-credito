@@ -13,10 +13,11 @@ import useSimulatorStore from "../store/store";
 import Cooviahorro from "./form/Cooviahorro";
 import Cdats from "./form/Cdat";
 import Sociales from "./Sociales";
-import FormaPago from "./form/Formadepago";
+// import FormaPago from "./form/Formadepago";
 import Fidelizaciones from "./Fidelizacion";
 import Nosociales from "./NoSociales";
 import { Dialog } from "./Dialog";
+import Garantia from "./form/Garantia";
 
 
 export default function FormUser() {
@@ -47,8 +48,9 @@ export default function FormUser() {
                 <div className="flex flex-wrap gap-6 justify-center">
                     <Afiliacion/>
                 </div>
-                <div className="flex flex-wrap justify-center">
-                    <FormaPago />
+                <div className="flex flex-wrap gap-6 justify-center">
+                    <Score />
+                    <Garantia />
                 </div>
                 <div className="flex flex-wrap gap-6 justify-center">
                     <Salary />
@@ -56,7 +58,6 @@ export default function FormUser() {
                 </div>
                 <div className="flex flex-wrap gap-6 justify-center">
                     <Debit />
-                    <Score />
                 </div>
                 <div className="flex flex-wrap gap-6 justify-center">
                     <Cooviahorro />

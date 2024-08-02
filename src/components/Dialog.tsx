@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import useSimulatorStore from "../store/store"
 import { setValue } from "../utils/setValue"
+import { diasInteres } from "../utils/diasInteresAnticipado";
 
 interface DialogProps {
     setDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,18 +23,15 @@ export function Dialog({ setDialog }: DialogProps) {
     }
 
     return (
-        <div className="fixed top-1/2 left-1/2 w-[90%] h-[90%] bg-gray-100 border-2 border-gray-300 rounded-xl
-                transform -translate-x-1/2 -translate-y-1/2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]">
-            <div className="flex flex-col justify-center items-center">
+<div className="fixed top-1/2 left-1/2 w-[90%] h-[90vh] bg-gray-100 border-2 border-gray-300 rounded-xl
+                transform -translate-x-1/2 -translate-y-1/2 shadow-[0_10px_20px_rgba(0,0,0,0.2)] overflow-y-auto">
+  <div className="flex flex-col justify-center items-center gap-6 overflow-y-auto max-h-full">
                 <button className="fixed top-4 right-4" onClick={handleClose}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="40"  height="40"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-square-rounded-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10l4 4m0 -4l-4 4" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /></svg>
                 </button>
-                <button onClick={reload} className="fixed bottom-8 right-16 px-4 py-1 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]">
-                    Nueva Simulacion
-                </button>
-                <h3 className="text-3xl text-[#2D2D83] font-semibold m-4">Simulacion {store.datasAsociado.name}</h3>
-                <div className="w-[80%] flex flex-row justify-between text-lg">
-                    <div className="w-[45%] flex flex-col gap-1">
+                <h3 className="text-3xl text-[#2D2D83] font-semibold m-2">Simulacion {store.datasAsociado.name}</h3>
+                <div className="w-[80%] flex flex-row justify-between text-md">
+                    <div className="w-[48%] flex flex-col gap-1">
                         <div className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Numero Identificacion: </p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.cedula}</p>
@@ -52,35 +50,35 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de contrato:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.tipocontrato}</p>  
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.tipocontrato ? store.datasAsociado.tipocontrato : "No Aplica"}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Angiguedad Laboral:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.antiguedad}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.antiguedad ? store.datasAsociado.antiguedad : "No Aplica"}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Salario:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.salary}</p>  
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.salary}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Otros Ingreso:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.others}</p>  
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.others}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Debitos:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.debit}</p>  
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.debit}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Salud y Pension:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{setValue(store.saludypension.toString())}</p>  
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(store.saludypension.toString())}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Ahorro:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{setValue(store.ahorroMensual.toString())}</p>  
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Aportes Mensual:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(store.ahorroMensual.toString())}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Capacidad de Pago:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{setValue(store.capacidadPago.toString())}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(store.capacidadPago.toString())}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Cooviahorro:</p>
@@ -99,14 +97,11 @@ export function Dialog({ setDialog }: DialogProps) {
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.numberAportes ? store.datasAsociado.numberAportes : "No Aplica"}</p>  
                         </div>
                     </div>
-                    <div className="w-[45%] flex flex-col gap-1">
+
+                    <div className="w-[48%] flex flex-col gap-1">
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Linea de Crédito:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.typeCredit}</p>
-                        </div>
-                        <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Forma de pago:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.formapago}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Score:</p>
@@ -114,7 +109,7 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Monto Solicitado:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.monto}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.monto}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Plazo:</p>
@@ -126,11 +121,11 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Beneficio Tasa:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.beneficionTasa}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.beneficionTasa.toFixed(2)}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tasa con Beneficio:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tasaDescuento == 0 ? store.tasa : store.tasaDescuento}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tasaDescuento == 0 ? store.tasa.toFixed(2) : store.tasaDescuento.toFixed(2)}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tarifa Seguro de Vida Deudores:</p>
@@ -141,27 +136,34 @@ export function Dialog({ setDialog }: DialogProps) {
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">${setValue(store.pagoMensual.toString())}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Garantia:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.garantia == "" ? store.garantia : "F.G."}</p>
-                        </div>
-                        <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Valor FG+IVA:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">${setValue(store.fondo.toString())}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ 
+                                {store.garantia == "Fondo de Garantias" ? setValue(store.fondo.toString()) : "0"}
+                            </p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Interes anticipados Presente Mes:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">********</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(diasInteres(store.monto, store.tasa).toString())}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Monto a desemboldar:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">${setValue((store.monto - store.fondo).toString())}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ 
+                                {store.garantia == "Fondo de Garantias" ? setValue((store.monto - store.fondo - diasInteres(store.monto, store.tasa)).toString()) : setValue((store.monto).toString())}
+                            </p>
                         </div>
-                        <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
+                        {/* <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Monto maximo a Solicitar:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">${setValue(store.montoMax.toString())}</p>
+                        </div> */}
+                        <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de Garantia:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.garantia}</p>
                         </div>
                     </div>
                 </div>
+                <button onClick={reload} className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]">
+                    Nueva Simulacion
+                </button>
             </div>
         </div>
     )

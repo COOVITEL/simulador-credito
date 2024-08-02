@@ -7,6 +7,7 @@ import { MontoMax } from "../utils/montoMax"
 import { PagoMensual } from "../utils/cuota"
 import { NoSociales } from "../store/types"
 import { calTasaDescuento } from "../utils/tasaDescuento"
+import { FindTasa } from "../utils/findTasa"
 
 export default function Nosociales() {
     const {
@@ -28,11 +29,12 @@ export default function Nosociales() {
         ahorroMensual,
         monto,
         updateMonto,
-        formadepago,
+        // formadepago,
         updateCapacidadPago,
         updateMontoMax,
         montoMax,
         updatePagoMensual,
+        cuotaMaxima,
         descuentos,
         cdat,cooviahorro, aportes, maximoDescuento, porcentajeDescuento, desScore, updateBeneficioTasa, updateTasaDescuento, tasaDescuento
     } = useSimulatorStore()
@@ -41,6 +43,8 @@ export default function Nosociales() {
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [controCuotas, setControlCuotas] = useState(false)
     const [controlMax, setControlMax] = useState(false)
+    const [controlMaxCuotaPerfil, setControlMaxCuotaPerfil] = useState(false)
+
 
     useEffect(() => {
     }, [nosociales])
@@ -48,13 +52,14 @@ export default function Nosociales() {
     useEffect(() => {
         const currentFondo = FindFondo(tasas, inputAfiliacion, score)
         if (currentFondo) updateFondo(currentFondo)
+        const currentTasa = FindTasa(tasas, inputAfiliacion, score)
+        if (currentTasa) updateTasa(currentTasa)
         const current = nosociales.filter(type => type.name == selectOption)[0]
         if (current) {
-            updateTasa(current.techoNMV)
             updatePorcentajeDescuento(current.descuentos)
             setMaxCuotas(current.plazo)
         }
-        updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, formadepago, ahorroMensual))
+        updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual))
     }, [selectOption])
 
     useEffect(() => {
@@ -74,7 +79,7 @@ export default function Nosociales() {
                 updateTasaDescuento(tasa - descuento)
             }
             if (tasaDescuento > 0) {
-                updatePagoMensual(PagoMensual(monto, tasa - tasaDescuento, cuota))
+                updatePagoMensual(PagoMensual(monto, tasaDescuento, cuota))
             } else {
                 updatePagoMensual(PagoMensual(monto, tasa, cuota))
             }
@@ -98,6 +103,11 @@ export default function Nosociales() {
             setControlCuotas(true)
             updateCuota(maxCuotas)
         }
+        if (parseInt(event.target.value) > cuotaMaxima) {
+            setControlMaxCuotaPerfil(true)
+            setControlCuotas(false)
+            updateCuota(cuotaMaxima)
+        }
     }
 
     const handleChangeMonto = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +120,7 @@ export default function Nosociales() {
         } else {
             setControlMax(false)
         }
+        console.log(tasa)
     }
 
     return (
@@ -140,11 +151,12 @@ export default function Nosociales() {
                     value={cuota>0 ? cuota : ""}
                     type="number"
                     id="cuotas"
-                    max={maxCuotas}
                     name="cuotas"
                     placeholder="Cuotas"
                     required/>
             </div>
+
+            {controlMaxCuotaPerfil&&<span>El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
 
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
@@ -161,20 +173,23 @@ export default function Nosociales() {
                     required/>
             </div>
 
-            {/* <span>{`Salario: ${salary}`}</span> */}
-            {/* <span>{`Tasa: ${tasa}`}</span> */}
-            {/* <span>{`Descuento tasa: ${beneficionTasa}`}</span> */}
-            {/* <span>{`Otros ingresos ${others}`}</span> */}
-            {/* <span>{`Debitos: ${debit}`}</span> */}
-            {/* <span>{`Salud y pension: ${saludypension}`}</span> */}
-            {/* <span>{`Ahorro Mensual: ${ahorroMensual}`}</span> */}
+            {/* <span>Interes anticipado: {diasInteres(monto, tasa)}</span>
+            <span>{`Salario: ${salary}`}</span>
+            <span>{`Tasa: ${tasa}`}</span>
+            <span>{`Descuento tasa: ${beneficionTasa.toFixed(4)}`}</span>
+            <span>{`Tasa total: ${(tasa - beneficionTasa).toFixed(3)}`}</span>
+            <span>{`Otros ingresos ${others}`}</span>
+            <span>{`Debitos: ${debit}`}</span>
+            <span>{`Salud y pension: ${saludypension}`}</span>
+            <span>{`Ahorro Mensual: ${ahorroMensual}`}</span> */}
             {controlMax&&<span>{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
-            {/* <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span> */}
-            {/* <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span> */}
-            {/* <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span> */}
-            {/* <span>Valor fondo de garantias: ${setValue(fondo.toString())}</span> */}
-            {/* <span>Valor a desembolsar: ${setValue((monto - fondo).toString())}</span> */}
+            {/* <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span>
+            <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
+            <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
+            <span>Valor fondo de garantias: ${setValue(fondo.toString())}</span>
+            <span>Valor a desembolsar: ${setValue((monto - fondo).toString())}</span> */}
             {controCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
+
         </div>
     )
 }

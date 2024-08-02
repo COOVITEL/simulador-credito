@@ -1,11 +1,22 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { setValue } from "../../utils/setValue"
 import useSimulatorStore from "../../store/store"
 
 export default function Others() {
 
     const [others, setOthers] = useState("")
-    const { updateOthers } = useSimulatorStore()
+    const { updateOthers, garantia, inputAfiliacion, updateCuotaMaxima } = useSimulatorStore()
+
+    useEffect(() => {
+        const type = inputAfiliacion.split("-")[1]
+        if (type == "Independiente") {
+            if (garantia != "Garantia Real"){
+                updateCuotaMaxima(60)
+            } else {
+                updateCuotaMaxima(84)
+            }
+        }
+    }, [others, garantia])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value

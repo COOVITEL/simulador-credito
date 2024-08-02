@@ -3,7 +3,9 @@ import { Descuento, Descuentos, DescuentosPlazo } from "../store/types"
 export function calTasaDescuento(descuentos: Descuentos, cdat: number, cooviahorro: number, aportes: number, score: number, cuotas: number, descuentoMax: any, porcentaje: number, type: string) {
     let tasaPlazo = 0
     const typePerson = type.split("-")[0]
-    const listPlazos = descuentos.plazo.filter((data: DescuentosPlazo) => data.asociado == parseInt(typePerson))
+    const desPlazos: DescuentosPlazo[] = descuentos.plazo
+    const listPlazos = desPlazos
+                        .filter((data: DescuentosPlazo) => data.asociado == parseInt(typePerson))
                         .find((d: DescuentosPlazo) =>  cuotas >= d.plazoMin && cuotas <= d.plazoMax)
     if (listPlazos) {
         tasaPlazo = listPlazos.ajuste

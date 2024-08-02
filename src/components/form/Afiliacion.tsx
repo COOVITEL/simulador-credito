@@ -9,33 +9,34 @@ interface User {
 }
 
 export default function Afiliacion() {
-    const { asociados, updateAfiliacion, updateTipoContrato, updatePagaduria, updateTasaMaxima } = useSimulatorStore()
+    const { asociados, updateAfiliacion, updateTipoContrato, updatePagaduria, updateCuotaMaxima } = useSimulatorStore()
     const [control, setControl] = useState(0)
-    const [time, setTime] = useState(false)
     const [valueTime, setValueTime] = useState("")
     const [controlTime, setControlTime] = useState(false)
+    const [controlAntiguedad, setControlAntiguedad] = useState(false)
+    const [controlAntiguedad2, setControlAntiguedad2] = useState(false)
+
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const typeAfi = event.target.value
         updateAfiliacion(typeAfi)
         const currentType = typeAfi.split("-")[1]
+        setControlAntiguedad2(false)
+        setControlAntiguedad(false)
         if (currentType == "Empleado Convenio") {
             setControl(1)
-            setTime(true)
             setControlTime(true)
         } else if (currentType == "Pensionado Libranza") {
-            setTime(false)
             setControl(2)
             setControlTime(false)
-            updateTasaMaxima(144)
+            updateCuotaMaxima(144)
         } else if (currentType == "Empleado o pensionado Ventanilla") {
             setControl(3)
-            setTime(true)
             setControlTime(true)
+            updateCuotaMaxima(60)
         } else if (currentType == "Independiente") {
-            setTime(false)
             setControlTime(false)
-            updateTasaMaxima(84)
+            updateCuotaMaxima(84)
             setControl(0)
         }
     }
@@ -43,10 +44,14 @@ export default function Afiliacion() {
     const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
         updateTipoContrato(value)
-        if (value == "Publico Propiedad / C.Administrativa") {
-            updateTasaMaxima(132)
-        } else if (value == "Privado e Indefinido") {
-            updateTasaMaxima(96)
+        if (value == "Privado e Indefinido") {
+            updateCuotaMaxima(96)
+            setControlAntiguedad(false)
+        } else if (value == "Publico Propiedad / C.Administrativa") {
+            updateCuotaMaxima(132)
+            setControlAntiguedad(false)
+        } else {
+            setControlAntiguedad(true)
         }
     }
 
@@ -58,14 +63,17 @@ export default function Afiliacion() {
     const handleChangeAntiguedad = (event: React.ChangeEvent<HTMLInputElement>) => {
         const time = event.target.value
         const timeAntiguedad = antiguedad(time)
-        updateTasaMaxima(timeAntiguedad.number)
+        updateCuotaMaxima(timeAntiguedad.number * 2)
         setValueTime(timeAntiguedad.message)
     }
 
     const handleChangeContrato = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
         if (value == "Indefinido, Propiedad, Carrera") {
-            updateTasaMaxima(72)
+            updateCuotaMaxima(72)
+            setControlAntiguedad2(false)
+        } else {
+            setControlAntiguedad2(true)
         }
     }
 
@@ -103,17 +111,19 @@ export default function Afiliacion() {
                         <option key="privado4" value="Privado T.fijo / P.Servicios">Privado T.fijo / P.Servicios</option>
                     </select>
                 </div>
-                <div
+                {controlAntiguedad&&
+                    <div
                     className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
-                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
-                    <input
-                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
-                        type="date"
-                        name="antiguedad"
-                        id="antiguedad"
-                        onChange={handleChangeAntiguedad}/>
-                </div>
+                        <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
+                        <input
+                            className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                            type="date"
+                            name="antiguedad"
+                            id="antiguedad"
+                            onChange={handleChangeAntiguedad}/>
+                    </div>
+                }
             </div>
             }
             {control==2&&
@@ -145,14 +155,16 @@ export default function Afiliacion() {
                         <option key="emptycontratoventa3" value="Provisional, Fijo, P.Servicios">Provisional, Fijo, P.Servicios</option>
                     </select>
                 </div>
-                <div
+                {controlAntiguedad2&&
+                    <div
                     className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
-                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
-                    <input
-                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
-                        type="date" name="antiguedad" id="antiguedad" onChange={handleChangeAntiguedad}/>
-                </div>
+                        <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
+                        <input
+                            className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                            type="date" name="antiguedad" id="antiguedad" onChange={handleChangeAntiguedad}/>
+                    </div>
+                }
             </div>
             }
             {controlTime&&<span className="text-center">{valueTime}</span>}

@@ -1,14 +1,28 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import useSimulatorStore from "../../store/store"
 import { DescuentosScore } from "../../store/types"
 
 export default function Score() {
-    const { updateScore, inputAfiliacion, tasas, descuentos, updateDesScore } = useSimulatorStore()
+    const { updateScore, inputAfiliacion, tasas, descuentos, updateDesScore, garantia } = useSimulatorStore()
     const [scoreMin, setScoreMin] = useState(0)
     const [scoreMax, setScoreMax] = useState(0)
     const [checkScore, setCheckScore] = useState(false)
     const [checkScoreMax, setCheckScoreMax] = useState(false)
     const [valueScore, setValueScore] = useState(0)
+
+    useEffect(() => {
+        const personType = inputAfiliacion.split("-")[1]
+        if (personType == "Independiente") {
+            if (garantia == "Fondo de Garantias" || garantia == "Codeudor") {
+                setScoreMin(722)
+            } else if (garantia == "Garantia Real"){
+                setScoreMin(600)
+            }
+        }
+        if (personType == "Empleado o pensionado Ventanilla") {
+            setScoreMin(609)
+        }
+    }, [garantia, inputAfiliacion])
 
     const handleChangeScore = (event: React.ChangeEvent<HTMLInputElement>) => {
         const currentScore = parseInt(event.target.value)
@@ -18,9 +32,15 @@ export default function Score() {
         const checkList = tasas.filter(type => type.perfil == parseInt(numberType))
         const minScore = checkList[checkList.length - 1].minScore
         setCheckScoreMax(false)
-        if (currentScore < minScore) {
+        let min = 0
+        if (scoreMin > minScore) {
+            min = scoreMin
+        } else {
+            min = minScore
+        }
+        if (currentScore < min) {
             setCheckScore(true)
-            setScoreMin(minScore)
+            setScoreMin(min)
         } else {
             setCheckScore(false)
         }
@@ -29,9 +49,11 @@ export default function Score() {
             setCheckScoreMax(true)
             setValueScore(1100)
         }
-        const list = descuentos.score.filter((type: DescuentosScore) => type.asociado == parseInt(numberType))
+        const desScore: DescuentosScore[] = descuentos.score
+        const list = desScore.filter((type: DescuentosScore) => type.asociado == parseInt(numberType))
                         .find((current: DescuentosScore) => currentScore >= current.scoreMin && currentScore <= current.scoreMax)
         if (list) updateDesScore(list.ajuste)
+      
     }
     return (
         <div className="flex flex-col">

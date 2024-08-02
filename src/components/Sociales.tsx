@@ -16,7 +16,6 @@ export default function Social() {
         others,
         debit,
         saludypension,
-        formadepago,
         capacidadPago,
         updateCapacidadPago,
         montoMax,
@@ -28,13 +27,12 @@ export default function Social() {
         inputAfiliacion,
         monto,
         updateMonto,
-        pagoMensual,
         updatePagoMensual,
         ahorroMensual,
         updateFondo,
-        fondo,
         tasas,
-        score
+        score,
+        cuotaMaxima
     } = useSimulatorStore()
     const [currentType, setCurrentType] = useState<Sociales>()
     const [listSociales, setListSociales] = useState<Sociales[]>([])
@@ -42,6 +40,7 @@ export default function Social() {
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [controCuotas, setControlCuotas] = useState(false)
     const [controlMax, setControlMax] = useState(false)
+    const [controlMaxCuotaPerfil, setControlMaxCuotaPerfil] = useState(false)
 
     useEffect(() => {
         if (sociales) setListSociales(sociales)
@@ -52,9 +51,9 @@ export default function Social() {
         if (current) {
             setMaxCuotas(current.plazoMax)
             setCurrentType(current)
-            updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, formadepago, ahorroMensual))
+            updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual))
         }
-    }, [selectOption, formadepago, debit, saludypension, cuota])
+    }, [selectOption, debit, saludypension, cuota])
 
     useEffect(() => {
         updateMontoMax(MontoMax(capacidadPago, tasa, cuota))
@@ -85,12 +84,21 @@ export default function Social() {
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateCuota(parseInt(event.target.value))
         if (currentType) updateTasa(searchTasaSocial(currentType, parseInt(event.target.value)))
+        console.log(maxCuotas)
+        console.log(event.target.value)
         if (parseInt(event.target.value) > maxCuotas) {
             setControlCuotas(true)
             updateCuota(maxCuotas)
             if (currentType) updateTasa(searchTasaSocial(currentType, maxCuotas))
         } else {
             setControlCuotas(false)
+        }
+        if (cuotaMaxima < maxCuotas) {
+            if (parseInt(event.target.value) > cuotaMaxima) {
+                setControlMaxCuotaPerfil(true)
+                setControlCuotas(false)
+                updateCuota(cuotaMaxima)
+            }
         }
     }
 
@@ -136,11 +144,12 @@ export default function Social() {
                     type="number"
                     id="cuotas"
                     max={maxCuotas}
-                    name="scocuotasre"
+                    name="cuotas"
                     placeholder="Cuotas"
                     required/>
             </div>
             {controCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
+            {controlMaxCuotaPerfil&&<span>El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
 
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
@@ -156,14 +165,15 @@ export default function Social() {
                     placeholder="Monto"
                     required/>
             </div>
-            {/* <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
+            {/* <span>{maxCuotas}</span>
+            <span>{fondo}</span>
+            <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
             <span>{`Salario: ${salary}`}</span>
             <span>{`Otros ingresos ${others}`}</span>
             <span>{`Debitos: ${debit}`}</span>
             <span>{`Tasa: ${tasa}`}</span>
             <span>{`Salud y pension: ${saludypension}`}</span>
             <span>{`Ahorro Mensual: ${ahorroMensual}`}</span>
-            <span>{`Forma de pago: ${formadepago}`}</span>
             <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span> */}
             {controlMax&&<span>{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
             {/* <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>

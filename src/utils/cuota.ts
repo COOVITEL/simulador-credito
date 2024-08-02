@@ -1,9 +1,12 @@
-export function PagoMensual(monto: number, tasa: number, cuota: number) {
+export function PagoMensual(monto: number, tasa: number, plazo: number) {
     const porcentajeTasa = tasa / 100
-    const tasaElevada = (porcentajeTasa + 1) ** cuota
-    const num = monto * porcentajeTasa * tasaElevada
+    const totalTasa = (porcentajeTasa + (88 / 100000))
+    const tasaElevada = (totalTasa + 1) ** plazo
+    const num = monto * totalTasa * tasaElevada
     const den = tasaElevada - 1
-    const seguro = monto * 0.00088
-    const value = seguro + Math.floor(num / den)
-    return value
+    const valor = Math.floor(num / den)
+    // const res = parseInt(((332 / 100000000) * monto).toFixed(0))
+    const valorTotal = valor
+
+    return valorTotal
 }

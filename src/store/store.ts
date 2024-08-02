@@ -38,6 +38,18 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
     tasaDescuento: 0,
     datasAsociado: {},
     garantia: "",
+    interesAnticipado: 0,
+    cuotaMaxima: 0,
+    tipoGarantia: "",
+    updatipoGarantia: (newValue: string) => set(() => ({
+        tipoGarantia: newValue
+    })),
+    updateCuotaMaxima: (newValue: number) => set(() => ({
+        cuotaMaxima: newValue
+    })),
+    updateInteresAnticipado: (newValue: number) => set(() => ({
+        interesAnticipado: newValue
+    })),
     updateGarantia: (newValue: string) => set(() => ({
         garantia: newValue
     })),
