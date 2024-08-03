@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import useSimulatorStore from "../store/store"
 import { setValue } from "../utils/setValue"
 import { diasInteres } from "../utils/diasInteresAnticipado";
+import { downloadPFD } from "../utils/downloadPDF";
 
 interface DialogProps {
     setDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -151,10 +152,6 @@ export function Dialog({ setDialog }: DialogProps) {
                                 {store.garantia == "Fondo de Garantias" ? setValue((store.monto - store.fondo - diasInteres(store.monto, store.tasa)).toString()) : setValue((store.monto).toString())}
                             </p>
                         </div>
-                        {/* <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Monto maximo a Solicitar:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">${setValue(store.montoMax.toString())}</p>
-                        </div> */}
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de Garantia:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.garantia}</p>
@@ -163,6 +160,11 @@ export function Dialog({ setDialog }: DialogProps) {
                 </div>
                 <button onClick={reload} className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]">
                     Nueva Simulacion
+                </button>
+                <button
+                    className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]"
+                    onClick={() => downloadPFD({ datas: store})}>
+                    Descargar Comprobante
                 </button>
             </div>
         </div>
