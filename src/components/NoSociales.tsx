@@ -120,7 +120,6 @@ export default function Nosociales() {
         } else {
             setControlMax(false)
         }
-        console.log(tasa)
     }
 
     return (

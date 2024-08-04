@@ -13,8 +13,6 @@ export default function Garantia() {
         } else {
             setControl(false)
         }
-        console.log(inputAfiliacion)
-        console.log(score)
     }, [inputAfiliacion, score])
 
     const handleChangeContrato = (event: React.ChangeEvent<HTMLSelectElement>) => {

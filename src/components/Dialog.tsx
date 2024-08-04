@@ -158,14 +158,16 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                     </div>
                 </div>
-                <button onClick={reload} className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]">
-                    Nueva Simulacion
-                </button>
-                <button
-                    className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]"
-                    onClick={() => downloadPFD({ datas: store})}>
-                    Descargar Comprobante
-                </button>
+                <div className="flex flex-row gap-12">
+                    <button onClick={reload} className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]">
+                        Nueva Simulacion
+                    </button>
+                    <button
+                        className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]"
+                        onClick={() => downloadPFD({ datas: store})}>
+                        Descargar Comprobante
+                    </button>
+                </div>
             </div>
         </div>
     )

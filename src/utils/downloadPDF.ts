@@ -1,4 +1,6 @@
 import jsPDF from "jspdf";
+import { setValue } from "./setValue";
+import { diasInteres } from "./diasInteresAnticipado";
 
 interface DownloadPFDProps {
     datas: any;
@@ -7,41 +9,78 @@ interface DownloadPFDProps {
 export function downloadPFD( {datas}: DownloadPFDProps) {
     console.log(datas)
     const doc = new jsPDF();
+
+    // Cuadro superior
     doc.roundedRect(10, 10, 190, 28, 2, 2)
+    doc.line(10, 32, 200, 32)
 
+    doc.addImage('images/logo.png', 'PNG', 11, -5, 50, 55)
+
+    // Cuadro Izquierdo
     doc.setFillColor(242, 242, 252)
     doc.setDrawColor(0, 0, 0)
-    doc.roundedRect(10, 50, 90, 88, 2, 2, 'DF')
-    doc.line(55, 50, 55, 138)
+    doc.roundedRect(10, 50, 90, 85, 2, 2, 'DF')
+    doc.line(49, 50, 49, 135)
 
+    // Cuadro Derecho
     doc.setFillColor(242, 242, 252)
     doc.setDrawColor(0, 0, 0)
-    doc.roundedRect(110, 50, 90, 88, 2, 2, 'DF')
-    doc.line(157, 50, 157, 108)
+    doc.roundedRect(110, 50, 90, 94, 2, 2, 'DF')
+    doc.line(154, 50, 154, 111.5)
 
-    // doc.line(100, 20, 100, 100)
 
-    doc.roundedRect(30, 165, 150, 28, 2, 2)
+    // Cuadro abajo
+    doc.setFillColor(242, 242, 252)
+    doc.setDrawColor(0, 0, 0)
+    doc.roundedRect(30, 165, 150, 28, 2, 2, 'DF')
     doc.line(105, 165, 105, 193)
 
+    // Fecha 
+    doc.setFontSize(7)
+    const date = new Date()
+    const day = date.getDay().toString().padStart(2, "0")
+    const month = (date.getMonth() + 1).toString().padStart(2, "0")
+    const year = date.getFullYear()
+    const hour = date.getHours().toString().padStart(2, "0")
+    const min = date.getMinutes().toString().padStart(2, "0")
+    const seconds = date.getSeconds().toString().padStart(2, "0")
+    doc.setFont("helvetica", "bold");
+    doc.text(`${day}/${month}/${year}  ${hour}:${min}:${seconds}`, 25, 16)
+    doc.setFont("helvetica", "normal");
+
     doc.setFontSize(11)
-    doc.text("FORMATO SIMULADOR DE CREDITO", 75, 25)
+    doc.line(65, 10, 65, 32)
+    doc.setFont("helvetica", "bold");
+    doc.text("FORMATO SIMULADOR DE CREDITO", 75, 23)
+    doc.setFont("helvetica", "normal");
+    doc.line(152, 10, 152, 32)
+
 
     doc.setFontSize(9)
     doc.text("CÓDIGO: COV-GPS-FMT-006", 155, 15)
+    doc.line(152, 16, 200, 16)
     doc.text("VERSIÓN: 3", 155, 20)
+    doc.line(152, 21.5, 200, 21.5)
     doc.text("FECHA: Agosto 01 de 2024", 155, 25)
+    doc.line(152, 26.5, 200, 26.5)
     doc.text("Página 2 de 2", 155, 30)
 
+
     doc.setFontSize(9)
-    doc.text("PROCESO: GESTIÓN DE PRODUCTOS Y SERVICIOS", 55, 36)
+    doc.setFont("helvetica", "bold");
+    doc.text("PROCESO: GESTIÓN DE PRODUCTOS Y SERVICIOS", 65, 36)
 
     doc.setFontSize(12)
     doc.text("Informarcion Asociado", 35, 46)
     doc.text("Condiciones de la Simulación", 125, 46)
+    doc.setFont("helvetica", "normal");
 
+    // Titulos de cuadro Izquierdo
+    doc.setFont("helvetica", "bold");
     doc.setFontSize(9)
     doc.text("Nombre de Asociado", 12, 55)
+    doc.setFontSize(9)
+    doc.setFont("helvetica", "bold");
     doc.line(10, 56.5, 100, 56.5)
     doc.text("Numero Identificación", 12, 60.5)
     doc.line(10, 62, 100, 62)
@@ -55,73 +94,150 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.line(10, 84, 100, 84)
     doc.text("Otros Ingresos", 12, 88)
     doc.line(10, 89.5, 100, 89.5)
-    doc.text("Desuentos o Debitos", 12, 93.2)
+    doc.text("Desuentos o Debitos", 12, 93.5)
     doc.line(10, 95, 100, 95)
     doc.text("Salud y Pensión", 12, 99)
     doc.line(10, 100.5, 100, 100.5)
     doc.text("Aportes Mensual", 12, 104.5)
     doc.line(10, 106, 100, 106)
-    doc.text("Fondo de Solidaridad", 12, 109)
-    doc.line(10, 110.5, 100, 110.5)
-    doc.text("Capacidad de Pago", 12, 114.5)
-    doc.line(10, 116, 100, 116)
-    doc.text("Cooviahorro", 12, 119)
-    doc.line(10, 120.5, 100, 120.5)
-    doc.text("CDAT", 12, 124.5)
-    doc.line(10, 126, 100, 126)
-    doc.text("Promedio Saldo", 12, 129)
-    doc.line(10, 130.5, 100, 130.5)
-    doc.text("Otros Ingresos", 12, 134.5)
+    doc.text("Fondo de Solidaridad", 12, 110)
+    doc.line(10, 111.5, 100, 111.5)
+    doc.text("Capacidad de Pago", 12, 115.5)
+    doc.line(10, 117, 100, 117)
+    doc.text("Cooviahorro", 12, 121)
+    doc.line(10, 122.5, 100, 122.5)
+    doc.text("CDAT", 12, 126.5)
+    doc.line(10, 128, 100, 128)
+    doc.text("Promedio Saldo", 12, 132.5)
 
-
-    doc.setFontSize(9)
-    doc.text("Linea de Crédito", 112, 55)
-    doc.text("Puntaje Score", 112, 60)
-    doc.text("Monto Préstamo", 112, 65)
-    doc.text("Plazo", 112, 70)
-    doc.text("Tasa Crédito", 112, 75)
-    doc.text("Beneficio Tasa Asociado", 112, 80)
-    doc.text("Tasa con Beneficio", 112, 85)
-    doc.setFontSize(8.5)
-    doc.text("Tarifa Seguro de Vida Deudores", 112, 90)
-    doc.text("Valor Cuota(Seguro incluido)", 112, 95)
-    doc.setFontSize(9)
-    doc.text("Garantia", 112, 100)
-    doc.text("Valor FG + IVA", 112, 105)
-    doc.text("Fidelización", 145, 112)
-    doc.text("Año de Fidelización", 120, 117)
-    doc.text("Valor Aportes", 165, 117)
-    doc.text("*********", 128, 122)
-    doc.text("*********", 170, 122)
-    doc.text("Ahorro Mensual Coovitel", 137, 127)
-    doc.setFontSize(7)
-    doc.text("Aportes (74%)", 113, 131)
-    doc.text("Ahorro Permanente (18.5%)", 139, 131)
-    doc.text("Fondo Mutual (7.5%)", 174, 131)
+    // Datos del cuadro izquierdo
     doc.setFontSize(8)
-    doc.text("***********", 116, 136)
-    doc.text("***********", 148, 136)
-    doc.text("***********", 179, 136)
+    doc.setFont("helvetica", "normal");
+    doc.text(datas.datasAsociado.name, 50, 55)
+    doc.setFontSize(9)
+    doc.text(datas.datasAsociado.cedula, 50, 60.5)
+    doc.text(datas.datasAsociado.afiliacion.split("-")[1], 50, 66)
+    const contrato = datas.datasAsociado.tipocontrato ? datas.datasAsociado.tipocontrato : "No Aplica"
+    doc.text(contrato, 50, 71.5)
+    const antiguedad = datas.datasAsociado.antiguedad ? datas.datasAsociado.antiguedad : "No Aplica"
+    doc.text(antiguedad, 50, 77)
+    doc.text(`$ ${datas.datasAsociado.salary}`, 50, 82.5)
+    doc.text(`$ ${datas.datasAsociado.others}`, 50, 88)
+    doc.text(`$ ${datas.datasAsociado.debit}`, 50, 93.5)
+    doc.text(`$ ${setValue(datas.saludypension.toString())}`, 50, 99)
+    doc.text(`$ ${setValue(datas.ahorroMensual.toString())}`, 50, 104.5)
+    doc.text("$ 0", 50, 110)
+    doc.text(`$ ${setValue(datas.capacidadPago.toString())}`, 50, 115.5)
+    doc.text(datas.cooviahorro.split("-")[1], 50, 121)
+    doc.text(datas.cdat.split("-")[1], 50, 126.5)
+    doc.text(datas.aportes.split("-")[1], 50, 132.5)
+
+
+    doc.setFontSize(9)
+    doc.setFont("helvetica", "bold");
+    doc.text("Linea de Crédito", 112, 55)
+    doc.line(110, 56.5, 200, 56.5)
+    doc.text("Puntaje Score", 112, 60.5)
+    doc.line(110, 62, 200, 62)
+    doc.text("Monto Préstamo", 112, 66)
+    doc.line(110, 67.5, 200, 67.5)
+    doc.text("Plazo", 112, 71.5)
+    doc.line(110, 73, 200, 73)
+    doc.text("Tasa Crédito", 112, 77)
+    doc.line(110, 78.5, 200, 78.5)
+    doc.text("Beneficio Tasa Asociado", 112, 82.5)
+    doc.line(110, 84, 200, 84)
+    doc.text("Tasa con Beneficio", 112, 88)
+    doc.line(110, 89.5, 200, 89.5)
+    doc.setFontSize(8.5)
+    doc.text("Tarifa Seguro de Vida", 112, 93.5)
+    doc.line(110, 95, 200, 95)
+    doc.text("Valor Cuota(Seguro incluido)", 112, 99)
+    doc.line(110, 100.5, 200, 100.5)
+    doc.setFontSize(9)
+    doc.text("Garantia", 112, 104.5)
+    doc.line(110, 106, 200, 106)
+    doc.text("Valor FG + IVA", 112, 110)
+    doc.line(110, 111.5, 200, 111.5)
+    doc.text("Fidelización", 145, 115.5)
+    doc.line(110, 117, 200, 117)
+    doc.text("Año de Fidelización", 120, 121)
+    doc.text("Valor Aportes", 165, 121)
+    doc.line(110, 122.5, 200, 122.5)
+    doc.line(110, 128, 200, 128)
+    doc.text("Ahorro Mensual Coovitel", 137, 132)
+    doc.line(110, 133.5, 200, 133.5)
+    doc.setFontSize(7)
+    doc.text("Aportes (74%)", 113, 137.5)
+    doc.text("Ahorro Permanente (18.5%)", 139, 137.5)
+    doc.text("Fondo Mutual (7.5%)", 174, 137.5)
+    doc.line(110, 139, 200, 139)
+    doc.setFontSize(8)
+
+    // Datos cuadro Derecho
+    doc.setFontSize(9)
+    doc.setFont("helvetica", "normal");
+    doc.text(datas.datasAsociado.typeCredit, 156, 55)
+    doc.text(`${datas.score}`, 156, 60.5)
+    doc.text(datas.datasAsociado.monto, 156, 66)
+    doc.text(datas.datasAsociado.cuotas, 156, 71.5)
+    doc.text(`${datas.tasa}`, 156, 77)
+    doc.text(datas.beneficionTasa.toFixed(2), 156, 82.5)
+    const tasaBeneficio = datas.tasaDescuento == 0 ? datas.tasa.toFixed(2) : datas.tasaDescuento.toFixed(2)
+    doc.text(tasaBeneficio, 156, 88)
+    doc.text("0.088% x millon", 156, 93.5)
+    doc.text(`$ ${setValue(datas.pagoMensual.toString())}`, 156, 99)
+    doc.text(datas.garantia, 156, 104.5)
+    const fondo = datas.garantia == "Fondo de Garantias" ? setValue(datas.fondo.toString()) : "0"
+    doc.text(`$ ${fondo}`, 156, 110)
+
+    doc.setFont("helvetica", "normal");
+    doc.text(`${datas.datasAsociado.years}`, 128, 126.5)
+    const aportes = datas.datasAsociado.numberAportes ? datas.datasAsociado.numberAportes : "No Aplica"
+    doc.text(aportes, 170, 126.5)
+    const montoAportes = datas.ahorroMensual
+    const apor = montoAportes * (74 / 100)
+    const aporPerma = montoAportes * (18.5 / 100)
+    const mutual = montoAportes * (7.5 / 100)
+
+    doc.text(`$ ${setValue(apor.toString())}`, 116, 143)
+    doc.text(`$ ${setValue(aporPerma.toString())}`, 148, 143)
+    doc.text(`$ ${setValue(mutual.toString())}`, 179, 143)
 
     doc.setFontSize(6.5)
-    doc.text("NOTA: El valor del fondo mutual no es rembolsable.", 130, 142)
+    doc.text("NOTA: El valor del fondo mutual no es rembolsable.", 130, 150)
 
     doc.setFontSize(13)
+    doc.setFont("helvetica", "bold");
     doc.text("Desembolso Neto Aproximado", 70, 160)
+    doc.setFont("helvetica", "normal");
 
     doc.setFontSize(11)
     doc.text("Monto Crédito", 32, 171)
+    doc.text(`$ ${datas.datasAsociado.monto}`, 110, 171)
+    doc.line(30, 172.5, 180, 172.5)
     doc.text("Intereses Anticipados Presente Mes", 32, 177)
+    doc.text(`$ ${setValue(diasInteres(datas.monto, datas.tasa).toString())}`, 110, 177)
+    doc.line(30, 178.5, 180, 178.5)
     doc.text("Valor FG + IVA", 32, 183)
-    doc.text("Aproximado Neto a Desembolsar", 32, 189)
+    doc.text(`$ ${fondo}`, 110, 183)
+    doc.line(30, 184.5, 180, 184.5)
+    doc.text("Aproximado Neto a Desembolsar", 32, 189.5)
+    const desembolso = datas.garantia == "Fondo de Garantias" ? setValue((datas.monto - datas.fondo - diasInteres(datas.monto, datas.tasa)).toString()) : setValue((datas.monto).toString())
+    doc.text(`$ ${desembolso}`, 110, 190)
+
 
 
     doc.setFontSize(12)
+    doc.setFont("helvetica", "bold");
     doc.text("Validaciones:", 20, 205)
+    doc.setFont("helvetica", "normal");
     doc.setFontSize(8)
     doc.text("Demostrar Ingresos Adicionales. /", 20, 210)
     doc.setFontSize(12)
+    doc.setFont("helvetica", "bold");
     doc.text("Aceptación de Condiciones", 20, 220)
+    doc.setFont("helvetica", "normal");
     doc.setFontSize(5.1)
     doc.text("1) Tengo conocimiento  que si pierdo la  calidad de asociado por retiro  voluntario o exclusión el valor  de mi ahorro se  cruzará  con los valores pendientes  de pago y  si esta operación arroja  un sobrante a mi  favor será", 20, 225)
     doc.text("reintegrado en un periodo máximo de 90 días calendario de acuerdo con el Estatuto de Coovitel. 2) Manifiesto que conozco y acepto, que si pierdo la calidad de Asociado a COOVITEL respecto de la(s) obligación(es) que", 20, 228)
@@ -137,7 +253,10 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
 
     doc.setFontSize(12)
     doc.text("Firma:", 20, 265)
+    doc.line(35, 265, 100, 265)
     doc.text("CC:", 110, 265)
+    doc.line(120, 265, 185, 265)
+
 
 
 
