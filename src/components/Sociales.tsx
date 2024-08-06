@@ -68,7 +68,8 @@ export default function Social() {
             const typeAfi = inputAfiliacion.split("-")[0];
             const currentFondo = FindFondo(tasas, typeAfi, score)
             if (currentFondo) {
-                updateFondo(currentFondo / 100 * monto)
+                const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
+                updateFondo(parseInt(porcentajeFondo))
             }
         }
     }, [monto])
@@ -148,8 +149,8 @@ export default function Social() {
                     placeholder="Cuotas"
                     required/>
             </div>
-            {controCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
-            {controlMaxCuotaPerfil&&<span>El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
+            {controCuotas&&<span  className="font-semibold">El numero maximo de cuotas segun la linea es: {maxCuotas}</span>}
+            {controlMaxCuotaPerfil&&<span  className="font-semibold">El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
 
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
@@ -165,20 +166,7 @@ export default function Social() {
                     placeholder="Monto"
                     required/>
             </div>
-            {/* <span>{maxCuotas}</span>
-            <span>{fondo}</span>
-            <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
-            <span>{`Salario: ${salary}`}</span>
-            <span>{`Otros ingresos ${others}`}</span>
-            <span>{`Debitos: ${debit}`}</span>
-            <span>{`Tasa: ${tasa}`}</span>
-            <span>{`Salud y pension: ${saludypension}`}</span>
-            <span>{`Ahorro Mensual: ${ahorroMensual}`}</span>
-            <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span> */}
-            {controlMax&&<span>{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
-            {/* <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
-            <span>Valor fondo de garantias: ${setValue(fondo.toString())}</span>
-            <span>Valor a desembolsar: ${setValue((monto - fondo).toString())}</span> */}
+            {controlMax&&<span  className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
         </div>
     )
 }

@@ -41,6 +41,22 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
     interesAnticipado: 0,
     cuotaMaxima: 0,
     tipoGarantia: "",
+    controlAntiguedad: false,
+    añoafiliacion: "",
+    antiguedad: "",
+    updateAntiguedad: (newValue: string) => set(() => ({
+        antiguedad: newValue
+    })),
+    updateAñoAfiliacion: (newValue: string) => set(() => ({
+        añoafiliacion: newValue
+    })),
+    updateControlAntiguedad: (newState: boolean) => set(() => ({
+        controlAntiguedad: newState
+    })),
+    scoreMin: 0,
+    updateScoreMin: (newValue: number) => set({
+        scoreMin: newValue
+    }),
     updatipoGarantia: (newValue: string) => set(() => ({
         tipoGarantia: newValue
     })),

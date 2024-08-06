@@ -3,12 +3,13 @@ import useSimulatorStore from "../../store/store"
 import { DescuentosScore } from "../../store/types"
 
 export default function Score() {
-    const { updateScore, inputAfiliacion, tasas, descuentos, updateDesScore, garantia } = useSimulatorStore()
-    const [scoreMin, setScoreMin] = useState(0)
+    const { updateScore, inputAfiliacion, tasas, descuentos, updateDesScore, garantia, scoreMin } = useSimulatorStore()
+    const [scoreMinimo, setScoreMin] = useState(0)
     const [scoreMax, setScoreMax] = useState(0)
     const [checkScore, setCheckScore] = useState(false)
     const [checkScoreMax, setCheckScoreMax] = useState(false)
     const [valueScore, setValueScore] = useState(0)
+    const [checkScoreDif, setCheckScoreDif] = useState(false)
 
     useEffect(() => {
         const personType = inputAfiliacion.split("-")[1]
@@ -26,19 +27,30 @@ export default function Score() {
 
     const handleChangeScore = (event: React.ChangeEvent<HTMLInputElement>) => {
         const currentScore = parseInt(event.target.value)
+        setCheckScoreDif(false)
         updateScore(currentScore)
+        if (currentScore < scoreMin) {
+            setValueScore(scoreMin)
+        }
         setValueScore(currentScore)
-        const numberType = inputAfiliacion.split("-")[0]
+        const numberType = inputAfiliacion.split("-")[0]        
+        const personType = inputAfiliacion.split("-")[1]
+        if (personType == "Pensionado Libranza") {
+            if (currentScore == 4 || currentScore == 5) {
+                setValueScore(scoreMin)
+                setCheckScoreDif(true)
+            }
+        }
         const checkList = tasas.filter(type => type.perfil == parseInt(numberType))
         const minScore = checkList[checkList.length - 1].minScore
         setCheckScoreMax(false)
         let min = 0
-        if (scoreMin > minScore) {
-            min = scoreMin
+        if (scoreMinimo > minScore) {
+            min = scoreMinimo
         } else {
             min = minScore
         }
-        if (currentScore < min) {
+        if (currentScore < scoreMin) {
             setCheckScore(true)
             setScoreMin(min)
         } else {
@@ -68,11 +80,13 @@ export default function Score() {
                     type="number"
                     id="score"
                     name="score"
+                    min={scoreMin}
                     placeholder="Valor Score"
                     required/>
             </div>
             {checkScore&&<span className="text-center">El score minimo para aplicar segun su perfil es de {scoreMin}</span>}
             {checkScoreMax&&<span className="text-center">El score maximo es {scoreMax}</span>}
+            {checkScoreDif&&<span className="text-center">El score debe ser diferente a 4 y 5</span>}
         </div>
     )
 }

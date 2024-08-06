@@ -16,7 +16,7 @@ export default function FormaPago() {
             <select
                 className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
                 onChange={handleSelectChange} name="formapago" id="formapago" required >
-                <option key="type1" value="">-- Seleccione Tipo --</option>
+                <option key="type1" value="">-- Seleccione Forma de Pago --</option>
                 <option key="type2" value="Libranza">Libranza</option>
                 <option key="type3" value="Ventanilla">Ventanilla</option>
             </select>

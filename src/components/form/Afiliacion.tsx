@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSimulatorStore from "../../store/store";
 import { tiposPensionados } from "../../utils/tiposPensiones";
 import { antiguedad } from "../../utils/antiguedad";
@@ -9,27 +9,39 @@ interface User {
 }
 
 export default function Afiliacion() {
-    const { asociados, updateAfiliacion, updateTipoContrato, updatePagaduria, updateCuotaMaxima } = useSimulatorStore()
+    const { asociados, updateAfiliacion, updateTipoContrato, updatePagaduria,
+        updateCuotaMaxima, updateScoreMin, scoreMin, tipoContrato, updateControlAntiguedad, añoafiliacion, updateAntiguedad
+    } = useSimulatorStore()
     const [control, setControl] = useState(0)
     const [valueTime, setValueTime] = useState("")
     const [controlTime, setControlTime] = useState(false)
-    const [controlAntiguedad, setControlAntiguedad] = useState(false)
-    const [controlAntiguedad2, setControlAntiguedad2] = useState(false)
+    const [numberMonths, setNumberMonths] = useState(0)
+    const [textAntiguedad, setTextAntiguedad] = useState(false)
+    const [ventanilla, setVentanilla] = useState(false)
+
+    useEffect(() => {
+    }, [scoreMin])
 
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setValueTime("")
         const typeAfi = event.target.value
         updateAfiliacion(typeAfi)
         const currentType = typeAfi.split("-")[1]
-        setControlAntiguedad2(false)
-        setControlAntiguedad(false)
+        setControl(0)
+        updateControlAntiguedad(false)
         if (currentType == "Empleado Convenio") {
             setControl(1)
             setControlTime(true)
         } else if (currentType == "Pensionado Libranza") {
+            updateAntiguedad("")
+            updateControlAntiguedad(false)
             setControl(2)
             setControlTime(false)
             updateCuotaMaxima(144)
+            updateScoreMin(1)
+            setNumberMonths(0)
+            updateControlAntiguedad(true)
         } else if (currentType == "Empleado o pensionado Ventanilla") {
             setControl(3)
             setControlTime(true)
@@ -37,43 +49,101 @@ export default function Afiliacion() {
         } else if (currentType == "Independiente") {
             setControlTime(false)
             updateCuotaMaxima(84)
-            setControl(0)
+            updateScoreMin(722)
+            setNumberMonths(36)
+            setControl(4)
+            setControlTime(true)
         }
     }
 
     const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
         updateTipoContrato(value)
+        updateControlAntiguedad(false)
         if (value == "Privado e Indefinido") {
+            setNumberMonths(6)
             updateCuotaMaxima(96)
-            setControlAntiguedad(false)
+            updateScoreMin(600)
         } else if (value == "Publico Propiedad / C.Administrativa") {
+            updateScoreMin(550)
             updateCuotaMaxima(132)
-            setControlAntiguedad(false)
-        } else {
-            setControlAntiguedad(true)
+            setNumberMonths(1)
+        } else if (value == "Privado T.fijo / P.Servicios") {
+            updateScoreMin(600)
+            setNumberMonths(12)
+        } else if (value == "Publico Provisional / P.Servicios") {
+            setNumberMonths(12)
+            updateScoreMin(550)
         }
     }
 
     const handleChangePagaduria = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
         updatePagaduria(value)
+        updateTipoContrato(value)
     }
 
     const handleChangeAntiguedad = (event: React.ChangeEvent<HTMLInputElement>) => {
         const time = event.target.value
+        updateAntiguedad(time)
         const timeAntiguedad = antiguedad(time)
-        updateCuotaMaxima(timeAntiguedad.number * 2)
+        const timeAfiliacion = antiguedad(añoafiliacion).number
+        console.log(timeAfiliacion)
         setValueTime(timeAntiguedad.message)
+        if (tipoContrato == "Provisional, Fijo, P.Servicios" || tipoContrato == "Publico Provisional / P.Servicios" || tipoContrato == "Privado T.fijo / P.Servicios") {
+            let time = timeAntiguedad.number * 2
+            let maxTime = 0
+            if (tipoContrato == "Provisional, Fijo, P.Servicios") {
+                maxTime = 72
+            }
+            if (tipoContrato == "Publico Provisional / P.Servicios") {
+                if (timeAfiliacion > time) {
+                    time = timeAfiliacion
+                }
+                maxTime = 132
+            }
+            if (tipoContrato == "Privado T.fijo / P.Servicios") {
+                if (timeAfiliacion > time) {
+                    time = timeAfiliacion
+                }
+                maxTime = 132
+            }
+            
+            if (time > maxTime) {
+                updateCuotaMaxima(maxTime)
+            } else {
+                updateCuotaMaxima(time)
+            }
+        }
+        if (timeAntiguedad.number > 0 && timeAntiguedad.number >= numberMonths) {
+            updateControlAntiguedad(true)
+            setTextAntiguedad(false)
+        } else {
+            setTextAntiguedad(true)
+            updateControlAntiguedad(false)
+        }
     }
 
     const handleChangeContrato = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
-        if (value == "Indefinido, Propiedad, Carrera") {
+        setValueTime("")
+        setTextAntiguedad(false)
+        updateTipoContrato(value)
+        updateScoreMin(609)
+        setVentanilla(false)
+        updateControlAntiguedad(false)
+        if (value != "Pensionado Ventanilla") {
+            setVentanilla(true)
+        }
+        if (value == "Pensionado Ventanilla") {
+            updateControlAntiguedad(true)
+            setTextAntiguedad(false)
+        }
+        if (value == "Indefinido, Propiedad, Carrera" || value == "Pensionado Ventanilla") {
             updateCuotaMaxima(72)
-            setControlAntiguedad2(false)
+            setNumberMonths(6)
         } else {
-            setControlAntiguedad2(true)
+            setNumberMonths(12)
         }
     }
 
@@ -111,19 +181,17 @@ export default function Afiliacion() {
                         <option key="privado4" value="Privado T.fijo / P.Servicios">Privado T.fijo / P.Servicios</option>
                     </select>
                 </div>
-                {controlAntiguedad&&
-                    <div
+                <div
                     className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
-                        <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
-                        <input
-                            className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
-                            type="date"
-                            name="antiguedad"
-                            id="antiguedad"
-                            onChange={handleChangeAntiguedad}/>
-                    </div>
-                }
+                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
+                    <input
+                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                        type="date"
+                        name="antiguedad"
+                        id="antiguedad"
+                        onChange={handleChangeAntiguedad}/>
+                </div>
             </div>
             }
             {control==2&&
@@ -153,21 +221,34 @@ export default function Afiliacion() {
                         <option key="emptycontratoventa1" value="">-- Seleccione Tipo de Contrato --</option>
                         <option key="emptycontratoventa2" value="Indefinido, Propiedad, Carrera">Indefinido, Propiedad, Carrera</option>
                         <option key="emptycontratoventa3" value="Provisional, Fijo, P.Servicios">Provisional, Fijo, P.Servicios</option>
+                        <option key="emptycontratoventa4" value="Pensionado Ventanilla">Pensionado Ventanilla</option>
                     </select>
                 </div>
-                {controlAntiguedad2&&
-                    <div
+                {
+                ventanilla&&
+                <div
                     className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
-                        <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
-                        <input
-                            className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
-                            type="date" name="antiguedad" id="antiguedad" onChange={handleChangeAntiguedad}/>
-                    </div>
+                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
+                    <input
+                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                        type="date" name="antiguedad" id="antiguedad" onChange={handleChangeAntiguedad}/>
+                </div>
                 }
             </div>
             }
+            {control==4&&
+                <div
+                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
+                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
+                    <input
+                        className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
+                        type="date" name="antiguedad" id="antiguedad" onChange={handleChangeAntiguedad}/>
+                </div>
+            }
             {controlTime&&<span className="text-center">{valueTime}</span>}
+            {textAntiguedad&&<span className="text-red-600 text-xl">No cumple con la antiguedad laboral requerida</span>}
         </div>
     )
 }

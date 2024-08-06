@@ -26,7 +26,7 @@ export default function Fidelizaciones() {
         montoMax,
         cuotaMaxima,
         updatePagoMensual,
-        updateMonto, monto, updateGarantia, inputAfiliacion
+        updateMonto, monto, updateGarantia, inputAfiliacion,
     } = useSimulatorStore()
     const [listFideliacion, setListFidelizacion] = useState<Fidelizacion[]>([])
     const [aportesValue, setAportesValue] = useState("")
@@ -35,12 +35,10 @@ export default function Fidelizaciones() {
     const [porcentaje, setPorcentaje] = useState(0)
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [cuotas, setCuotas] = useState(0)
-    const [controlCuotas, setControlCuotas] = useState(false)
     const [currentType, setCurrentType] = useState<Fidelizacion>()
     const [maxValueAportes, setMaxValueAportes] = useState(0)
-    const [controlMax, setControlMax] = useState(false)
-    const [controlMaxAportes, setControlMaxAportes] = useState(false)
-    const [controlMaxCuotaPerfil, setControlMaxCuotaPerfil] = useState(false)
+    const [controlCuotas, setControlCuotas] = useState(false)
+    const [controlMonto, setControlMonto] = useState(false)
 
     
     useEffect(() => {
@@ -80,43 +78,41 @@ export default function Fidelizaciones() {
     }
 
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setControlCuotas(true)
         const value = event.target.value
         updateCuota(parseInt(value))
         setCuotas(parseInt(value))
         if (currentType) updateTasa(searchTasaFide(currentType, parseInt(value)))
-        if (parseInt(value) > maxCuotas) {
-            setControlCuotas(true)
-            setCuotas(maxCuotas)
-            updateCuota(maxCuotas)
-            if (currentType) updateTasa(searchTasaFide(currentType, maxCuotas))
+        let moreHigt = 0
+        if (cuotaMaxima < maxCuotas) {
+            moreHigt = cuotaMaxima
         } else {
-            setControlCuotas(false)
+            moreHigt = maxCuotas
         }
-        if (parseInt(event.target.value) > cuotaMaxima) {
-            setControlMaxCuotaPerfil(true)
-            setControlCuotas(false)
-            updateCuota(cuotaMaxima)
+        if (parseInt(value) > moreHigt) {
+            setCuotas(moreHigt)
+            updateCuota(moreHigt)
         }
     }
 
     const handleChangeMonto = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setControlMonto(true)
         const value = event.target.value
         const setCurrentValue = value.replace(/\./g, '')
         updateMonto(parseInt(setCurrentValue))
         setMontoValue(setValue(value))
-        if (parseInt(setCurrentValue) > maxValueAportes) {
-            setControlMaxAportes(true)
-            setMontoValue(setValue(maxValueAportes.toString()))
-            updateMonto(maxValueAportes)
+        let morehigt = 0
+        console.log(montoMax)
+        console.log(maxValueAportes)
+        if (maxValueAportes < montoMax) {
+            morehigt = maxValueAportes
         } else {
-            setControlMaxAportes(false)
+            morehigt = montoMax
         }
-        if (parseInt(setCurrentValue) > montoMax) {
-            setControlMax(true)
-            setMontoValue(setValue(montoMax.toString()))
-            updateMonto(montoMax)
-        } else {
-            setControlMax(false)
+        console.log(morehigt)
+        if (parseInt(setCurrentValue) > morehigt) {
+            updateMonto(morehigt)
+            setMontoValue(setValue(morehigt.toString()))
         }
     }
 
@@ -124,7 +120,6 @@ export default function Fidelizaciones() {
     return (
         <div className="w-full flex flex-col justify-center items-center mt-5 gap-4 border-2 border-gray-300 rounded-3xl shadow-2xl p-6 pb-10">
             <h3 className="text-4xl m-2 font-bold text-[#2D2D83]">Fidelización</h3>
-
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                 duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
@@ -168,9 +163,8 @@ export default function Fidelizaciones() {
                     name="cuotas"
                     placeholder="Cuotas" required/>
             </div>
-            {controlMaxCuotaPerfil&&<span>El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
-
-            {controlCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
+            {controlCuotas&&<span className="font-semibold">El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
+            {controlCuotas&&<span>El numero maximo de cuotas para esta linea es: {maxCuotas}</span>}
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                 duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
@@ -186,19 +180,8 @@ export default function Fidelizaciones() {
                     required/>
             </div>
 
-            {controlMaxAportes&&<span>El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
-            {controlMax&&<span>{`Monto maximo segun su capacidad de endeudamiento: $${setValue(montoMax.toString())}`}</span>}
-            {/* <span>Porcentaje: {porcentaje}</span>
-            <span>Cuotas maxima: {maxCuotas}</span>
-            <span>{`Salario: ${salary}`}</span>
-            <span>{`Otros ingresos ${others}`}</span>
-            <span>{`Debitos: ${debit}`}</span>
-            <span>{`Tasa: ${tasa}`}</span>
-            <span>{`Salud y pension: ${saludypension}`}</span>
-            <span>{`Ahorro Mensual: ${ahorroMensual}`}</span>
-            <span>{`Forma de pago: ${formadepago}`}</span>
-            <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span> */}
-            {/* <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span> */}
+            {controlMonto&&<span>El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
+            {controlMonto&&<span>{`Monto maximo segun su capacidad de endeudamiento: $${setValue(montoMax.toString())}`}</span>}
         </div>
 
     )

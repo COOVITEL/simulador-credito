@@ -41,9 +41,7 @@ export default function Nosociales() {
 
     const [selectOption, setSelectOption] = useState("")
     const [maxCuotas, setMaxCuotas] = useState(0)
-    const [controCuotas, setControlCuotas] = useState(false)
     const [controlMax, setControlMax] = useState(false)
-    const [controlMaxCuotaPerfil, setControlMaxCuotaPerfil] = useState(false)
 
 
     useEffect(() => {
@@ -86,7 +84,8 @@ export default function Nosociales() {
             const typeAfi = inputAfiliacion.split("-")[0];
             const currentFondo = FindFondo(tasas, typeAfi, score)
             if (currentFondo) {
-                updateFondo(currentFondo / 100 * monto)
+                const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
+                updateFondo(parseInt(porcentajeFondo))
             }
         }
     }, [monto])
@@ -99,14 +98,14 @@ export default function Nosociales() {
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
         updateCuota(parseInt(value))
-        if (parseInt(value) > maxCuotas) {
-            setControlCuotas(true)
-            updateCuota(maxCuotas)
+        let moreHigt = 0
+        if (cuotaMaxima < maxCuotas) {
+            moreHigt = cuotaMaxima
+        } else {
+            moreHigt = maxCuotas
         }
-        if (parseInt(event.target.value) > cuotaMaxima) {
-            setControlMaxCuotaPerfil(true)
-            setControlCuotas(false)
-            updateCuota(cuotaMaxima)
+        if (parseInt(value) > moreHigt) {
+            updateCuota(moreHigt)
         }
     }
 
@@ -125,7 +124,6 @@ export default function Nosociales() {
     return (
         <div className="w-full flex flex-col justify-center items-center mt-5 gap-4 border-2 border-gray-300 rounded-3xl shadow-2xl pb-10 p-6">
             <h3 className="text-4xl m-2 font-bold text-[#2D2D83]">Lineas No Sociales</h3>
-
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                 duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
@@ -155,7 +153,8 @@ export default function Nosociales() {
                     required/>
             </div>
 
-            {controlMaxCuotaPerfil&&<span>El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
+            <span className="font-semibold">El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>
+            <span className="font-semibold">El numero maximo de cuotas para esta linea es: {maxCuotas}</span>
 
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
@@ -172,22 +171,7 @@ export default function Nosociales() {
                     required/>
             </div>
 
-            {/* <span>Interes anticipado: {diasInteres(monto, tasa)}</span>
-            <span>{`Salario: ${salary}`}</span>
-            <span>{`Tasa: ${tasa}`}</span>
-            <span>{`Descuento tasa: ${beneficionTasa.toFixed(4)}`}</span>
-            <span>{`Tasa total: ${(tasa - beneficionTasa).toFixed(3)}`}</span>
-            <span>{`Otros ingresos ${others}`}</span>
-            <span>{`Debitos: ${debit}`}</span>
-            <span>{`Salud y pension: ${saludypension}`}</span>
-            <span>{`Ahorro Mensual: ${ahorroMensual}`}</span> */}
-            {controlMax&&<span>{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
-            {/* <span>{`Capacidad de descuento por nomina: ${setValue(capacidadPago.toString())}`}</span>
-            <span>{`El valor de su cuota es: $${setValue(pagoMensual.toString())}`}</span>
-            <span>{`Monto maximo: $${setValue(montoMax.toString())}`}</span>
-            <span>Valor fondo de garantias: ${setValue(fondo.toString())}</span>
-            <span>Valor a desembolsar: ${setValue((monto - fondo).toString())}</span> */}
-            {controCuotas&&<span>El numero maximo de cuotas es: {maxCuotas}</span>}
+            {controlMax&&<span className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
 
         </div>
     )

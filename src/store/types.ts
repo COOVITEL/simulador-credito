@@ -37,6 +37,14 @@ export interface SimuladorStore {
     interesAnticipado: number;
     cuotaMaxima: number;
     tipoGarantia: string,
+    controlAntiguedad: boolean;
+    scoreMin: number;
+    añoafiliacion: string;
+    antiguedad: string;
+    updateAntiguedad: (newValue: string) => void;
+    updateAñoAfiliacion: (newValue: string) => void;
+    updateControlAntiguedad: (newState: boolean) => void;
+    updateScoreMin: (newScore: number) => void;
     updatipoGarantia: (newValue: string) => void;
     updateCuotaMaxima: (newValue: number) => void;
     updateInteresAnticipado: (newValue: number) => void;

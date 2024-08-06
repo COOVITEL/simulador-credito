@@ -13,6 +13,7 @@ export function Dialog({ setDialog }: DialogProps) {
     const store = useSimulatorStore()
 
     useEffect(() => {
+        console.log(store)
     }, [store])
 
     const handleClose = () => {
@@ -42,20 +43,20 @@ export function Dialog({ setDialog }: DialogProps) {
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.date}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Año de afiliación:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.years}</p>  
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Fecha de afiliación:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.añoafiliacion}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de Afiliación:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.afiliacion.split("-")[1]}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de contrato:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.tipocontrato ? store.datasAsociado.tipocontrato : "No Aplica"}</p>  
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de contrato o Pagaduria:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tipoContrato ? store.tipoContrato : "No Aplica"}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Angiguedad Laboral:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.antiguedad ? store.datasAsociado.antiguedad : "No Aplica"}</p>
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Antiguedad Laboral:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.antiguedad ? store.antiguedad : "No Aplica"}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Salario:</p>
@@ -66,7 +67,7 @@ export function Dialog({ setDialog }: DialogProps) {
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.others}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Debitos:</p>
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Valor Cuotas en Desprendibles:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.debit}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
@@ -78,7 +79,7 @@ export function Dialog({ setDialog }: DialogProps) {
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(store.ahorroMensual.toString())}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Capacidad de Pago:</p>
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Capacidad de Descuento:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(store.capacidadPago.toString())}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
@@ -103,6 +104,10 @@ export function Dialog({ setDialog }: DialogProps) {
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Linea de Crédito:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.typeCredit}</p>
+                        </div>
+                        <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Forma de Pago:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.formadepago}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Score:</p>
