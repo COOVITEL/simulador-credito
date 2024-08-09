@@ -19,9 +19,11 @@ export default function Salary() {
         setSalaryValue(newValue)
         const valueSalary = val.replace(/\./g, '')
         updateSalary(parseInt(valueSalary))
-        updateAhorroMensual(parseInt(valueSalary) * 0.02)
+        const ahorro = (parseInt(valueSalary) * 0.02).toFixed(0)
+        updateAhorroMensual(parseInt(ahorro))
         if (inputAfiliacion.length > 0) {
-            updateSaludypension(Saludypension(parseInt(valueSalary), inputAfiliacion))
+            const salud = Saludypension(parseInt(valueSalary), inputAfiliacion).toFixed(0)
+            updateSaludypension(parseInt(salud))
         }
     }
 

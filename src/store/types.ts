@@ -41,6 +41,8 @@ export interface SimuladorStore {
     scoreMin: number;
     añoafiliacion: string;
     antiguedad: string;
+    valorCentrales: number;
+    updateValorCentrales: (newValue: number) =>void;
     updateAntiguedad: (newValue: string) => void;
     updateAñoAfiliacion: (newValue: string) => void;
     updateControlAntiguedad: (newState: boolean) => void;

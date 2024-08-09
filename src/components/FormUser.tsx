@@ -19,11 +19,13 @@ import Nosociales from "./NoSociales";
 import { Dialog } from "./Dialog";
 import Garantia from "./form/Garantia";
 import FormaPago from "./form/Formadepago";
+import DebitCentrales from "./form/DebitCrentrales";
+import { CapacidadPago } from "../utils/capacidadPago";
 
 
 export default function FormUser() {
 
-    const { inputAfiliacion, updateDatasAsociado, controlAntiguedad } = useSimulatorStore()
+    const { inputAfiliacion, updateDatasAsociado, controlAntiguedad, salary, others, debit, valorCentrales } = useSimulatorStore()
     const [controlType, setControlType] = useState(0)
     const [dialog, setDialog] = useState(false) 
 
@@ -65,6 +67,7 @@ export default function FormUser() {
                     </div>
                     <div className="flex flex-wrap gap-6 justify-center">
                         <Debit />
+                        <DebitCentrales />
                     </div>
                     <div className="flex flex-wrap gap-6 justify-center">
                         <Cooviahorro />

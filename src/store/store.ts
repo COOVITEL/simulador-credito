@@ -44,6 +44,10 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
     controlAntiguedad: false,
     añoafiliacion: "",
     antiguedad: "",
+    valorCentrales: 0,
+    updateValorCentrales: (newValor: number) => set(() => ({
+        valorCentrales: newValor,
+    })),
     updateAntiguedad: (newValue: string) => set(() => ({
         antiguedad: newValue
     })),

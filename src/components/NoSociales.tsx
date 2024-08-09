@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import useSimulatorStore from "../store/store"
 import { FindFondo } from "../utils/findFondo"
 import { setValue } from "../utils/setValue"
-import { CapacidadPago } from "../utils/capacidadPago"
+import { CapacidadDescuento } from "../utils/capacidadDescuento"
 import { MontoMax } from "../utils/montoMax"
 import { PagoMensual } from "../utils/cuota"
 import { NoSociales } from "../store/types"
@@ -57,7 +57,8 @@ export default function Nosociales() {
             updatePorcentajeDescuento(current.descuentos)
             setMaxCuotas(current.plazo)
         }
-        updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual))
+        const capacidad = CapacidadDescuento(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual).toFixed(0)
+        updateCapacidadPago(parseInt(capacidad))
     }, [selectOption])
 
     useEffect(() => {

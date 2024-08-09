@@ -1,13 +1,13 @@
 import jsPDF from "jspdf";
 import { setValue } from "./setValue";
 import { diasInteres } from "./diasInteresAnticipado";
+import { CapacidadPago } from "./capacidadPago";
 
 interface DownloadPFDProps {
     datas: any;
   }
 
 export function downloadPFD( {datas}: DownloadPFDProps) {
-    console.log(datas)
     const doc = new jsPDF();
 
     // Cuadro superior
@@ -19,8 +19,8 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     // Cuadro Izquierdo
     doc.setFillColor(242, 242, 252)
     doc.setDrawColor(0, 0, 0)
-    doc.roundedRect(10, 50, 90, 79, 2, 2, 'DF')
-    doc.line(49, 50, 49, 129)
+    doc.roundedRect(10, 50, 90, 84, 2, 2, 'DF')
+    doc.line(49, 50, 49, 134)
 
     // Cuadro Derecho
     doc.setFillColor(242, 242, 252)
@@ -38,7 +38,7 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     // Fecha 
     doc.setFontSize(7)
     const date = new Date()
-    const day = date.getDay().toString().padStart(2, "0")
+    const day = (date.getDay() + 4).toString().padStart(2, "0")
     const month = (date.getMonth() + 1).toString().padStart(2, "0")
     const year = date.getFullYear()
     const hour = date.getHours().toString().padStart(2, "0")
@@ -71,7 +71,7 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text("PROCESO: GESTIÓN DE PRODUCTOS Y SERVICIOS", 65, 36)
 
     doc.setFontSize(12)
-    doc.text("Informarcion Asociado", 35, 46)
+    doc.text("Información Asociado", 35, 46)
     doc.text("Condiciones de la Simulación", 125, 46)
     doc.setFont("helvetica", "normal");
 
@@ -104,11 +104,13 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text("Capacidad de Descuento", 12, 110)
     doc.setFontSize(9)
     doc.line(10, 111.5, 100, 111.5)
-    doc.text("Cooviahorro", 12, 115.5)
+    doc.text("Capacidad de Pago", 12, 115.5)
     doc.line(10, 117, 100, 117)
-    doc.text("CDAT", 12, 121)
+    doc.text("Cooviahorro", 12, 121)
     doc.line(10, 122.5, 100, 122.5)
-    doc.text("Promedio Saldo", 12, 126.5)
+    doc.text("CDAT", 12, 126.5)
+    doc.line(10, 128, 100, 128)
+    doc.text("Promedio Saldo", 12, 132)
 
     // Datos del cuadro izquierdo
     doc.setFontSize(8)
@@ -129,9 +131,10 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text(`$ ${setValue(datas.saludypension.toString())}`, 50, 99)
     doc.text(`$ ${setValue(datas.ahorroMensual.toString())}`, 50, 104.5)
     doc.text(`$ ${setValue(datas.capacidadPago.toString())}`, 50, 110)
-    doc.text(datas.cooviahorro.split("-")[1], 50, 115.5)
-    doc.text(datas.cdat.split("-")[1], 50, 121)
-    doc.text(datas.aportes.split("-")[1], 50, 126.5)
+    doc.text(`${CapacidadPago(datas.valorCentrales, datas.debit, datas.salary, datas.others)} %`, 50, 115.5)
+    doc.text(datas.cooviahorro.split("-")[1], 50, 121)
+    doc.text(datas.cdat.split("-")[1], 50, 126.5)
+    doc.text(datas.aportes.split("-")[1], 50, 132)
 
 
     doc.setFontSize(9)
@@ -186,10 +189,12 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text(`${datas.score}`, 156, 66)
     doc.text(datas.datasAsociado.monto, 156, 71.5)
     doc.text(datas.datasAsociado.cuotas, 156, 77)
-    doc.text(`${datas.tasa}`, 156, 82.5)
-    doc.text(datas.beneficionTasa.toFixed(2), 156, 88)
+
+    doc.text(`${datas.tasa} % NM`, 156, 82.5)
+    doc.text(`${datas.beneficionTasa.toFixed(2)} % NM`, 156, 88)
     const tasaBeneficio = datas.tasaDescuento == 0 ? datas.tasa.toFixed(2) : datas.tasaDescuento.toFixed(2)
-    doc.text(tasaBeneficio, 156, 93.5)
+    doc.text(`${tasaBeneficio} % NM`, 156, 93.5)
+
     doc.text("0.088% x millon", 156, 99)
     doc.text(`$ ${setValue(datas.pagoMensual.toString())}`, 156, 104.5)
     doc.text(datas.garantia, 156, 110)
@@ -201,13 +206,13 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     const aportes = datas.datasAsociado.numberAportes ? datas.datasAsociado.numberAportes : "No Aplica"
     doc.text(aportes, 170, 132)
     const montoAportes = datas.ahorroMensual
-    const apor = montoAportes * (74 / 100)
-    const aporPerma = montoAportes * (18.5 / 100)
-    const mutual = montoAportes * (7.5 / 100)
+    const apor = (montoAportes * (74 / 100)).toFixed(0)
+    const aporPerma = (montoAportes * (18.5 / 100)).toFixed(0)
+    const mutual = (montoAportes * (7.5 / 100)).toFixed(0)
 
-    doc.text(`$ ${setValue(apor.toString())}`, 116, 148.5)
-    doc.text(`$ ${setValue(aporPerma.toString())}`, 148, 148.5)
-    doc.text(`$ ${setValue(mutual.toString())}`, 179, 148.5)
+    doc.text(`$ ${setValue(apor)}`, 116, 148.5)
+    doc.text(`$ ${setValue(aporPerma)}`, 148, 148.5)
+    doc.text(`$ ${setValue(mutual)}`, 179, 148.5)
 
     doc.setFontSize(6.5)
     doc.text("NOTA: El valor del fondo mutual no es rembolsable.", 130, 153)

@@ -3,6 +3,7 @@ import useSimulatorStore from "../store/store"
 import { setValue } from "../utils/setValue"
 import { diasInteres } from "../utils/diasInteresAnticipado";
 import { downloadPFD } from "../utils/downloadPDF";
+import { CapacidadPago } from "../utils/capacidadPago";
 
 interface DialogProps {
     setDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -83,6 +84,10 @@ export function Dialog({ setDialog }: DialogProps) {
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(store.capacidadPago.toString())}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Capacidad de Pago:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{CapacidadPago(store.valorCentrales, store.debit, store.salary, store.others)} %</p>
+                        </div>
+                        <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Cooviahorro:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.cooviahorro.split("-")[1]}</p>  
                         </div>
@@ -127,11 +132,11 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Beneficio Tasa:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.beneficionTasa.toFixed(2)}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.beneficionTasa.toFixed(3)}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tasa con Beneficio:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tasaDescuento == 0 ? store.tasa.toFixed(2) : store.tasaDescuento.toFixed(2)}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tasaDescuento == 0 ? store.tasa.toFixed(3) : store.tasaDescuento.toFixed(3)}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tarifa Seguro de Vida Deudores:</p>

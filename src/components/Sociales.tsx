@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import useSimulatorStore from "../store/store"
 import { Sociales } from "../store/types"
 import { searchTasaSocial } from "../utils/searchTasaSocial"
-import { CapacidadPago } from "../utils/capacidadPago"
+import { CapacidadDescuento } from "../utils/capacidadDescuento"
 import { MontoMax } from "../utils/montoMax"
 import { setValue } from "../utils/setValue"
 import { PagoMensual } from "../utils/cuota"
@@ -51,7 +51,8 @@ export default function Social() {
         if (current) {
             setMaxCuotas(current.plazoMax)
             setCurrentType(current)
-            updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual))
+            const capa = CapacidadDescuento(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual).toFixed(0)
+            updateCapacidadPago(parseInt(capa))
         }
     }, [selectOption, debit, saludypension, cuota])
 

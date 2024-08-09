@@ -3,7 +3,7 @@ import useSimulatorStore from "../store/store"
 import { Fidelizacion } from "../store/types"
 import { setValue } from "../utils/setValue"
 import { searchTasaFide } from "../utils/searchTasaFide"
-import { CapacidadPago } from "../utils/capacidadPago"
+import { CapacidadDescuento } from "../utils/capacidadDescuento"
 import { MontoMax } from "../utils/montoMax"
 import { PagoMensual } from "../utils/cuota"
 
@@ -49,7 +49,8 @@ export default function Fidelizaciones() {
         const type = fidelizacion.filter(fide => fide.name == selectedOption)[0]
         updateGarantia("Aportes")
         setCurrentType(type)
-        updateCapacidadPago(CapacidadPago(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual))
+        const capacidad = CapacidadDescuento(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual).toFixed(0)
+        updateCapacidadPago(parseInt(capacidad))
     }, [selectedOption])
 
     useEffect(() => {
