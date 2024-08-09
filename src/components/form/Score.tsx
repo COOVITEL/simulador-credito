@@ -36,8 +36,8 @@ export default function Score() {
         const numberType = inputAfiliacion.split("-")[0]        
         const personType = inputAfiliacion.split("-")[1]
         if (personType == "Pensionado Libranza") {
-            if (currentScore == 4 || currentScore == 5) {
-                setValueScore(scoreMin)
+            if (currentScore == 1 || currentScore == 3) {
+                // setValueScore(scoreMin)
                 setCheckScoreDif(true)
             }
         }
@@ -75,7 +75,7 @@ export default function Score() {
                 <label className="text-sm text-gray-400" htmlFor="score">Score</label>
                 <input
                     onChange={handleChangeScore}
-                    value={valueScore>0 ? valueScore : ""}
+                    value={valueScore!=0 ? valueScore : ""}
                     className="px-3 text-cemter focus:outline-none text-xl w-full font-semibold"
                     type="number"
                     id="score"
@@ -86,7 +86,7 @@ export default function Score() {
             </div>
             {checkScore&&<span className="text-center">El score minimo para aplicar segun su perfil es de {scoreMin}</span>}
             {checkScoreMax&&<span className="text-center">El score maximo es {scoreMax}</span>}
-            {checkScoreDif&&<span className="text-center">El score debe ser diferente a 4 y 5</span>}
+            {checkScoreDif&&<span className="text-center">El score debe ser diferente a 1 y 3</span>}
         </div>
     )
 }

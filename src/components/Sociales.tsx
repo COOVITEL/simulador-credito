@@ -38,9 +38,7 @@ export default function Social() {
     const [listSociales, setListSociales] = useState<Sociales[]>([])
     const [selectOption, setSeletOption] = useState("")
     const [maxCuotas, setMaxCuotas] = useState(0)
-    const [controCuotas, setControlCuotas] = useState(false)
     const [controlMax, setControlMax] = useState(false)
-    const [controlMaxCuotaPerfil, setControlMaxCuotaPerfil] = useState(false)
 
     useEffect(() => {
         if (sociales) setListSociales(sociales)
@@ -79,26 +77,18 @@ export default function Social() {
         setSeletOption(event.target.value)
         setMaxCuotas(0)
         updateCuota(0)
-        setControlCuotas(false)
         updateTasa(0)
     }
 
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateCuota(parseInt(event.target.value))
         if (currentType) updateTasa(searchTasaSocial(currentType, parseInt(event.target.value)))
-        console.log(maxCuotas)
-        console.log(event.target.value)
         if (parseInt(event.target.value) > maxCuotas) {
-            setControlCuotas(true)
             updateCuota(maxCuotas)
             if (currentType) updateTasa(searchTasaSocial(currentType, maxCuotas))
-        } else {
-            setControlCuotas(false)
         }
         if (cuotaMaxima < maxCuotas) {
             if (parseInt(event.target.value) > cuotaMaxima) {
-                setControlMaxCuotaPerfil(true)
-                setControlCuotas(false)
                 updateCuota(cuotaMaxima)
             }
         }
@@ -150,8 +140,8 @@ export default function Social() {
                     placeholder="Cuotas"
                     required/>
             </div>
-            {controCuotas&&<span  className="font-semibold">El numero maximo de cuotas segun la linea es: {maxCuotas}</span>}
-            {controlMaxCuotaPerfil&&<span  className="font-semibold">El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
+            <span  className="font-semibold">El numero maximo de cuotas segun la linea es: {maxCuotas}</span>
+            <span  className="font-semibold">El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>
 
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors

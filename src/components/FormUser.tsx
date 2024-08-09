@@ -13,19 +13,17 @@ import useSimulatorStore from "../store/store";
 import Cooviahorro from "./form/Cooviahorro";
 import Cdats from "./form/Cdat";
 import Sociales from "./Sociales";
-// import FormaPago from "./form/Formadepago";
 import Fidelizaciones from "./Fidelizacion";
 import Nosociales from "./NoSociales";
 import { Dialog } from "./Dialog";
 import Garantia from "./form/Garantia";
 import FormaPago from "./form/Formadepago";
 import DebitCentrales from "./form/DebitCrentrales";
-import { CapacidadPago } from "../utils/capacidadPago";
 
 
 export default function FormUser() {
 
-    const { inputAfiliacion, updateDatasAsociado, controlAntiguedad, salary, others, debit, valorCentrales } = useSimulatorStore()
+    const { inputAfiliacion, updateDatasAsociado, controlAntiguedad } = useSimulatorStore()
     const [controlType, setControlType] = useState(0)
     const [dialog, setDialog] = useState(false) 
 

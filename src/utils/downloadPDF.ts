@@ -2,14 +2,17 @@ import jsPDF from "jspdf";
 import { setValue } from "./setValue";
 import { diasInteres } from "./diasInteresAnticipado";
 import { CapacidadPago } from "./capacidadPago";
+import { tasaAnual } from "./tasaAnual";
 
 interface DownloadPFDProps {
     datas: any;
   }
 
-export function downloadPFD( {datas}: DownloadPFDProps) {
-    const doc = new jsPDF();
+export function downloadPFD ( {datas}: DownloadPFDProps) {
+  try {
 
+    const doc = new jsPDF();
+    
     // Cuadro superior
     doc.roundedRect(10, 10, 190, 28, 2, 2)
     doc.line(10, 32, 200, 32)
@@ -19,8 +22,8 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     // Cuadro Izquierdo
     doc.setFillColor(242, 242, 252)
     doc.setDrawColor(0, 0, 0)
-    doc.roundedRect(10, 50, 90, 84, 2, 2, 'DF')
-    doc.line(49, 50, 49, 134)
+    doc.roundedRect(10, 50, 90, 89, 2, 2, 'DF')
+    doc.line(49, 50, 49, 139)
 
     // Cuadro Derecho
     doc.setFillColor(242, 242, 252)
@@ -64,12 +67,12 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text("FECHA: Agosto 01 de 2024", 155, 25)
     doc.line(152, 26.5, 200, 26.5)
     doc.text("Página 1 de 1", 155, 30)
-
-
+    
+    
     doc.setFontSize(9)
     doc.setFont("helvetica", "bold");
     doc.text("PROCESO: GESTIÓN DE PRODUCTOS Y SERVICIOS", 65, 36)
-
+    
     doc.setFontSize(12)
     doc.text("Información Asociado", 35, 46)
     doc.text("Condiciones de la Simulación", 125, 46)
@@ -96,21 +99,23 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.line(10, 89.5, 100, 89.5)
     doc.text("Valor Desprendibles", 12, 93.5)
     doc.line(10, 95, 100, 95)
-    doc.text("Salud y Pensión", 12, 99)
+    doc.text("Valor Centrales", 12, 99)
     doc.line(10, 100.5, 100, 100.5)
-    doc.text("Aportes Mensual", 12, 104.5)
+    doc.text("Salud y Pensión", 12, 104.5)
     doc.line(10, 106, 100, 106)
-    doc.setFontSize(8.5)
-    doc.text("Capacidad de Descuento", 12, 110)
-    doc.setFontSize(9)
+    doc.text("Aportes Mensual", 12, 110)
     doc.line(10, 111.5, 100, 111.5)
-    doc.text("Capacidad de Pago", 12, 115.5)
+    doc.setFontSize(8.5)
+    doc.text("Capacidad de Descuento", 12, 115.5)
     doc.line(10, 117, 100, 117)
-    doc.text("Cooviahorro", 12, 121)
+    doc.setFontSize(9)
+    doc.text("Capacidad de Pago", 12, 121)
     doc.line(10, 122.5, 100, 122.5)
-    doc.text("CDAT", 12, 126.5)
+    doc.text("Cooviahorro", 12, 126.5)
     doc.line(10, 128, 100, 128)
-    doc.text("Promedio Saldo", 12, 132)
+    doc.text("CDAT", 12, 132)
+    doc.line(10, 133.5, 100, 133.5)
+    doc.text("Promedio Saldo", 12, 137.5)
 
     // Datos del cuadro izquierdo
     doc.setFontSize(8)
@@ -128,13 +133,14 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text(`$ ${datas.datasAsociado.salary}`, 50, 82.5)
     doc.text(`$ ${datas.datasAsociado.others}`, 50, 88)
     doc.text(`$ ${datas.datasAsociado.debit}`, 50, 93.5)
-    doc.text(`$ ${setValue(datas.saludypension.toString())}`, 50, 99)
-    doc.text(`$ ${setValue(datas.ahorroMensual.toString())}`, 50, 104.5)
-    doc.text(`$ ${setValue(datas.capacidadPago.toString())}`, 50, 110)
-    doc.text(`${CapacidadPago(datas.valorCentrales, datas.debit, datas.salary, datas.others)} %`, 50, 115.5)
-    doc.text(datas.cooviahorro.split("-")[1], 50, 121)
-    doc.text(datas.cdat.split("-")[1], 50, 126.5)
-    doc.text(datas.aportes.split("-")[1], 50, 132)
+    doc.text(`$ ${datas.datasAsociado.debitCentrales}`, 50, 99)
+    doc.text(`$ ${setValue(datas.saludypension.toString())}`, 50, 104.5)
+    doc.text(`$ ${setValue(datas.ahorroMensual.toString())}`, 50, 110)
+    doc.text(`$ ${setValue(datas.capacidadPago.toString())}`, 50, 115.5)
+    doc.text(`${CapacidadPago(datas.valorCentrales, datas.debit, datas.salary, datas.others, datas.saludypension, datas.ahorroMensual)} %`, 50, 121)
+    doc.text(datas.cooviahorro.split("-")[1], 50, 126.5)
+    doc.text(datas.cdat.split("-")[1], 50, 132)
+    doc.text(datas.aportes.split("-")[1], 50, 137.5)
 
 
     doc.setFontSize(9)
@@ -180,7 +186,7 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.line(110, 139, 200, 139)
     doc.line(110, 144.5, 200, 144.5)
     doc.setFontSize(8)
-
+    
     // Datos cuadro Derecho
     doc.setFontSize(9)
     doc.setFont("helvetica", "normal");
@@ -190,17 +196,19 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text(datas.datasAsociado.monto, 156, 71.5)
     doc.text(datas.datasAsociado.cuotas, 156, 77)
 
-    doc.text(`${datas.tasa} % NM`, 156, 82.5)
-    doc.text(`${datas.beneficionTasa.toFixed(2)} % NM`, 156, 88)
-    const tasaBeneficio = datas.tasaDescuento == 0 ? datas.tasa.toFixed(2) : datas.tasaDescuento.toFixed(2)
-    doc.text(`${tasaBeneficio} % NM`, 156, 93.5)
-
+    doc.setFontSize(8)
+    doc.text(`${datas.tasa}% NM  -  ${tasaAnual(datas.tasa).toFixed(2)}% EA`, 156, 82.5)
+    doc.text(`${datas.beneficionTasa.toFixed(3)}% NM`, 156, 88)
+    const tasaBeneficio = datas.tasaDescuento == 0 ? datas.tasa.toFixed(2) : datas.tasaDescuento.toFixed(3)
+    doc.text(`${tasaBeneficio}% NM  -  ${tasaAnual(tasaBeneficio).toFixed(2)}% EA`, 156, 93.5)
+    
+    doc.setFontSize(9)
     doc.text("0.088% x millon", 156, 99)
     doc.text(`$ ${setValue(datas.pagoMensual.toString())}`, 156, 104.5)
     doc.text(datas.garantia, 156, 110)
     const fondo = datas.garantia == "Fondo de Garantias" ? setValue(datas.fondo.toString()) : "0"
     doc.text(`$ ${fondo}`, 156, 115.5)
-
+    
     doc.setFont("helvetica", "normal");
     doc.text(`${datas.añoafiliacion}`, 128, 132)
     const aportes = datas.datasAsociado.numberAportes ? datas.datasAsociado.numberAportes : "No Aplica"
@@ -213,7 +221,7 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text(`$ ${setValue(apor)}`, 116, 148.5)
     doc.text(`$ ${setValue(aporPerma)}`, 148, 148.5)
     doc.text(`$ ${setValue(mutual)}`, 179, 148.5)
-
+    
     doc.setFontSize(6.5)
     doc.text("NOTA: El valor del fondo mutual no es rembolsable.", 130, 153)
 
@@ -221,7 +229,7 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.setFont("helvetica", "bold");
     doc.text("Desembolso Neto Aproximado", 70, 160)
     doc.setFont("helvetica", "normal");
-
+    
     doc.setFontSize(11)
     doc.text("Monto Crédito", 32, 171)
     doc.text(`$ ${datas.datasAsociado.monto}`, 110, 171)
@@ -235,9 +243,9 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text("Aproximado Neto a Desembolsar", 32, 189.5)
     const desembolso = datas.garantia == "Fondo de Garantias" ? setValue((datas.monto - datas.fondo - diasInteres(datas.monto, datas.tasa)).toString()) : setValue((datas.monto).toString())
     doc.text(`$ ${desembolso}`, 110, 190)
-
-
-
+    
+    
+    
     doc.setFontSize(12)
     doc.setFont("helvetica", "bold");
     doc.text("Validaciones:", 20, 205)
@@ -259,25 +267,17 @@ export function downloadPFD( {datas}: DownloadPFDProps) {
     doc.text("crédito. 7) En caso  de que el crédito  sea destinado para el pago  de un seguro voluntario: tengo conocimiento  que, si llegare a incurrir en una mora mayor o igual a 30 días de mi obligación ?línea de crédito seguros?, se", 20, 246)
     doc.text("dará la  terminación automática del  contrato de seguros  (póliza) en los  términos del artículo 1068  del código de comercio. En  este caso el valor  de las primas no  devengadas  será reintegrado  por la  aseguradora a  la", 20, 249)
     doc.text("Cooperativa y será cruzado con el saldo de mi obligación crediticia, la cual posterior a su aplicación se dará por terminada.", 20, 252)
-
+    
 
     doc.setFontSize(12)
     doc.text("Firma:", 20, 265)
     doc.line(35, 265, 100, 265)
     doc.text("CC:", 110, 265)
     doc.line(120, 265, 185, 265)
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     doc.save('Simulacion.pdf')
+  } catch (error) {
+    console.log(error)
+  }
+
 }

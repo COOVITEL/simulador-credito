@@ -1,7 +1,7 @@
-export function CapacidadPago(centrales: number, descuento: number, salario: number, otros: number) {
-    const debit = parseInt((centrales + descuento).toFixed(0))
+export function CapacidadPago(centrales: number, descuento: number, salario: number, otros: number, salud: number, ahorro: number) {
+    const debit = parseInt((centrales + descuento + salud + ahorro).toFixed(0))
     const ingresos = parseInt((salario + otros).toFixed(0))
     const total = debit / ingresos
-    return ((1 - total) * 100).toFixed(2)
+    return ((total) * 100).toFixed(2)
 
 }

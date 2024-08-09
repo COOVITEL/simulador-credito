@@ -8,6 +8,7 @@ import { PagoMensual } from "../utils/cuota"
 import { NoSociales } from "../store/types"
 import { calTasaDescuento } from "../utils/tasaDescuento"
 import { FindTasa } from "../utils/findTasa"
+import { FindScore } from "../utils/findScore"
 
 export default function Nosociales() {
     const {
@@ -29,12 +30,12 @@ export default function Nosociales() {
         ahorroMensual,
         monto,
         updateMonto,
-        // formadepago,
         updateCapacidadPago,
         updateMontoMax,
         montoMax,
         updatePagoMensual,
         cuotaMaxima,
+        updateCuotaMaxima,
         descuentos,
         cdat,cooviahorro, aportes, maximoDescuento, porcentajeDescuento, desScore, updateBeneficioTasa, updateTasaDescuento, tasaDescuento
     } = useSimulatorStore()
@@ -49,6 +50,12 @@ export default function Nosociales() {
 
     useEffect(() => {
         const currentFondo = FindFondo(tasas, inputAfiliacion, score)
+        const currentScore = FindScore(tasas, inputAfiliacion, score)
+        if (currentScore) {
+            if (currentScore < cuotaMaxima) {
+                updateCuotaMaxima(currentScore)
+            }
+        }
         if (currentFondo) updateFondo(currentFondo)
         const currentTasa = FindTasa(tasas, inputAfiliacion, score)
         if (currentTasa) updateTasa(currentTasa)
@@ -63,6 +70,7 @@ export default function Nosociales() {
 
     useEffect(() => {
         updateMontoMax(MontoMax(capacidadPago, tasa, cuota))
+        updateMonto(0)
     }, [cuota])
 
     useEffect(() => {

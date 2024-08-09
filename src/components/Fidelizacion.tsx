@@ -54,8 +54,9 @@ export default function Fidelizaciones() {
     }, [selectedOption])
 
     useEffect(() => {
-        updateMontoMax(MontoMax(capacidadPago, tasa, cuota))
-    }, [cuotas, selectedOption])
+        const montoMaximo = MontoMax(capacidadPago, tasa, cuota) 
+        updateMontoMax(montoMaximo)
+    }, [cuotas])
 
     useEffect(() => {
         updatePagoMensual(PagoMensual(monto, tasa, cuota))
@@ -103,8 +104,6 @@ export default function Fidelizaciones() {
         updateMonto(parseInt(setCurrentValue))
         setMontoValue(setValue(value))
         let morehigt = 0
-        console.log(montoMax)
-        console.log(maxValueAportes)
         if (maxValueAportes < montoMax) {
             morehigt = maxValueAportes
         } else {

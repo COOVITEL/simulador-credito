@@ -15,7 +15,7 @@ export default function Years() {
             duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
             <label
                 className="text-sm text-gray-400"
-                htmlFor="years">Fecha de Afiliacion:</label>
+                htmlFor="years">Fecha de ultima Afiliación:</label>
             <input
                 onChange={handleChange}
                 className="px-3 text-left focus:outline-none text-xl w-full font-semibold"

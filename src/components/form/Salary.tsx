@@ -2,11 +2,12 @@ import { useEffect, useState } from "react"
 import { setValue } from "../../utils/setValue"
 import useSimulatorStore from "../../store/store"
 import Saludypension from "../../utils/saludypension"
+import { ahorroMensual } from "../../utils/ahorroMensual"
 
 export default function Salary() {
     
     const [salaryValue, setSalaryValue] = useState("")
-    const { updateSalary, updateSaludypension, inputAfiliacion, updateAhorroMensual } = useSimulatorStore()
+    const { updateSalary, updateSaludypension, inputAfiliacion, updateAhorroMensual, añoafiliacion } = useSimulatorStore()
 
     useEffect(() => {
         const value = salaryValue.replace(/\./g, '')
@@ -19,8 +20,8 @@ export default function Salary() {
         setSalaryValue(newValue)
         const valueSalary = val.replace(/\./g, '')
         updateSalary(parseInt(valueSalary))
-        const ahorro = (parseInt(valueSalary) * 0.02).toFixed(0)
-        updateAhorroMensual(parseInt(ahorro))
+        const ahorroCurrentMensual = ahorroMensual(parseInt(valueSalary), añoafiliacion)?.toFixed(0)
+        if (ahorroCurrentMensual) updateAhorroMensual(parseInt(ahorroCurrentMensual))
         if (inputAfiliacion.length > 0) {
             const salud = Saludypension(parseInt(valueSalary), inputAfiliacion).toFixed(0)
             updateSaludypension(parseInt(salud))

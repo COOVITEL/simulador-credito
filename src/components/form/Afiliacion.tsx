@@ -39,7 +39,7 @@ export default function Afiliacion() {
             setControl(2)
             setControlTime(false)
             updateCuotaMaxima(144)
-            updateScoreMin(1)
+            updateScoreMin(-5)
             setNumberMonths(0)
             updateControlAntiguedad(true)
         } else if (currentType == "Empleado o pensionado Ventanilla") {
@@ -88,7 +88,6 @@ export default function Afiliacion() {
         updateAntiguedad(time)
         const timeAntiguedad = antiguedad(time)
         const timeAfiliacion = antiguedad(añoafiliacion).number
-        console.log(timeAfiliacion)
         setValueTime(timeAntiguedad.message)
         if (tipoContrato == "Provisional, Fijo, P.Servicios" || tipoContrato == "Publico Provisional / P.Servicios" || tipoContrato == "Privado T.fijo / P.Servicios") {
             let time = timeAntiguedad.number * 2

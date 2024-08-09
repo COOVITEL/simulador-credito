@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import useSimulatorStore from "../store/store"
 import { setValue } from "../utils/setValue"
 import { diasInteres } from "../utils/diasInteresAnticipado";
@@ -12,6 +12,17 @@ interface DialogProps {
 export function Dialog({ setDialog }: DialogProps) {
 
     const store = useSimulatorStore()
+    const tasaDes = store.tasaDescuento == 0 ? store.tasa.toFixed(3) : store.tasaDescuento.toFixed(3)
+    const [loading, setLoading] = useState(false)
+
+    const handleDownloads = async () => {
+        setLoading(true);
+    
+        setTimeout(() => {
+            downloadPFD({ datas: store })
+            setLoading(false);
+        }, 2000);
+    };
 
     useEffect(() => {
         console.log(store)
@@ -26,9 +37,9 @@ export function Dialog({ setDialog }: DialogProps) {
     }
 
     return (
-<div className="fixed top-1/2 left-1/2 w-[90%] h-[90vh] bg-gray-100 border-2 border-gray-300 rounded-xl
-                transform -translate-x-1/2 -translate-y-1/2 shadow-[0_10px_20px_rgba(0,0,0,0.2)] overflow-y-auto">
-  <div className="flex flex-col justify-center items-center gap-6 overflow-y-auto max-h-full">
+            <div className="fixed top-1/2 left-1/2 w-[90%] h-[90vh] bg-gray-100 border-2 border-gray-300 rounded-xl
+                            transform -translate-x-1/2 -translate-y-1/2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]">
+              <div className="flex flex-col justify-center items-center gap-6 overflow-y-auto max-h-full pt-56">
                 <button className="fixed top-4 right-4" onClick={handleClose}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="40"  height="40"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-square-rounded-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10l4 4m0 -4l-4 4" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /></svg>
                 </button>
@@ -72,6 +83,10 @@ export function Dialog({ setDialog }: DialogProps) {
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.debit}</p>  
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Valor Cuotas en Centrales:</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {store.datasAsociado.debitCentrales}</p>  
+                        </div>
+                        <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Salud y Pension:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(store.saludypension.toString())}</p>  
                         </div>
@@ -85,7 +100,9 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Capacidad de Pago:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{CapacidadPago(store.valorCentrales, store.debit, store.salary, store.others)} %</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">
+                                {CapacidadPago(store.valorCentrales, store.debit, store.salary, store.others, store.saludypension, store.ahorroMensual)} %
+                            </p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Cooviahorro:</p>
@@ -128,15 +145,15 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tasa Crédito:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tasa}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tasa}% NMV</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Beneficio Tasa:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.beneficionTasa.toFixed(3)}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.beneficionTasa.toFixed(3)} %</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tasa con Beneficio:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.tasaDescuento == 0 ? store.tasa.toFixed(3) : store.tasaDescuento.toFixed(3)}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{tasaDes}% NMV</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tarifa Seguro de Vida Deudores:</p>
@@ -174,8 +191,8 @@ export function Dialog({ setDialog }: DialogProps) {
                     </button>
                     <button
                         className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]"
-                        onClick={() => downloadPFD({ datas: store})}>
-                        Descargar Comprobante
+                        onClick={handleDownloads}>
+                        {loading ? 'Generando...' : 'Descargar Comprobante'}
                     </button>
                 </div>
             </div>
