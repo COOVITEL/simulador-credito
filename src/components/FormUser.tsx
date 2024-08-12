@@ -80,7 +80,7 @@ export default function FormUser() {
                         <button
                             className={controlType === 0 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : `text-[#2D2D83] duration-500 w-[33.3%] px-4 py-1 rounded-lg`}
                             type="button"
-                            onClick={() => setControlType(0)}>Fidelización</button>
+                            onClick={() => setControlType(0)}>No Sociales</button>
                         <button
                             className={controlType === 1 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[#2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
                             type="button"
@@ -88,11 +88,11 @@ export default function FormUser() {
                         <button
                             className={controlType === 2 ? 'bg-[#2D2D83] duration-500 text-white w-[33.3%] px-4 py-1 rounded-lg' : 'text-[#2D2D83] w-[33.3%] duration-500 px-4 py-1 rounded-lg'}
                             type="button"
-                            onClick={() => setControlType(2)}>No Sociales</button>
+                            onClick={() => setControlType(2)}>Fidelización</button>
                     </div>
-                    {controlType==0&&<Fidelizaciones />}
+                    {controlType==0&&<Nosociales />}
                     {controlType==1&&<Sociales />}
-                    {controlType==2&&<Nosociales />}
+                    {controlType==2&&<Fidelizaciones />}
 
                     <button
                     className="bg-[#1D71B9] w-[400px] rounded-xl text-2xl font-semibold text-white py-2 border-2

@@ -10,6 +10,7 @@ export default function Score() {
     const [checkScoreMax, setCheckScoreMax] = useState(false)
     const [valueScore, setValueScore] = useState(0)
     const [checkScoreDif, setCheckScoreDif] = useState(false)
+    const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         const personType = inputAfiliacion.split("-")[1]
@@ -24,6 +25,27 @@ export default function Score() {
             setScoreMin(609)
         }
     }, [garantia, inputAfiliacion])
+
+    useEffect(() => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        const newTimeoutId = setTimeout(() => {
+            if (valueScore < scoreMin && valueScore !== -4 && valueScore != -5) {
+                setValueScore(0);
+                setCheckScore(false);
+            }
+        }, 3000);
+
+        setTimeoutId(newTimeoutId);
+
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [valueScore, scoreMin]);
 
     const handleChangeScore = (event: React.ChangeEvent<HTMLInputElement>) => {
         const currentScore = parseInt(event.target.value)
@@ -50,7 +72,7 @@ export default function Score() {
         } else {
             min = minScore
         }
-        if (currentScore < scoreMin) {
+        if (currentScore < scoreMin && currentScore != -4 && currentScore != -5) {
             setCheckScore(true)
             setScoreMin(min)
         } else {
@@ -65,7 +87,6 @@ export default function Score() {
         const list = desScore.filter((type: DescuentosScore) => type.asociado == parseInt(numberType))
                         .find((current: DescuentosScore) => currentScore >= current.scoreMin && currentScore <= current.scoreMax)
         if (list) updateDesScore(list.ajuste)
-      
     }
     return (
         <div className="flex flex-col">
@@ -80,11 +101,11 @@ export default function Score() {
                     type="number"
                     id="score"
                     name="score"
-                    min={scoreMin}
+                    // min={scoreMin}
                     placeholder="Valor Score"
                     required/>
             </div>
-            {checkScore&&<span className="text-center">El score minimo para aplicar segun su perfil es de {scoreMin}</span>}
+            {checkScore&&<span className="text-center text-red-500 font-semibold">El score minimo para aplicar segun su perfil es de {scoreMin} o (-4, -5)</span>}
             {checkScoreMax&&<span className="text-center">El score maximo es {scoreMax}</span>}
             {checkScoreDif&&<span className="text-center">El score debe ser diferente a 1 y 3</span>}
         </div>
