@@ -40,13 +40,13 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
 
     // Fecha 
     doc.setFontSize(7)
-    const date = new Date()
-    const day = (date.getDay() + 4).toString().padStart(2, "0")
-    const month = (date.getMonth() + 1).toString().padStart(2, "0")
-    const year = date.getFullYear()
-    const hour = date.getHours().toString().padStart(2, "0")
-    const min = date.getMinutes().toString().padStart(2, "0")
-    const seconds = date.getSeconds().toString().padStart(2, "0")
+    const now = new Date()
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hour = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
     doc.setFont("helvetica", "bold");
     doc.text(`${day}/${month}/${year}  ${hour}:${min}:${seconds}`, 25, 16)
     doc.setFont("helvetica", "normal");
@@ -241,7 +241,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text(`$ ${fondo}`, 110, 183)
     doc.line(30, 184.5, 180, 184.5)
     doc.text("Aproximado Neto a Desembolsar", 32, 189.5)
-    const desembolso = datas.garantia == "Fondo de Garantias" ? setValue((datas.monto - datas.fondo - diasInteres(datas.monto, datas.tasa)).toString()) : setValue((datas.monto).toString())
+    const desembolso = datas.garantia == "Fondo de Garantias" ? setValue((datas.monto - datas.fondo - diasInteres(datas.monto, datas.tasa)).toString()) : setValue((datas.monto - diasInteres(datas.monto, datas.tasa)).toString())
     doc.text(`$ ${desembolso}`, 110, 190)
     
     
