@@ -22,7 +22,6 @@ export default function Afiliacion() {
     useEffect(() => {
     }, [scoreMin])
 
-
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setValueTime("")
         const typeAfi = event.target.value
@@ -115,6 +114,9 @@ export default function Afiliacion() {
             }
         }
         if (timeAntiguedad.number > 0 && timeAntiguedad.number >= numberMonths) {
+            if (tipoContrato == "Indefinido, Propiedad, Carrera") {
+                updateCuotaMaxima(72)
+            }
             updateControlAntiguedad(true)
             setTextAntiguedad(false)
         } else {
@@ -137,8 +139,10 @@ export default function Afiliacion() {
         if (value == "Pensionado Ventanilla") {
             updateControlAntiguedad(true)
             setTextAntiguedad(false)
+            updateCuotaMaxima(72)
+            setNumberMonths(6)
         }
-        if (value == "Indefinido, Propiedad, Carrera" || value == "Pensionado Ventanilla") {
+        if (value == "Indefinido, Propiedad, Carrera") {
             updateCuotaMaxima(72)
             setNumberMonths(6)
         } else {
@@ -149,7 +153,7 @@ export default function Afiliacion() {
     return (
         <div className="flex flex-col gap-6 justify-center items-center">
             <div
-                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                 duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
                 <label className="text-sm text-gray-400" htmlFor="afiliacion">Tipo de Afiliación:</label>
                 <select
@@ -164,7 +168,7 @@ export default function Afiliacion() {
             {control==1&&
             <div className="flex flex-wrap gap-6 justify-center">
                 <div
-                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
                     <label className="text-sm text-gray-400" htmlFor="tipocontrato">Tipo de Empleado y Contrato:</label>
                     <select
@@ -181,7 +185,7 @@ export default function Afiliacion() {
                     </select>
                 </div>
                 <div
-                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
                     <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
                     <input
@@ -195,7 +199,7 @@ export default function Afiliacion() {
             }
             {control==2&&
             <div
-                className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                 duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
                 <label className="text-sm text-gray-400" htmlFor="tipopagaduria">Tipo de Pagaduria:</label>
                 <select
@@ -211,7 +215,7 @@ export default function Afiliacion() {
             {control==3&&
             <div className="flex flex-wrap gap-6 justify-center">
                 <div
-                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
                     <label className="text-sm text-gray-400" htmlFor="tipocontraVentanilla">Tipo de Contrato:</label>
                     <select
@@ -226,7 +230,7 @@ export default function Afiliacion() {
                 {
                 ventanilla&&
                 <div
-                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
                     <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
                     <input
@@ -238,7 +242,7 @@ export default function Afiliacion() {
             }
             {control==4&&
                 <div
-                    className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
+                    className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
                     <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
                     <input
