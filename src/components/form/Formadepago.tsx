@@ -3,10 +3,22 @@ import useSimulatorStore from "../../store/store"
 
 export default function FormaPago() {
 
-    const { updateFormadepago } = useSimulatorStore()
+    const { updateFormadepago, tipoContrato, updateCuotaMaxima, inputAfiliacion } = useSimulatorStore()
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         updateFormadepago(event.target.value)
+        if (tipoContrato == "Publico Propiedad / C.Administrativa") {
+            updateCuotaMaxima(132)
+        }
+        if (tipoContrato == "Privado e Indefinido") {
+            updateCuotaMaxima(96)
+        }
+        if (tipoContrato == "Pensionado Ventanilla") {
+            updateCuotaMaxima(144)
+        }
+        if (inputAfiliacion.split("-")[1] == "Independiente") {
+            updateCuotaMaxima(60)
+        }
     }
     return (
         <div

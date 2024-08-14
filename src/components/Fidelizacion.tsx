@@ -180,8 +180,9 @@ export default function Fidelizaciones() {
                     required/>
             </div>
 
-            {controlMonto&&<span>El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
-            {controlMonto&&<span>{`Monto maximo segun su capacidad de endeudamiento: $${setValue(montoMax.toString())}`}</span>}
+            {controlMonto&&capacidadPago>0&&<span>El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
+            {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}
+
         </div>
 
     )

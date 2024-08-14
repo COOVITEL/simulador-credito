@@ -104,7 +104,7 @@ export default function Afiliacion() {
                 if (timeAfiliacion > time) {
                     time = timeAfiliacion
                 }
-                maxTime = 132
+                maxTime = 96
             }
             
             if (time > maxTime) {
@@ -133,10 +133,10 @@ export default function Afiliacion() {
         updateScoreMin(609)
         setVentanilla(false)
         updateControlAntiguedad(false)
-        if (value != "Pensionado Ventanilla") {
+        if (value !== "Pensionado Ventanilla") {
             setVentanilla(true)
         }
-        if (value == "Pensionado Ventanilla") {
+        if (value === "Pensionado Ventanilla") {
             updateControlAntiguedad(true)
             setTextAntiguedad(false)
             updateCuotaMaxima(72)

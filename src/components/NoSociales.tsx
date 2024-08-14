@@ -180,8 +180,8 @@ export default function Nosociales() {
                     required/>
             </div>
 
-            {controlMax&&<span className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
-
+            {controlMax&&capacidadPago>0&&<span className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
+            {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}
         </div>
     )
 }
