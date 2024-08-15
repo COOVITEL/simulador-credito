@@ -198,8 +198,9 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
 
     doc.setFontSize(8)
     doc.text(`${datas.tasa}% NM  -  ${tasaAnual(datas.tasa).toFixed(2)}% EA`, 156, 82.5)
-    doc.text(`${datas.beneficionTasa.toFixed(3)}% NM`, 156, 88)
-    const tasaBeneficio = datas.tasaDescuento == 0 ? datas.tasa.toFixed(2) : datas.tasaDescuento.toFixed(3)
+    const tasaDescuen = datas.beneficionTasa ? datas.beneficionTasa.toFixed(3) : "0"
+    doc.text(`${tasaDescuen}% NM`, 156, 88)
+    const tasaBeneficio = tasaDescuen == "0" ? datas.tasa.toFixed(2) : datas.tasaDescuento.toFixed(3)
     doc.text(`${tasaBeneficio}% NM  -  ${tasaAnual(tasaBeneficio).toFixed(2)}% EA`, 156, 93.5)
     
     doc.setFontSize(9)

@@ -14,7 +14,7 @@ export function searchTasaFide(list: Fidelizacion, cuota: number) {
         tasa = list.tasa48
     } else if (cuota >= 54 && cuota < 66) {
         tasa = list.tasa60
-    } else if (cuota >= 66 && cuota <= 72) {
+    } else if (cuota >= 66) {
         tasa = list.tasa72
     } else {
         tasa = 0

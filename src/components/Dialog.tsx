@@ -17,7 +17,7 @@ export function Dialog({ setDialog }: DialogProps) {
 
     const handleDownloads = async () => {
         setLoading(true);
-    
+        console.log(store)
         setTimeout(() => {
             downloadPFD({ datas: store })
             setLoading(false);
