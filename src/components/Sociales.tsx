@@ -8,7 +8,11 @@ import { setValue } from "../utils/setValue"
 import { PagoMensual } from "../utils/cuota"
 import { FindFondo } from "../utils/findFondo"
 
-export default function Social() {
+interface ControlsProps {
+    montoControl: boolean
+}
+
+export default function Social({ montoControl }: ControlsProps ) {
 
     const {
         sociales,
@@ -32,7 +36,9 @@ export default function Social() {
         updateFondo,
         tasas,
         score,
-        cuotaMaxima
+        cuotaMaxima,
+        updateTasaDescuento,
+        updateBeneficioTasa
     } = useSimulatorStore()
     const [currentType, setCurrentType] = useState<Sociales>()
     const [listSociales, setListSociales] = useState<Sociales[]>([])
@@ -74,6 +80,8 @@ export default function Social() {
     }, [monto])
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        updateTasaDescuento(0)
+        updateBeneficioTasa(0)
         setSeletOption(event.target.value)
         setMaxCuotas(0)
         updateCuota(0)
@@ -157,6 +165,7 @@ export default function Social() {
                     placeholder="Monto"
                     required/>
             </div>
+            {montoControl&&<span className="text-red-400 font-bold text-2xl">El monto minimo a solicitar es de $1.300.000</span>}
             {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}
             {controlMax&&capacidadPago>0&&<span  className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
         </div>

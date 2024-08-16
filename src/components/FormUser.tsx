@@ -25,13 +25,24 @@ export default function FormUser() {
 
     const { inputAfiliacion, updateDatasAsociado, controlAntiguedad } = useSimulatorStore()
     const [controlType, setControlType] = useState(0)
-    const [dialog, setDialog] = useState(false) 
+    const [dialog, setDialog] = useState(false)
+    const [contorlMonto, setControlMonto] = useState(false)
 
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
         const fields = Object.fromEntries(new window.FormData(event.target))
-        updateDatasAsociado(fields)
-        setDialog(true)
+        const monto = fields.monto
+        setControlMonto(false)
+        if (typeof monto === 'string') {
+            const currentMonto = parseInt(monto.replace(/\./g, ''))
+            if (currentMonto >= 1300000) {
+                setControlMonto(false)
+                updateDatasAsociado(fields)
+                setDialog(true)
+            } else {
+                setControlMonto(true)
+            }
+        }
     }
 
     return (
@@ -90,9 +101,9 @@ export default function FormUser() {
                             type="button"
                             onClick={() => setControlType(2)}>Fidelización</button>
                     </div>
-                    {controlType==0&&<Nosociales />}
-                    {controlType==1&&<Sociales />}
-                    {controlType==2&&<Fidelizaciones />}
+                    {controlType==0&&<Nosociales montoControl={contorlMonto} />}
+                    {controlType==1&&<Sociales montoControl={contorlMonto} />}
+                    {controlType==2&&<Fidelizaciones montoControl={contorlMonto} />}
 
                     <button
                     className="bg-[#1D71B9] w-[400px] rounded-xl text-2xl font-semibold text-white py-2 border-2

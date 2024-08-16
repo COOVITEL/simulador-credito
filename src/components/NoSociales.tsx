@@ -10,7 +10,11 @@ import { calTasaDescuento } from "../utils/tasaDescuento"
 import { FindTasa } from "../utils/findTasa"
 import { FindScore } from "../utils/findScore"
 
-export default function Nosociales() {
+interface ControlsProps {
+    montoControl: boolean
+}
+
+export default function Nosociales({ montoControl }: ControlsProps) {
     const {
         nosociales,
         score,
@@ -179,7 +183,7 @@ export default function Nosociales() {
                     placeholder="Monto"
                     required/>
             </div>
-
+            {montoControl&&<span className="text-red-400 font-bold text-2xl">El monto minimo a solicitar es de $1.300.000</span>}
             {controlMax&&capacidadPago>0&&<span className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
             {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}
         </div>

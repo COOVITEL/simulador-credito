@@ -7,7 +7,11 @@ import { CapacidadDescuento } from "../utils/capacidadDescuento"
 import { MontoMax } from "../utils/montoMax"
 import { PagoMensual } from "../utils/cuota"
 
-export default function Fidelizaciones() {
+interface ControlsProps {
+    montoControl: boolean
+}
+
+export default function Fidelizaciones({ montoControl }: ControlsProps) {
 
     const {
         fidelizacion,
@@ -26,7 +30,7 @@ export default function Fidelizaciones() {
         montoMax,
         cuotaMaxima,
         updatePagoMensual,
-        updateMonto, monto, updateGarantia, inputAfiliacion,
+        updateMonto, monto, updateGarantia, inputAfiliacion, updateTasaDescuento, updateBeneficioTasa
     } = useSimulatorStore()
     const [listFideliacion, setListFidelizacion] = useState<Fidelizacion[]>([])
     const [aportesValue, setAportesValue] = useState("")
@@ -39,6 +43,7 @@ export default function Fidelizaciones() {
     const [maxValueAportes, setMaxValueAportes] = useState(0)
     const [controlCuotas, setControlCuotas] = useState(false)
     const [controlMonto, setControlMonto] = useState(false)
+    const [typeControlMax, setTypeControlMax] = useState(0)
 
     
     useEffect(() => {
@@ -64,6 +69,8 @@ export default function Fidelizaciones() {
 
     const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
+        updateTasaDescuento(0)
+        updateBeneficioTasa(0)
         setSelectedOption(value)
         const currentPorcentaje = fidelizacion.filter(fide => fide.name == event.target.value)[0].porcentaje
         const currentPlazoMax = fidelizacion.filter(fide => fide.name == event.target.value)[0].plazoMax
@@ -97,6 +104,7 @@ export default function Fidelizaciones() {
         }
     }
 
+    //
     const handleChangeMonto = (event: React.ChangeEvent<HTMLInputElement>) => {
         setControlMonto(true)
         const value = event.target.value
@@ -105,11 +113,12 @@ export default function Fidelizaciones() {
         setMontoValue(setValue(value))
         let morehigt = 0
         if (maxValueAportes < montoMax) {
+            setTypeControlMax(1)
             morehigt = maxValueAportes
         } else {
+            setTypeControlMax(2)
             morehigt = montoMax
         }
-        console.log(morehigt)
         if (parseInt(setCurrentValue) > morehigt) {
             updateMonto(morehigt)
             setMontoValue(setValue(morehigt.toString()))
@@ -179,9 +188,11 @@ export default function Fidelizaciones() {
                     placeholder="Monto"
                     required/>
             </div>
-
-            {controlMonto&&capacidadPago>0&&<span>El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
+            
+            {montoControl&&<span className="text-red-400 font-bold text-2xl">El monto minimo a solicitar es de $1.300.000</span>}
             {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}
+            {controlMonto&&capacidadPago>0&&typeControlMax==1&&<span className="font-semibold">El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
+            {typeControlMax==2&&<span className="font-semibold">{`Su monto maximo a solicitar segun su capacidad de pago es de $${setValue(montoMax.toString())}`}</span>}
 
         </div>
 
