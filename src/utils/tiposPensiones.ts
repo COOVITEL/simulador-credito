@@ -1,3 +1,4 @@
+// Objeto con el tipo de Convenios de los pensionados
 export const tiposPensionados = [
     {
         'name': 'Fopep',

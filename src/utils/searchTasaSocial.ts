@@ -1,7 +1,9 @@
 import { Sociales } from "../store/types";
 
 export function searchTasaSocial(list: Sociales, cuota: number) {
+    // Esta funcion busca el valor de la tasa para las lineas no sociales
     let tasa = 0
+    // Dependiendo del numero de cuotas del credito a solicitar
     if (cuota > 0 && cuota < 9) {
         tasa = list.tasa6
     } else if (cuota >= 9 && cuota < 19) {

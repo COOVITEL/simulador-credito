@@ -8,16 +8,16 @@ export default function FormaPago() {
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         updateFormadepago(event.target.value)
         if (tipoContrato == "Publico Propiedad / C.Administrativa") {
-            updateCuotaMaxima(132)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_PUBLICO_PROPIEDAD_CADMINISTRATIVA))
         }
         if (tipoContrato == "Privado e Indefinido") {
-            updateCuotaMaxima(96)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_PRIVADOEINDEFINIDO))
         }
         if (tipoContrato == "Pensionado Ventanilla") {
-            updateCuotaMaxima(144)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_PENSIONADO_VENTANILLA))
         }
         if (inputAfiliacion.split("-")[1] == "Independiente") {
-            updateCuotaMaxima(60)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_INDEPENDIENTE))
         }
     }
     return (

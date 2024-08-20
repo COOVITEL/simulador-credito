@@ -8,6 +8,7 @@ interface DownloadPFDProps {
     datas: any;
   }
 
+// Esta funcion crea la estructura del certificado PDF de la simulacion
 export function downloadPFD ( {datas}: DownloadPFDProps) {
   try {
 

@@ -14,7 +14,7 @@ This is all you need to run this project
 
 ### Strcuture of this project
 
-The code of the projecto you can to find en this file: [Link](https://github.com/COOVITEL/simulador-credito/tree/master/src)
+The code of the projecto you can to find en this [URL](https://github.com/COOVITEL/simulador-credito/tree/master/src)
 
 In earch file you find differents components or function necessary fro its operation, this are somefiles:
 
