@@ -20,22 +20,25 @@ import Garantia from "./form/Garantia";
 import FormaPago from "./form/Formadepago";
 import DebitCentrales from "./form/DebitCrentrales";
 
-
 export default function FormUser() {
 
     const { inputAfiliacion, updateDatasAsociado, controlAntiguedad } = useSimulatorStore()
     const [controlType, setControlType] = useState(0)
     const [dialog, setDialog] = useState(false)
     const [contorlMonto, setControlMonto] = useState(false)
-
+    const smmlv = parseInt(import.meta.env.VITE_SMMLV)
+    
+    // Controlador para el formulario
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
+        // Traemos los datos ingresado en el formulario
         const fields = Object.fromEntries(new window.FormData(event.target))
         const monto = fields.monto
         setControlMonto(false)
+        // Este controlador busca que el monto ingresado no sea menor a $1.300.000 el cual es el salario minimo
         if (typeof monto === 'string') {
             const currentMonto = parseInt(monto.replace(/\./g, ''))
-            if (currentMonto >= 1300000) {
+            if (currentMonto >= smmlv) {
                 setControlMonto(false)
                 updateDatasAsociado(fields)
                 setDialog(true)
