@@ -39,6 +39,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         montoMax,
         updatePagoMensual,
         cuotaMaxima,
+        garantia,
         updateCuotaMaxima,
         descuentos,
         cdat,cooviahorro, aportes, maximoDescuento, porcentajeDescuento, desScore, updateBeneficioTasa, updateTasaDescuento, tasaDescuento
@@ -70,6 +71,10 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         }
         const capacidad = CapacidadDescuento(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual).toFixed(0)
         updateCapacidadPago(parseInt(capacidad))
+        if (inputAfiliacion.split("-")[1] === "Independiente" && garantia === "Garantia Real") {
+            console.log("Si entra al if")
+            updateCuotaMaxima(84)
+        }
     }, [selectOption])
 
     useEffect(() => {

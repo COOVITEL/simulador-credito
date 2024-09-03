@@ -37,7 +37,9 @@ export default function Social({ montoControl }: ControlsProps ) {
         tasas,
         score,
         cuotaMaxima,
+        garantia,
         updateTasaDescuento,
+        updateCuotaMaxima,
         updateBeneficioTasa
     } = useSimulatorStore()
     const [currentType, setCurrentType] = useState<Sociales>()
@@ -86,6 +88,10 @@ export default function Social({ montoControl }: ControlsProps ) {
         setMaxCuotas(0)
         updateCuota(0)
         updateTasa(0)
+        const value = event.target.value
+        if (inputAfiliacion.split("-")[1] === "Independiente" && garantia === "Garantia Real" && value === "Vivienda") {
+            updateCuotaMaxima(84)
+        }
     }
 
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
