@@ -37,18 +37,18 @@ export default function Afiliacion() {
             updateControlAntiguedad(false)
             setControl(2)
             setControlTime(false)
-            updateCuotaMaxima(144)
-            updateScoreMin(-5)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_PENSIONADO))
+            updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_PENSIONADO))
             setNumberMonths(0)
             updateControlAntiguedad(true)
         } else if (currentType == "Empleado o pensionado Ventanilla") {
             setControl(3)
             setControlTime(true)
-            updateCuotaMaxima(60)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_EMPLEADOPENSIONADOVEN))
         } else if (currentType == "Independiente") {
             setControlTime(false)
-            updateCuotaMaxima(84)
-            updateScoreMin(722)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_INDEPENDIENTE))
+            updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_INDEPENDIENTE))
             setNumberMonths(36)
             setControl(4)
             setControlTime(true)
@@ -61,18 +61,19 @@ export default function Afiliacion() {
         updateControlAntiguedad(false)
         if (value == "Privado e Indefinido") {
             setNumberMonths(6)
-            updateCuotaMaxima(96)
-            updateScoreMin(600)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_PRIVADOEINDEFINIDO))
+            updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_PRIVADOEINDEFINIDO))
         } else if (value == "Publico Propiedad / C.Administrativa") {
-            updateScoreMin(550)
-            updateCuotaMaxima(132)
+            updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_PUBLICO_PROPIEDAD_CADMINISTRATIVA))
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_PUBLICO_PROPIEDAD_CADMINISTRATIVA))
             setNumberMonths(1)
         } else if (value == "Privado T.fijo / P.Servicios") {
             updateScoreMin(600)
+            updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_PRIVADO_TERMINOFIJO_PSERVICIOS))
             setNumberMonths(12)
         } else if (value == "Publico Provisional / P.Servicios") {
             setNumberMonths(12)
-            updateScoreMin(550)
+            updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_PUBLICOPROVISIONAL))
         }
     }
 
@@ -115,7 +116,7 @@ export default function Afiliacion() {
         }
         if (timeAntiguedad.number > 0 && timeAntiguedad.number >= numberMonths) {
             if (tipoContrato == "Indefinido, Propiedad, Carrera") {
-                updateCuotaMaxima(72)
+                updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_INDEFINIDO))
             }
             updateControlAntiguedad(true)
             setTextAntiguedad(false)
@@ -130,7 +131,7 @@ export default function Afiliacion() {
         setValueTime("")
         setTextAntiguedad(false)
         updateTipoContrato(value)
-        updateScoreMin(609)
+        updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE))
         setVentanilla(false)
         updateControlAntiguedad(false)
         if (value !== "Pensionado Ventanilla") {
@@ -139,11 +140,11 @@ export default function Afiliacion() {
         if (value === "Pensionado Ventanilla") {
             updateControlAntiguedad(true)
             setTextAntiguedad(false)
-            updateCuotaMaxima(72)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_PENSIONADO_VENTANILLA))
             setNumberMonths(6)
         }
         if (value == "Indefinido, Propiedad, Carrera") {
-            updateCuotaMaxima(72)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_INDEFINIDO))
             setNumberMonths(6)
         } else {
             setNumberMonths(12)

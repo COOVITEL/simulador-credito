@@ -59,7 +59,6 @@ export default function Score() {
         const personType = inputAfiliacion.split("-")[1]
         if (personType == "Pensionado Libranza") {
             if (currentScore == 1 || currentScore == 3) {
-                // setValueScore(scoreMin)
                 setCheckScoreDif(true)
             }
         }
@@ -101,7 +100,6 @@ export default function Score() {
                     type="number"
                     id="score"
                     name="score"
-                    // min={scoreMin}
                     placeholder="Valor Score"
                     required/>
             </div>

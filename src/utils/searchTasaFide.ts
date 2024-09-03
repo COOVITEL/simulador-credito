@@ -1,6 +1,7 @@
 import { Fidelizacion } from "../store/types";
 
 export function searchTasaFide(list: Fidelizacion, cuota: number) {
+    // Esta funcion busca la tasa de la linea de fidelizacion, dependiendo del numero de cuotas del credito
     let tasa = 0
     if (cuota > 0 && cuota < 9) {
         tasa = list.tasa6

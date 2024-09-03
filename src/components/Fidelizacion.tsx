@@ -50,6 +50,8 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         if (fidelizacion) setListFidelizacion(fidelizacion)
     }, [fidelizacion])
 
+    // Este useEffect controla la capacidad de pago en caso de que cambie el selector del tipo de credito, debido a que la capacidad de pago depende de la tasa
+    // Busca la tasa del tipo de credito, actualiza el tipo de garantia
     useEffect(() => {
         const type = fidelizacion.filter(fide => fide.name == selectedOption)[0]
         updateGarantia("Aportes")
@@ -58,26 +60,31 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         updateCapacidadPago(parseInt(capacidad))
     }, [selectedOption])
 
+    // Actuliza el monto maximo en caso de que el numero de cuotas cambie
     useEffect(() => {
         const montoMaximo = MontoMax(capacidadPago, tasa, cuota) 
         updateMontoMax(montoMaximo)
     }, [cuotas])
 
+    // Acutualiza la cuota mensual si cada ve que monto cambia
     useEffect(() => {
         updatePagoMensual(PagoMensual(monto, tasa, cuota))
     }, [monto])
 
+    // Este controlador busca el porcentaje, el plao maximo y guarda el valor, el cual determina la tasa de la linea de fidelizacion
     const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
         updateTasaDescuento(0)
         updateBeneficioTasa(0)
         setSelectedOption(value)
+        // Busca el porcentaje a prestar y el plazo maximo
         const currentPorcentaje = fidelizacion.filter(fide => fide.name == event.target.value)[0].porcentaje
         const currentPlazoMax = fidelizacion.filter(fide => fide.name == event.target.value)[0].plazoMax
         setPorcentaje(currentPorcentaje)
         setMaxCuotas(currentPlazoMax)
     };
 
+    // Guarda el valor en aportes, el cual determina el valor maximo a solicitar dependiento la cantidad de aportes
     const handleChangeAportes = (event: React.ChangeEvent<HTMLInputElement>) => {
         const setAportes = event.target.value
         setAportesValue(setValue(setAportes))
@@ -86,6 +93,7 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         setMaxValueAportes(curValue)
     }
 
+    // Actualiza el numero de cuotas, junto con el controlador que mira el numero de cutas maximas segun el perfil y la linea, con el fin de limitar el numero con el valor minimo entre ambos
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
         setControlCuotas(true)
         const value = event.target.value
@@ -104,7 +112,7 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         }
     }
 
-    //
+    // Controla el valor del monto, controlando el valor maximo dependiendo del monto maximo a solicitar
     const handleChangeMonto = (event: React.ChangeEvent<HTMLInputElement>) => {
         setControlMonto(true)
         const value = event.target.value

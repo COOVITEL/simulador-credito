@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { SimuladorStore, Descuentos } from "./types";
 
-
+// Este hoock contiene y crea el estado global para acceder desde cualquier componente y controladores de la app.
 const useSimulatorStore = create<SimuladorStore>((set) => ({
     sociales: [],
     nosociales: [],

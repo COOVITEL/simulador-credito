@@ -9,12 +9,15 @@ interface DialogProps {
     setDialog: React.Dispatch<React.SetStateAction<boolean>>;
   }
 
+// Este componente crea y controla el dialog el cual muestra todos los datos en la simulacion en caso de que pase los controles,
+// Esto permite al asesor ver si cumple con la necesidad del asociado para que en caso tal pueda hacer cambios en los montos o plazos, o generar el certificado PDF
 export function Dialog({ setDialog }: DialogProps) {
 
     const store = useSimulatorStore()
     const tasaDes = store.tasaDescuento == 0 ? store.tasa.toFixed(3) : store.tasaDescuento.toFixed(3)
     const [loading, setLoading] = useState(false)
 
+    // HandleDownload llama a la funcion downloadPDF la cual crea y descarga el certificado los los datos de la simulacion
     const handleDownloads = async () => {
         setLoading(true);
         setTimeout(() => {
@@ -24,13 +27,14 @@ export function Dialog({ setDialog }: DialogProps) {
     };
 
     useEffect(() => {
-        console.log(store)
     }, [store])
 
+    /// Cierrar el dialog
     const handleClose = () => {
         setDialog(false)
     }
 
+    // Hace un reload of the page para iniciar una nueva simulacion
     const reload = () => {
         window.location.reload()
     }
