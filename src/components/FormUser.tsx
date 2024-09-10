@@ -27,6 +27,7 @@ export default function FormUser() {
     const [dialog, setDialog] = useState(false)
     const [contorlMonto, setControlMonto] = useState(false)
     const smmlv = parseInt(import.meta.env.VITE_SMMLV)
+    // const smmlv = 1300000
     
     // Controlador para el formulario
     const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {

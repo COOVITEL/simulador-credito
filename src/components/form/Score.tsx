@@ -7,15 +7,15 @@ export default function Score() {
     const [scoreMinimo, setScoreMin] = useState(0)
     const [scoreMax, setScoreMax] = useState(0)
     const [checkScore, setCheckScore] = useState(false)
+    const [checkScorePensionado, setCheckScorePensionado] = useState(false)
     const [checkScoreMax, setCheckScoreMax] = useState(false)
     const [valueScore, setValueScore] = useState(0)
-    const [checkScoreDif, setCheckScoreDif] = useState(false)
     const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         const personType = inputAfiliacion.split("-")[1]
-        if (personType == "Independiente") {
-            if (garantia == "Fondo de Garantias" || garantia == "Codeudor") {
+        if (personType === "Independiente") {
+            if (garantia === "Fondo de Garantias" || garantia === "Codeudor") {
                 setScoreMin(722)
             } else if (garantia == "Garantia Real"){
                 setScoreMin(600)
@@ -32,10 +32,21 @@ export default function Score() {
         }
 
         const newTimeoutId = setTimeout(() => {
-            if (valueScore < scoreMin && valueScore !== -4 && valueScore != -5) {
+            const personType = inputAfiliacion.split("-")[1]
+
+            if (personType != "Pensionado Libranza" && valueScore < scoreMin && valueScore !== -4 && valueScore != -5) {
                 setValueScore(0);
                 setCheckScore(false);
             }
+            if (personType == "Pensionado Libranza" && valueScore < scoreMin) {
+                setValueScore(0);
+                setCheckScorePensionado(false)
+            }
+            if (personType == "Pensionado Libranza" && (valueScore == 1 || valueScore == 3)) {
+                setValueScore(0);
+                setCheckScorePensionado(false)
+            }
+           
         }, 3000);
 
         setTimeoutId(newTimeoutId);
@@ -49,7 +60,7 @@ export default function Score() {
 
     const handleChangeScore = (event: React.ChangeEvent<HTMLInputElement>) => {
         const currentScore = parseInt(event.target.value)
-        setCheckScoreDif(false)
+        setCheckScorePensionado(false)
         updateScore(currentScore)
         if (currentScore < scoreMin) {
             setValueScore(scoreMin)
@@ -57,11 +68,6 @@ export default function Score() {
         setValueScore(currentScore)
         const numberType = inputAfiliacion.split("-")[0]        
         const personType = inputAfiliacion.split("-")[1]
-        if (personType == "Pensionado Libranza") {
-            if (currentScore == 1 || currentScore == 3) {
-                setCheckScoreDif(true)
-            }
-        }
         const checkList = tasas.filter(type => type.perfil == parseInt(numberType))
         const minScore = checkList[checkList.length - 1].minScore
         setCheckScoreMax(false)
@@ -71,9 +77,12 @@ export default function Score() {
         } else {
             min = minScore
         }
-        if (currentScore < scoreMin && currentScore != -4 && currentScore != -5) {
+        if (personType != "Pensionado Libranza" && currentScore < scoreMin && currentScore != -4 && currentScore != -5) {
             setCheckScore(true)
             setScoreMin(min)
+        } else if (personType == "Pensionado Libranza" && currentScore < scoreMin || currentScore == 1 || currentScore == 3) {
+            setScoreMin(min)
+            setCheckScorePensionado(true)
         } else {
             setCheckScore(false)
         }
@@ -104,8 +113,8 @@ export default function Score() {
                     required/>
             </div>
             {checkScore&&<span className="text-center text-red-500 font-semibold">El score minimo para aplicar segun su perfil es de {scoreMin} o (-4, -5)</span>}
+            {checkScorePensionado&&<span className="text-center text-red-500 font-semibold">El score minimo para aplicar segun su perfil es de {scoreMin} o  diferente a (1, 3)</span>}
             {checkScoreMax&&<span className="text-center">El score maximo es {scoreMax}</span>}
-            {checkScoreDif&&<span className="text-center">El score debe ser diferente a 1 y 3</span>}
         </div>
     )
 }

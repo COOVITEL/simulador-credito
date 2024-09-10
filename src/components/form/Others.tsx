@@ -5,7 +5,7 @@ import useSimulatorStore from "../../store/store"
 export default function Others() {
 
     const [others, setOthers] = useState("")
-    const { updateOthers, garantia, inputAfiliacion, updateCuotaMaxima } = useSimulatorStore()
+    const { updateOthers, garantia, inputAfiliacion, salary, updateCuotaMaxima } = useSimulatorStore()
 
     useEffect(() => {
         const type = inputAfiliacion.split("-")[1]
@@ -17,6 +17,10 @@ export default function Others() {
             }
         }
     }, [others, garantia])
+
+    useEffect(() => {
+        setOthers("")
+    }, [salary ])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value

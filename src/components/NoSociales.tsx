@@ -40,6 +40,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         updatePagoMensual,
         cuotaMaxima,
         garantia,
+        valorCentrales,
         updateCuotaMaxima,
         descuentos,
         cdat,cooviahorro, aportes, maximoDescuento, porcentajeDescuento, desScore, updateBeneficioTasa, updateTasaDescuento, tasaDescuento
@@ -51,7 +52,9 @@ export default function Nosociales({ montoControl }: ControlsProps) {
 
 
     useEffect(() => {
-    }, [nosociales])
+        setSelectOption("")
+        updateCuota(0)
+    }, [nosociales, salary, others, debit, valorCentrales])
 
     // Este useEffect actualiza los datos del tipo de crediuto seleccionado
     useEffect(() => {
@@ -167,7 +170,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
                 <label className="text-sm text-gray-400" htmlFor="typeCredit">Tipo de Credito:</label>
                 <select
                     className="px-3 focus:outline-none text-xl w-full font-semibold"
-                    name="typeCredit" id="typeCredit" onChange={handleChangeSelect}>
+                    name="typeCredit" id="typeCredit" onChange={handleChangeSelect} value={selectOption}>
                     <option key="empty-type-1" value=""> -- Seleccione de credito -- </option>
                     {nosociales.map((data: NoSociales) => (
                         <option key={`${data.name}-${data.id}`} value={data.name}>{data.name}</option>

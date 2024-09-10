@@ -18,6 +18,7 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         salary,
         others,
         debit,
+        valorCentrales,
         tasa,
         saludypension,
         ahorroMensual,
@@ -58,6 +59,9 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         setCurrentType(type)
         const capacidad = CapacidadDescuento(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual).toFixed(0)
         updateCapacidadPago(parseInt(capacidad))
+        setCuotas(0)
+        setAportesValue("")
+        setMontoValue("")
     }, [selectedOption])
 
     // Actuliza el monto maximo en caso de que el numero de cuotas cambie
@@ -70,6 +74,10 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
     useEffect(() => {
         updatePagoMensual(PagoMensual(monto, tasa, cuota))
     }, [monto])
+
+    useEffect(() => {
+        setSelectedOption("")
+    }, [salary, others, debit, valorCentrales])
 
     // Este controlador busca el porcentaje, el plao maximo y guarda el valor, el cual determina la tasa de la linea de fidelizacion
     const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -143,7 +151,7 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
                 <label className="text-sm text-gray-400" htmlFor="typeCredit">Años de Vinculación:</label>
                 <select
                     className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
-                    name="typeCredit" id="typeCredit" onChange={handleChangeSelect}>
+                    name="typeCredit" id="typeCredit" onChange={handleChangeSelect} value={selectedOption}>
                     <option key="empty-type-1" value=""> -- Seleccione un rango -- </option>
                     {listFideliacion.map((data: any) => (
                         <option key={`${data.name}-${data.id}`} value={data.name}>{data.name}</option>

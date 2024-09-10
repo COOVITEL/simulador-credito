@@ -5,7 +5,7 @@ import useSimulatorStore from "../../store/store"
 export default function DebitCentrales() {
 
     const [debitCentral, setDebitCentral] = useState("")
-    const { updateValorCentrales } = useSimulatorStore()
+    const { updateValorCentrales, salary, others, debit } = useSimulatorStore()
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value
@@ -15,7 +15,8 @@ export default function DebitCentrales() {
     }
 
     useEffect(() => {
-    }, [debitCentral])
+        setDebitCentral("")
+    }, [salary, others, debit])
 
     return (
         <div

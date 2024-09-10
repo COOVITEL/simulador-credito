@@ -38,6 +38,7 @@ export default function Social({ montoControl }: ControlsProps ) {
         score,
         cuotaMaxima,
         garantia,
+        valorCentrales,
         updateTasaDescuento,
         updateCuotaMaxima,
         updateBeneficioTasa
@@ -80,6 +81,11 @@ export default function Social({ montoControl }: ControlsProps ) {
             }
         }
     }, [monto])
+
+    useEffect(() => {
+        setSeletOption("")
+        updateCuota(0)
+    }, [sociales, salary, others, debit, valorCentrales])
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         updateTasaDescuento(0)
@@ -131,7 +137,7 @@ export default function Social({ montoControl }: ControlsProps ) {
                 <label className="text-sm text-gray-400" htmlFor="typeCredit">Tipo de Credito:</label>
                 <select
                     className="px-3 focus:outline-none text-xl w-full font-semibold"
-                    name="typeCredit" id="typeCredit" onChange={handleSelectChange}>
+                    name="typeCredit" id="typeCredit" onChange={handleSelectChange} value={selectOption}>
                     <option key="empty-type-1" value=""> -- Seleccione de credito -- </option>
                     {listSociales.map((data: Sociales) => (
                         <option key={`${data.name}-${data.id}`} value={data.name}>{data.name}</option>

@@ -1,11 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { setValue } from "../../utils/setValue"
 import useSimulatorStore from "../../store/store"
 
 export default function Debit() {
 
     const [debit, setDebit] = useState("")
-    const { updateDebit } = useSimulatorStore()
+    const { updateDebit, salary, others } = useSimulatorStore()
+
+    useEffect(() => {
+        setDebit("")
+    }, [salary, others])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value
