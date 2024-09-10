@@ -20,11 +20,11 @@ export function calTasaDescuento(descuentos: Descuentos, cdat: number, cooviahor
     const desPlazo = descuentoMax.filter((des: Descuento) => des.name == "Plazo")[0]?.value
     
     // Calcula el porcentaje de descuento, en base al descuento por tipo y al porcentaje maximo de la linea
-    const tasaScore = (desScore / 100) * porcentaje * (score / 100) / 100
-    const tasaAporte = (desAporte / 100) * porcentaje * (aportes / 100) / 100
-    const tasaCdat = (desCdat / 100) * porcentaje * (cdat / 100) / 100
-    const tasaCoovi = (desCoovi / 100) * porcentaje * (cooviahorro / 100) / 100
-    const tasaPla = (desPlazo / 100) * porcentaje * (tasaPlazo / 100) / 100
+    const tasaScore = (desScore / 100) * porcentaje * (score / 100)
+    const tasaAporte = (desAporte / 100) * porcentaje * (aportes / 100)
+    const tasaCdat = (desCdat / 100) * porcentaje * (cdat / 100)
+    const tasaCoovi = (desCoovi / 100) * porcentaje * (cooviahorro / 100)
+    const tasaPla = (desPlazo / 100) * porcentaje * (tasaPlazo / 100)
     const totalDescuento = (tasaScore + tasaAporte + tasaCdat + tasaCoovi + tasaPla)
     // Retorna la suma de los descuentos para cada uno de los tipos de descuento
     return totalDescuento

@@ -128,7 +128,7 @@ export function Dialog({ setDialog }: DialogProps) {
                     <div className="w-[48%] flex flex-col gap-1">
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Linea de Crédito:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.typeCredit}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.datasAsociado.typeCredit.split("-")[0]}</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Forma de Pago:</p>

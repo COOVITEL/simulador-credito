@@ -49,12 +49,13 @@ export default function Nosociales({ montoControl }: ControlsProps) {
     const [selectOption, setSelectOption] = useState("")
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [controlMax, setControlMax] = useState(false)
+    const [tasaTecho, setTasaTecho] = useState(0)
 
 
     useEffect(() => {
         setSelectOption("")
         updateCuota(0)
-    }, [nosociales, salary, others, debit, valorCentrales])
+    }, [nosociales, salary, others, debit, valorCentrales, score])
 
     // Este useEffect actualiza los datos del tipo de crediuto seleccionado
     useEffect(() => {
@@ -69,25 +70,37 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         if (currentFondo) updateFondo(currentFondo)
         // Si se encuentra los datos se busca la tasa del tipo de credito dependiendo del tipo de afiliacion , score con las lista de tasas
         const currentTasa = FindTasa(tasas, inputAfiliacion, score)
-        if (currentTasa) updateTasa(currentTasa)
-        const current = nosociales.filter(type => type.name == selectOption)[0]
-        if (current) {
-            updatePorcentajeDescuento(current.descuentos)
+        const tipoCredito = selectOption.split("-")[0]
+        const current = nosociales.filter(type => type.name == tipoCredito)[0]
+        if (current && currentTasa) {
+            // Calcula la tasa de descuento para la linea (tasa techo - tasa piso del asociado)
+            let porcentajeTasaDescuento = 0
+            if (tasaTecho > currentTasa) {
+                porcentajeTasaDescuento = Number((tasaTecho - currentTasa).toFixed(2))
+            }
+            updatePorcentajeDescuento(porcentajeTasaDescuento)
             setMaxCuotas(current.plazo)
         }
         // Se determina la capacidad de Descuento y pago con la tasa que se determino
         const capacidad = CapacidadDescuento(salary, others, debit, saludypension, inputAfiliacion, ahorroMensual).toFixed(0)
         updateCapacidadPago(parseInt(capacidad))
         if (inputAfiliacion.split("-")[1] === "Independiente" && garantia === "Garantia Real") {
-            console.log("Si entra al if")
             updateCuotaMaxima(84)
         }
     }, [selectOption])
 
     // En este useEffect cada que cambia el numero de cuotas se actualiza el Monto maximo a solicitar
     useEffect(() => {
-        updateMontoMax(MontoMax(capacidadPago, tasa, cuota))
+        const valueCoovi = parseInt(cooviahorro.split("-")[0])
+        const valueCdat = parseInt(cdat.split("-")[0])
+        const valueAportes = parseInt(aportes.split("-")[0])
+        const descuento = calTasaDescuento(descuentos, valueCdat, valueCoovi, valueAportes, desScore, cuota, maximoDescuento, porcentajeDescuento, inputAfiliacion)
+        const totalTasa = tasaTecho - descuento
+        updateMontoMax(MontoMax(capacidadPago, totalTasa, cuota))
         updateMonto(0)
+        updateBeneficioTasa(descuento)
+        // Se actualiza una nueva tasa con descuento si existe
+        updateTasaDescuento(tasa - descuento)
     }, [cuota])
 
     // Este useEffect controla y cambia cada vez que cambia el valor del monto
@@ -97,16 +110,6 @@ export default function Nosociales({ montoControl }: ControlsProps) {
             updatePagoMensual(0)
         } else {
             // En este if se buscan los datos ingresado que generan un descuento en la tasa y se calcula el descuento, sobre el descuento maximo a obtener
-            if (inputAfiliacion.length > 0) {
-                const valueCoovi = parseInt(cooviahorro.split("-")[0])
-                const valueCdat = parseInt(cdat.split("-")[0])
-                const valueAportes = parseInt(aportes.split("-")[0])
-                const descuento = calTasaDescuento(descuentos, valueCdat, valueCoovi, valueAportes, desScore, cuota, maximoDescuento, porcentajeDescuento, inputAfiliacion)
-                // Se actualiza el beneficio en la tasa
-                updateBeneficioTasa(descuento)
-                // Se actualia una nueva tasa con descuento si existe
-                updateTasaDescuento(tasa - descuento)
-            }
             if (tasaDescuento > 0) {
                 // Si la tasa descuento existe se limpia el valor de pago mensual en caso de que alla sido calculada antes
                 updatePagoMensual(PagoMensual(monto, tasaDescuento, cuota))
@@ -129,6 +132,10 @@ export default function Nosociales({ montoControl }: ControlsProps) {
     const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
         setSelectOption(value)
+        // Tasa techo para la linea
+        const tasaT = value.split("-")[1]
+        setTasaTecho(Number(tasaT))
+        updateTasa(Number(tasaT))
     }
 
     // Este handleCuotas actualiza en valor ingresado en el numero de cuotas
@@ -173,7 +180,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
                     name="typeCredit" id="typeCredit" onChange={handleChangeSelect} value={selectOption}>
                     <option key="empty-type-1" value=""> -- Seleccione de credito -- </option>
                     {nosociales.map((data: NoSociales) => (
-                        <option key={`${data.name}-${data.id}`} value={data.name}>{data.name}</option>
+                        <option key={`${data.name}-${data.id}`} value={`${data.name}-${data.techoNMV}`}>{data.name}</option>
                     ))}
                 </select>
             </div>

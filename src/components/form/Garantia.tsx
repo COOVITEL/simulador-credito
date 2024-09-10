@@ -3,10 +3,11 @@ import useSimulatorStore from "../../store/store"
 
 export default function Garantia() {
 
-    const {updateGarantia, inputAfiliacion, score } = useSimulatorStore()
+    const {updateGarantia, inputAfiliacion, score, garantia } = useSimulatorStore()
     const [control, setControl] = useState(false)
 
     useEffect(() => {
+        updateGarantia("")
         const type = inputAfiliacion.split("-")[1]
         if (type == "Pensionado Libranza" && score > 689) {
             setControl(true)
@@ -26,6 +27,7 @@ export default function Garantia() {
             duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
             <label className="text-sm text-gray-400" htmlFor="tipocontraVentanilla">Tipo de Garantia:</label>
             <select
+            value={garantia}
                 className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
                 onChange={handleChangeContrato} name="tipocontraVentanilla" id="tipocontraVentanilla" required >
                 <option key="emptygaran1" value="">-- Seleccione Tipo de Garantia --</option>

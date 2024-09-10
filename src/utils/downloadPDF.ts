@@ -189,9 +189,10 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.setFontSize(8)
     
     // Datos cuadro Derecho
-    doc.setFontSize(9)
     doc.setFont("helvetica", "normal");
-    doc.text(datas.datasAsociado.typeCredit, 156, 55)
+    doc.setFontSize(8)
+    doc.text(datas.datasAsociado.typeCredit.split("-")[0], 156, 55)
+    doc.setFontSize(9)
     doc.text(`${datas.formadepago}`, 156, 60.5)
     doc.text(`${datas.score}`, 156, 66)
     doc.text(datas.datasAsociado.monto, 156, 71.5)

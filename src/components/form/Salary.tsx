@@ -7,12 +7,16 @@ import { ahorroMensual } from "../../utils/ahorroMensual"
 export default function Salary() {
     
     const [salaryValue, setSalaryValue] = useState("")
-    const { updateSalary, updateSaludypension, inputAfiliacion, updateAhorroMensual, añoafiliacion } = useSimulatorStore()
+    const { updateSalary, updateSaludypension, inputAfiliacion, updateAhorroMensual, añoafiliacion, score } = useSimulatorStore()
 
     useEffect(() => {
         const value = salaryValue.replace(/\./g, '')
         updateSaludypension(Saludypension(parseInt(value), inputAfiliacion))
     }, [inputAfiliacion])
+
+    useEffect(() => {
+        setSalaryValue("")
+    }, [score])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const val = event.target.value
