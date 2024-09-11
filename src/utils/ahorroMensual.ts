@@ -5,7 +5,9 @@ export function ahorroMensual(salary: number, date: string) {
     // Control dependiendo del año de ingreso del asociado 
     if (parseInt(year) > 2021) {
         // Si es mayor al 2021 es el 0.02 del salario
-        return salary * 0.02
+        const totalValue = salary * 0.02
+        if (totalValue > 180000) return 180000
+        return totalValue
     } else {
         // Si es menor dependiendo del rango de salario es un porsentaje del salario minimo en base a 1.000.000
         if (salary >= minSalary && salary <= (minSalary * 2)) {

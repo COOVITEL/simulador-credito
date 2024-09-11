@@ -81,7 +81,6 @@ export default function Afiliacion() {
         const value = event.target.value
         updatePagaduria(value)
         updateTipoContrato(value)
-        console.log(scoreMin)
     }
 
     const handleChangeAntiguedad = (event: React.ChangeEvent<HTMLInputElement>) => {

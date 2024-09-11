@@ -1,4 +1,4 @@
-export default function Saludypension(salary: number, type: string) {
+export default function Saludypension(salary: number, type: string, typeContrato: string) {
     // Esta funcion calcula el valor de salud y pension para los asocuados
     const smmlv = parseInt(import.meta.env.VITE_SMMLV)
     let porcentaje = 0
@@ -10,6 +10,9 @@ export default function Saludypension(salary: number, type: string) {
         } else if (salary > smmlv && salary <= (3 * smmlv)) {
             porcentaje = 10
         } else {
+            porcentaje = 12
+        }
+        if (typeContrato === "Fopep") {
             porcentaje = 12
         }
     } else if (typeAfi === "Independiente") {
