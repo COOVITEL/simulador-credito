@@ -49,7 +49,7 @@ export default function Social({ montoControl }: ControlsProps ) {
     const [selectOption, setSeletOption] = useState("")
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [controlMax, setControlMax] = useState(false)
-    // const [controlCapacidad, setControlCapacidad] = useState(false)
+    const [controlCapacidad, setControlCapacidad] = useState(false)
 
     useEffect(() => {
         if (sociales) setListSociales(sociales)
@@ -126,11 +126,11 @@ export default function Social({ montoControl }: ControlsProps ) {
         } else {
             setControlMax(false)
         }
-        // const cap = Number(CapacidadPago(valorCentrales, debit, salary, others, saludypension, ahorroMensual))
-        // if (cap > 70) {
-        //     updateMonto(0)
-        //     setControlCapacidad(true)
-        // }
+        const cap = Number(CapacidadPago(valorCentrales, debit, salary, others, saludypension, ahorroMensual))
+        if (cap > 70) {
+            updateMonto(0)
+            setControlCapacidad(true)
+        }
     }
     
     return (
@@ -183,7 +183,7 @@ export default function Social({ montoControl }: ControlsProps ) {
                     placeholder="Monto"
                     required/>
             </div>
-            {/* {controlCapacidad&&<span className="text-red-400 font-semibold text-xl">No posee Capacidad de Pago</span>} */}
+            {controlCapacidad&&<span className="text-red-400 font-semibold text-xl">No posee Capacidad de Pago</span>}
             {montoControl&&<span className="text-red-400 font-bold text-2xl">El monto minimo a solicitar es de $1.300.000</span>}
             {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}
             {controlMax&&capacidadPago>0&&<span  className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
