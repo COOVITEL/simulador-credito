@@ -2,7 +2,7 @@ export function CapacidadDescuento(salary: number, others: number, debit: number
     // Esta funcion calcula la capacidad de descuento en base a los ingresos, descuento y tipo de afiliacion
     let value = 0
     const name = type.split("-")[1]
-    if (name === "Pensionado Libranza" || name === "Empleado Convenio") {
+    if (name === "Pensionado Libranza" || name === "Empleado Convenio Publico" || name === "Empleado Convenio Privado") {
         // Si cumple esta condicion la capacidad de descuento es el 50% del salario menos salud y pension
         // A ese subtotal se le descuentan debitos y descuentos, junto con 10.000 peses que se le dejan a los asociados
         value = ((salary - salud) * 0.5) - debit - descuento - 10000

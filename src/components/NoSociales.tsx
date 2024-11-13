@@ -51,7 +51,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [controlMax, setControlMax] = useState(false)
     const [tasaTecho, setTasaTecho] = useState(0)
-    // const [controlCapacidad, setControlCapacidad] = useState(false)
+    const [controlCapacidad, setControlCapacidad] = useState(false)
 
 
     useEffect(() => {
@@ -168,11 +168,11 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         } else {
             setControlMax(false)
         }
-        // const cap = Number(CapacidadPago(valorCentrales, debit, salary, others, saludypension, ahorroMensual))
-        // if (cap > 70) {
-        //     updateMonto(0)
-        //     setControlCapacidad(true)
-        // }
+        const cap = Number(CapacidadPago(valorCentrales, debit, salary, others, saludypension, ahorroMensual))
+        if (cap > 70) {
+            updateMonto(0)
+            setControlCapacidad(true)
+        }
     }
 
     return (
@@ -184,7 +184,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
                 <label className="text-sm text-gray-400" htmlFor="typeCredit">Tipo de Credito:</label>
                 <select
                     className="px-3 focus:outline-none text-xl w-full font-semibold"
-                    name="typeCredit" id="typeCredit" onChange={handleChangeSelect} value={selectOption}>
+                    name="typeCredit" id="typeCredit" onChange={handleChangeSelect} value={selectOption} required>
                     <option key="empty-type-1" value=""> -- Seleccione de credito -- </option>
                     {nosociales.map((data: NoSociales) => (
                         <option key={`${data.name}-${data.id}`} value={`${data.name}-${data.techoNMV}`}>{data.name}</option>
@@ -224,7 +224,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
                     placeholder="Monto"
                     required/>
             </div>
-            {/* {controlCapacidad&&<span className="text-red-400 font-semibold text-xl">No posee Capacidad de Pago</span>} */}
+            {controlCapacidad&&<span className="text-red-400 font-semibold text-xl">No posee Capacidad de Pago</span>}
             {montoControl&&<span className="text-red-400 font-bold text-2xl">El monto minimo a solicitar es de $1.300.000</span>}
             {controlMax&&capacidadPago>0&&<span className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
             {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}

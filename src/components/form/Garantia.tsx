@@ -6,6 +6,7 @@ export default function Garantia() {
     const {updateGarantia, inputAfiliacion, score, garantia } = useSimulatorStore()
     const [control, setControl] = useState(false)
 
+
     useEffect(() => {
         updateGarantia("")
         const type = inputAfiliacion.split("-")[1]
@@ -14,7 +15,8 @@ export default function Garantia() {
         } else {
             setControl(false)
         }
-    }, [inputAfiliacion, score])
+    }, [score])
+
 
     const handleChangeContrato = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value
@@ -27,7 +29,7 @@ export default function Garantia() {
             duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
             <label className="text-sm text-gray-400" htmlFor="tipocontraVentanilla">Tipo de Garantia:</label>
             <select
-            value={garantia}
+                value={garantia}
                 className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
                 onChange={handleChangeContrato} name="tipocontraVentanilla" id="tipocontraVentanilla" required >
                 <option key="emptygaran1" value="">-- Seleccione Tipo de Garantia --</option>
@@ -35,6 +37,7 @@ export default function Garantia() {
                 {!control&&<option key="emptygaran2" value="Garantia Real">Garantia Real</option>}
                 {!control&&<option key="emptygaran3" value="Codeudor">Codeudor</option>}
                 {!control&&<option key="emptygaran4" value="Fondo de Garantias">Fondo de Garantias</option>}                        
+                {garantia=="Aportes"&&<option key="emptygaran25" value="Aportes">Aportes</option>}
             </select>
         </div>
     )

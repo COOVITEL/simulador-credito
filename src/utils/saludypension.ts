@@ -15,7 +15,7 @@ export default function Saludypension(salary: number, type: string, typeContrato
         if (typeContrato === "Fopep") {
             porcentaje = 12
         }
-    } else if (typeAfi === "Independiente") {
+    } else if (typeAfi === "Independiente con Garantía Real" || typeAfi === "Independiente sin Garantía Real") {
         porcentaje = 24
     } else {
         porcentaje = 8

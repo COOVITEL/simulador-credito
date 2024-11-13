@@ -46,7 +46,7 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
     const [controlCuotas, setControlCuotas] = useState(false)
     const [controlMonto, setControlMonto] = useState(false)
     const [typeControlMax, setTypeControlMax] = useState(0)
-    // const [controlCapacidad, setControlCapacidad] = useState(false)
+    const [controlCapacidad, setControlCapacidad] = useState(false)
 
     
     useEffect(() => {
@@ -141,11 +141,11 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
             updateMonto(morehigt)
             setMontoValue(setValue(morehigt.toString()))
         }
-        // const cap = Number(CapacidadPago(valorCentrales, debit, salary, others, saludypension, ahorroMensual))
-        // if (cap > 70) {
-        //     setMontoValue("")
-        //     setControlCapacidad(true)
-        // }
+        const cap = Number(CapacidadPago(valorCentrales, debit, salary, others, saludypension, ahorroMensual))
+        if (cap > 70) {
+            setMontoValue("")
+            setControlCapacidad(true)
+        }
     }
 
 
@@ -212,7 +212,7 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
                     required/>
             </div>
 
-            {/* {controlCapacidad&&<span className="text-red-400 font-semibold text-xl">No posee Capacidad de Pago</span>} */}
+            {controlCapacidad&&<span className="text-red-400 font-semibold text-xl">No posee Capacidad de Pago</span>}
             {montoControl&&<span className="text-red-400 font-bold text-2xl">El monto minimo a solicitar es de $1.300.000</span>}
             {controlMonto&&capacidadPago>0&&typeControlMax==1&&<span className="font-semibold">El monto maximo a solicitar segun sus aportes es: ${setValue(maxValueAportes.toString())}</span>}
             {typeControlMax==2&&<span className="font-semibold">{`Su monto maximo a solicitar segun su capacidad de pago es de $${setValue(montoMax.toString())}`}</span>}
