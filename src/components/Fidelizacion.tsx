@@ -196,7 +196,7 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
                     placeholder="Cuotas" required/>
             </div>
             {controlCuotas&&<span className="font-semibold">El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>}
-            {controlCuotas&&<span>El numero maximo de cuotas para esta linea es: {maxCuotas}</span>}
+            {controlCuotas&&<span className="font-semibold">El numero maximo de cuotas para esta linea es: {maxCuotas}</span>}
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                 duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">

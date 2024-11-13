@@ -62,6 +62,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
     // Este useEffect actualiza los datos del tipo de crediuto seleccionado
     useEffect(() => {
         // Filtra y actualiza el valor del fondo y el score en caso de que existan
+        updateCuota(0)
         const currentFondo = FindFondo(tasas, inputAfiliacion, score)
         const currentScore = FindScore(tasas, inputAfiliacion, score)
         if (currentScore) {

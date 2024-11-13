@@ -9,6 +9,9 @@ lerna-debug.log*
 
 node_modules
 dist
+simuladordecredito
+simuladordecredito_last
+simuladordecredito0
 dist-ssr
 *.local
 
