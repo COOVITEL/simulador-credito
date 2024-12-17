@@ -18,6 +18,7 @@ export default function Afiliacion() {
     const [numberMonths, setNumberMonths] = useState(0)
     const [textAntiguedad, setTextAntiguedad] = useState(false)
     const [ventanilla, setVentanilla] = useState(false)
+    const [controlAntiguedad, setControlAntiguedad] = useState(false)
 
     useEffect(() => {
     }, [scoreMin])
@@ -29,8 +30,12 @@ export default function Afiliacion() {
         const currentType = typeAfi.split("-")[1]
         setControl(0)
         updateControlAntiguedad(false)
-        if (currentType == "Empleado Convenio") {
+        setControlAntiguedad(false)
+        if (currentType == "Empleado Convenio Publico") {
             setControl(1)
+            setControlTime(true)
+        } else if (currentType == "Empleado Convenio Privado") {
+            setControl(4)
             setControlTime(true)
         } else if (currentType == "Pensionado Libranza") {
             updateAntiguedad("")
@@ -45,17 +50,25 @@ export default function Afiliacion() {
             setControl(3)
             setControlTime(true)
             updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_EMPLEADOPENSIONADOVEN))
-        } else if (currentType == "Independiente") {
+        } else if (currentType == "Independiente con Garantía Real") {
+            setControlTime(false)
+            updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_INDEPENDIENTE_CON_GARANTIA))
+            updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_INDEPENDIENTE_CON_GARANTIA))
+            setNumberMonths(36)
+            setControlAntiguedad(true)
+            setControlTime(true)
+        } else if (currentType == "Independiente sin Garantía Real") {
             setControlTime(false)
             updateCuotaMaxima(parseInt(import.meta.env.VITE_MAXCUOTAS_INDEPENDIENTE))
             updateScoreMin(parseInt(import.meta.env.VITE_MINSCORE_INDEPENDIENTE))
             setNumberMonths(36)
-            setControl(4)
+            setControlAntiguedad(true)
             setControlTime(true)
         }
     }
 
-    const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleChangeSelectPublico = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setControlAntiguedad(true)
         const value = event.target.value
         updateTipoContrato(value)
         updateControlAntiguedad(false)
@@ -174,27 +187,33 @@ export default function Afiliacion() {
                     <label className="text-sm text-gray-400" htmlFor="tipocontrato">Tipo de Empleado y Contrato:</label>
                     <select
                         className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
-                        onChange={handleChangeSelect}
+                        onChange={handleChangeSelectPublico}
                         name="tipocontrato"
                         id="tipocontrato"
                         required >
                         <option key="emptytipoempleado" value="">-- Seleccione Tipo de Empleado --</option>
                         <option key="publico1" value="Publico Propiedad / C.Administrativa">Publico Propiedad / C.Administrativa</option>
                         <option key="publico2" value="Publico Provisional / P.Servicios">Publico Provisional / P.Servicios</option>
-                        <option key="privado3" value="Privado e Indefinido">Privado e Indefinido</option>
-                        <option key="privado4" value="Privado T.fijo / P.Servicios">Privado T.fijo / P.Servicios</option>
                     </select>
                 </div>
+            </div>
+            }
+            {control==4&&
+            <div className="flex flex-wrap gap-6 justify-center">
                 <div
                     className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
-                    <label className="text-sm text-gray-400" htmlFor="antiguedad">Antiguedad Laboral:</label>
-                    <input
+                    <label className="text-sm text-gray-400" htmlFor="tipocontrato">Tipo de Empleado y Contrato:</label>
+                    <select
                         className="px-3 focus:outline-none text-xl w-full font-semibold text-center"
-                        type="date"
-                        name="antiguedad"
-                        id="antiguedad"
-                        onChange={handleChangeAntiguedad}/>
+                        onChange={handleChangeSelectPublico}
+                        name="tipocontrato"
+                        id="tipocontrato"
+                        required >
+                        <option key="emptytipoempleado" value="">-- Seleccione Tipo de Empleado --</option>
+                        <option key="privado3" value="Privado e Indefinido">Privado e Indefinido</option>
+                        <option key="privado4" value="Privado T.fijo / P.Servicios">Privado T.fijo / P.Servicios</option>
+                    </select>
                 </div>
             </div>
             }
@@ -241,7 +260,7 @@ export default function Afiliacion() {
                 }
             </div>
             }
-            {control==4&&
+            {controlAntiguedad&&
                 <div
                     className="w-[450px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                     duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">

@@ -144,8 +144,6 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         const cap = Number(CapacidadPago(valorCentrales, debit, salary, others, saludypension, ahorroMensual))
         if (cap > 70) {
             setMontoValue("")
-            setTypeControlMax(0)
-            setControlMonto(false)
             setControlCapacidad(true)
         }
     }
