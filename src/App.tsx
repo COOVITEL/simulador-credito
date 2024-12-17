@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { fetchMovies } from "./api/fetchData";
+import { fetchDatas } from "./api/fetchData";
 import FormUser from "./components/FormUser";
 import useSimulatorStore from "./store/store";
 
@@ -13,7 +13,7 @@ function App() {
     const url = `https://adminsimuladores.coovitel.coop/api/simuladorcredito/`
 
     const fetchAndSetMovies = async () => {
-      const result = await fetchMovies(url);
+      const result = await fetchDatas(url);
       if (result) {
         const sociales = result.sociales
         const nosociales = result.nosociales

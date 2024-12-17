@@ -43,6 +43,7 @@ export default function FormUser() {
                 setControlMonto(false)
                 updateDatasAsociado(fields)
                 setDialog(true)
+                console.log(fields)
             } else {
                 setControlMonto(true)
             }
