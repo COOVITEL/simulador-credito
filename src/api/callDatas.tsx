@@ -14,7 +14,8 @@ export const getDatas = async (url: string) => {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Token c75ac915b957a299350028888cf832efa86e5b1c'
+      // Authorization: 'Token c75ac915b957a299350028888cf832efa86e5b1c'
+      Authorization: 'Token 1b1804aa491561e6d421f805e17763e56e99f2f0' // Token de pruueba
     //   Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMDAzM2M1YWFlODk0OGRmYWZlYWFmOThhM2MxNDVmNCIsIm5iZiI6MTcyMTc3MDM5OC4xNzIyODcsInN1YiI6IjY2OWZiYjljNWRmYjllYThkZjhmMmEzNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vEyit2DV4HjN-lSfuecmAPpgAIzKHYq6sviLZsA-GZc'
     }
   };

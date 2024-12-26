@@ -3,6 +3,7 @@ import { SimuladorStore, Descuentos } from "./types";
 
 // Este hoock contiene y crea el estado global para acceder desde cualquier componente y controladores de la app.
 const useSimulatorStore = create<SimuladorStore>((set) => ({
+    asesores: [],
     sociales: [],
     nosociales: [],
     fidelizacion: [],
@@ -151,7 +152,7 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
     updateAfiliacion: (newValue: string) => set(() => ({
         inputAfiliacion: newValue
     })),
-    updateList: ({listSo, listNoso, listFide, listTasas, listMax, listDes, listAso, salMin}: any) => set(() => ({
+    updateList: ({listSo, listNoso, listFide, listTasas, listMax, listDes, listAso, salMin, setAsesores}: any) => set(() => ({
         sociales: listSo,
         nosociales: listNoso,
         fidelizacion: listFide,
@@ -160,6 +161,7 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
         descuentos: listDes,
         asociados: listAso,
         salarioMinimo: salMin,
+        asesores: setAsesores
     })),
 }))
 

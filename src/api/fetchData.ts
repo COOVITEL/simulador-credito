@@ -1,6 +1,6 @@
 import { getDatas } from "./callDatas";
 
-export const fetchMovies = async (url: string) => {
+export const fetchDatasSimualdor = async (url: string) => {
     try {
       const results = await getDatas(url);
       return results

@@ -19,6 +19,7 @@ import { Dialog } from "./Dialog";
 import Garantia from "./form/Garantia";
 import FormaPago from "./form/Formadepago";
 import DebitCentrales from "./form/DebitCrentrales";
+import Asesores from "./form/Asesores";
 
 export default function FormUser() {
 
@@ -89,6 +90,7 @@ export default function FormUser() {
                     </div>
                     <div className="flex flex-wrap gap-6 justify-center">
                         {inputAfiliacion&&<Aportes />}
+                        <Asesores />
                     </div>
                     <div
                         className="w-full flex border-spacing-1 flex-row justify-around bg-gray-200 rounded-lg m-6
