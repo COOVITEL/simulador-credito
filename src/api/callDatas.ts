@@ -15,6 +15,6 @@ export const getDatas = async (url: string) => {
     headers: {
       accept: 'application/json',
       // Authorization: 'Token c75ac915b957a299350028888cf832efa86e5b1c'
-      Authorization: 'Token 1b1804aa491561e6d421f805e17763e56e99f2f0' // Token de pruueba
+      Authorization: `Token ${import.meta.env.VITE_TOKEN}` // Token de pruueba
     }
   };
