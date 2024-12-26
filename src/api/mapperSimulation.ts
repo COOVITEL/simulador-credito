@@ -16,7 +16,6 @@ export interface Simulacion {
     cooviahorro: String;
     cdat: String;
     aportes: String;
-    linea: String;
     credit: String;
     cuotas: String;
     monto: String;
@@ -26,25 +25,24 @@ export interface Simulacion {
 export function MapperSimulation(datas: any) {
     const setDatas: Simulacion = {
         name: datas.name,
-        document: datas,
-        dateborn: datas,
-        dateafi: datas,
-        typeAsociado: datas,
-        payForm: datas,
-        score: datas,
-        warranty: datas,
-        salary: datas,
-        others: datas,
-        cuotasDes: datas,
-        cuotasCen: datas,
-        cooviahorro: datas,
-        cdat: datas,
-        aportes: datas,
-        linea: datas,
-        credit: datas,
-        cuotas: datas,
-        monto: datas,
-        createdBy: datas
+        document: datas.cedula,
+        dateborn: datas.date,
+        dateafi: datas.years,
+        typeAsociado: datas.afiliacion,
+        payForm: datas.formapago,
+        score: datas.score,
+        warranty: datas.tipocontraVentanilla,
+        salary: datas.salary,
+        others: datas.others,
+        cuotasDes: datas.debit,
+        cuotasCen: datas.debitCentrales,
+        cooviahorro: datas.cooviahorro,
+        cdat: datas.cdat,
+        aportes: datas.aportes,
+        credit: datas.typeCredit,
+        cuotas: datas.cuotas,
+        monto: datas.monto,
+        createdBy: "Manuel Rodriguez"
     }
     return setDatas
 }

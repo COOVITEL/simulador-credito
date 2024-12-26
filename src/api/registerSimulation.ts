@@ -8,7 +8,8 @@ export const regisSimulation = async (datas: Simulacion) => {
             body: JSON.stringify(datas),
             headers: {
                 accept: 'application/json',
-                Authorization: 'Token c75ac915b957a299350028888cf832efa86e5b1c'
+                contentType: 'application/json',
+                // Authorization: 'Token c75ac915b957a299350028888cf832efa86e5b1c'
             }
         }))
         if (!response.ok) {

@@ -19,6 +19,8 @@ import { Dialog } from "./Dialog";
 import Garantia from "./form/Garantia";
 import FormaPago from "./form/Formadepago";
 import DebitCentrales from "./form/DebitCrentrales";
+import { MapperSimulation } from "../api/mapperSimulation";
+import { regisSimulation } from "../api/registerSimulation";
 
 export default function FormUser() {
 
@@ -43,7 +45,10 @@ export default function FormUser() {
                 setControlMonto(false)
                 updateDatasAsociado(fields)
                 setDialog(true)
-                console.log(fields)
+                const setDatasForRegister = MapperSimulation(fields)
+                console.log(setDatasForRegister)
+                // console.log(fields)
+                regisSimulation(setDatasForRegister)
             } else {
                 setControlMonto(true)
             }
