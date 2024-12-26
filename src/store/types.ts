@@ -1,4 +1,5 @@
 export interface SimuladorStore {
+    asesores: Asesores[]
     sociales: Sociales[];
     nosociales: NoSociales[];
     fidelizacion: Fidelizacion[];
@@ -78,6 +79,10 @@ export interface SimuladorStore {
     updateDebit: (newOthers: number) => void;
     updateAfiliacion: (newValue: string) => void;
     updateList: ({}: any) => void;
+}
+
+export interface Asesores {
+    name: string;
 }
 
 export interface Descuento {

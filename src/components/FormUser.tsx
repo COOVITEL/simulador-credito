@@ -21,6 +21,7 @@ import FormaPago from "./form/Formadepago";
 import DebitCentrales from "./form/DebitCrentrales";
 import { MapperSimulation } from "../api/mapperSimulation";
 import { regisSimulation } from "../api/registerSimulation";
+import Asesores from "./form/Asesores";
 
 export default function FormUser() {
 
@@ -45,9 +46,9 @@ export default function FormUser() {
                 setControlMonto(false)
                 updateDatasAsociado(fields)
                 setDialog(true)
+
                 const setDatasForRegister = MapperSimulation(fields)
-                console.log(setDatasForRegister)
-                // console.log(fields)
+
                 regisSimulation(setDatasForRegister)
             } else {
                 setControlMonto(true)
@@ -95,6 +96,7 @@ export default function FormUser() {
                     </div>
                     <div className="flex flex-wrap gap-6 justify-center">
                         {inputAfiliacion&&<Aportes />}
+                        <Asesores />
                     </div>
                     <div
                         className="w-full flex border-spacing-1 flex-row justify-around bg-gray-200 rounded-lg m-6

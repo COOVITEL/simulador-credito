@@ -42,7 +42,7 @@ export function MapperSimulation(datas: any) {
         credit: datas.typeCredit,
         cuotas: datas.cuotas,
         monto: datas.monto,
-        createdBy: "Manuel Rodriguez"
+        createdBy: datas.asesor
     }
     return setDatas
 }
