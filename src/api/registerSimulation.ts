@@ -1,7 +1,7 @@
 import { Simulacion } from "./mapperSimulation"
 
 export const regisSimulation = async (datas: Simulacion) => {
-    const url = "http://127.0.0.1:8000/api-registros/registros-creditos/"
+    const url = "https://adminsimuladores.coovitel.coop/api-registros/registros-creditos/"
     // const url = "http://127.0.0.1:8000/api-registros/registros-creditos/"
     try {
         const response = await fetch(url, {

@@ -42,7 +42,8 @@ export default function Social({ montoControl }: ControlsProps ) {
         valorCentrales,
         updateTasaDescuento,
         updateCuotaMaxima,
-        updateBeneficioTasa
+        updateBeneficioTasa,
+        formadepago
     } = useSimulatorStore()
     const [currentType, setCurrentType] = useState<Sociales>()
     const [listSociales, setListSociales] = useState<Sociales[]>([])
@@ -50,6 +51,8 @@ export default function Social({ montoControl }: ControlsProps ) {
     const [maxCuotas, setMaxCuotas] = useState(0)
     const [controlMax, setControlMax] = useState(false)
     const [controlCapacidad, setControlCapacidad] = useState(false)
+    const [controlCredivisual, setControlCredivisual] = useState(false)
+    const [controlFormaPagoCredivisual, setControlFormaPagoCredivisual] = useState(false)
 
     useEffect(() => {
         if (sociales) setListSociales(sociales)
@@ -91,11 +94,25 @@ export default function Social({ montoControl }: ControlsProps ) {
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         updateTasaDescuento(0)
+        setControlCredivisual(false)
+        setControlMax(false)
         updateBeneficioTasa(0)
         setSeletOption(event.target.value)
         setMaxCuotas(0)
         updateCuota(0)
         updateTasa(0)
+        if (event.target.value === "Credivisual") {
+            if (formadepago !== "Libranza") {
+                setControlFormaPagoCredivisual(true)
+                setSeletOption("")
+                return
+            }
+            if (score >= 700) {
+                updateTasa(1.85)
+            } else {
+                updateTasa(1.90)
+            }
+        }
         const value = event.target.value
         if (inputAfiliacion.split("-")[1] === "Independiente" && garantia === "Garantia Real" && value === "Vivienda") {
             updateCuotaMaxima(84)
@@ -117,6 +134,7 @@ export default function Social({ montoControl }: ControlsProps ) {
     }
 
     const handleChangeMonto = (event: React.ChangeEvent<HTMLInputElement>) => {
+        
         const cleanValue = event.target.value.replace(/\./g, '')
         const value = parseInt(cleanValue)
         updateMonto(value)
@@ -130,6 +148,14 @@ export default function Social({ montoControl }: ControlsProps ) {
         if (cap > 70) {
             updateMonto(0)
             setControlCapacidad(true)
+        }
+        if (selectOption == "Credivisual") {
+            if (value > 1000000) {
+                setControlCredivisual(true)
+                updateMonto(1000000)
+            } else {
+                setControlCredivisual(false)
+            }
         }
     }
     
@@ -151,6 +177,8 @@ export default function Social({ montoControl }: ControlsProps ) {
                 </select>
             </div>
 
+            {controlFormaPagoCredivisual&&<span  className="text-xl text-red-400 font-semibold">{`Esta linea solo aplica para Libranza`}</span>}
+
             <div
                 className="w-[500px] group flex flex-col items-start justify-start border-gray-300 border-2 rounded-xl p-2 transition-colors
                 duration-300 ease-in-out hover:border-blue-500 focus-within:border-blue-500 focus-within:shadow-xl shadow-blue-400">
@@ -166,6 +194,7 @@ export default function Social({ montoControl }: ControlsProps ) {
                     placeholder="Cuotas"
                     required/>
             </div>
+
             <span  className="font-semibold">El numero maximo de cuotas segun la linea es: {maxCuotas}</span>
             <span  className="font-semibold">El numero maximo de cuotas segun su perfil es: {cuotaMaxima}</span>
 
@@ -187,6 +216,7 @@ export default function Social({ montoControl }: ControlsProps ) {
             {montoControl&&<span className="text-red-400 font-bold text-2xl">El monto minimo a solicitar es de $1.300.000</span>}
             {capacidadPago<0&&<span className="text-xl text-red-400 font-bold">No cuenta con capacidad de pago</span>}
             {controlMax&&capacidadPago>0&&<span  className="font-semibold">{`Su monto maximo a solicitar es de $${setValue(montoMax.toString())}`}</span>}
+            {controlCredivisual&&<span  className="text-xl text-red-400 font-bold">{`El monto maximo a solicitar para Credivisual es de $1.000.00`}</span>}
         </div>
     )
 }

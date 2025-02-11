@@ -42,7 +42,7 @@ export default function FormUser() {
         // Este controlador busca que el monto ingresado no sea menor a $1.300.000 el cual es el salario minimo
         if (typeof monto === 'string') {
             const currentMonto = parseInt(monto.replace(/\./g, ''))
-            if (currentMonto >= smmlv) {
+            if (currentMonto >= smmlv || fields.typeCredit === "Credivisual") {
                 setControlMonto(false)
                 updateDatasAsociado(fields)
                 setDialog(true)
@@ -60,41 +60,41 @@ export default function FormUser() {
     return (
         <div className="w-[80%] m-10">
             {dialog&&<Dialog setDialog={setDialog}/>}
-            <form className="flex flex-col justify-center items-center gap-10 p-8" action="" onSubmit={handleSubmit}>
-                <div className="flex flex-wrap gap-6 justify-center">
+            <form className="flex flex-col justify-center items-center gap-5 p-8" action="" onSubmit={handleSubmit}>
+                <div className="flex flex-wrap gap-2 justify-center">
                     <Name />
                     <Id />
                 </div>
-                <div className="flex flex-wrap gap-6 justify-center">
+                <div className="flex flex-wrap gap-2 justify-center">
                     <Date />
                     <Years />
                 </div>
-                <div className="flex flex-wrap gap-6 justify-center">
+                <div className="flex flex-wrap gap-2 justify-center">
                     <Afiliacion/>
                 </div>
                 {
                 controlAntiguedad &&
-                <div className="flex flex-col gap-8 justify-center items-center">
-                    <div className="flex flex-wrap gap-6 justify-center">
+                <div className="flex flex-col gap-4 justify-center items-center">
+                    <div className="flex flex-wrap gap-2 justify-center">
                         <FormaPago />
                     </div>
-                    <div className="flex flex-wrap gap-6 justify-center">
+                    <div className="flex flex-wrap gap-2 justify-center">
                         <Score />
                         <Garantia />
                     </div>
-                    <div className="flex flex-wrap gap-6 justify-center">
+                    <div className="flex flex-wrap gap-2 justify-center">
                         <Salary />
                         <Others />
                     </div>
-                    <div className="flex flex-wrap gap-6 justify-center">
+                    <div className="flex flex-wrap gap-2 justify-center">
                         <Debit />
                         <DebitCentrales />
                     </div>
-                    <div className="flex flex-wrap gap-6 justify-center">
+                    <div className="flex flex-wrap gap-2 justify-center">
                         <Cooviahorro />
                         <Cdats />
                     </div>
-                    <div className="flex flex-wrap gap-6 justify-center">
+                    <div className="flex flex-wrap gap-2 justify-center">
                         {inputAfiliacion&&<Aportes />}
                         <Asesores />
                     </div>

@@ -9,11 +9,12 @@ function App() {
   const { updateList } = useSimulatorStore()
 
   useEffect(() => {
-    const url = `http://127.0.0.1:8000/api/simuladorcredito/`
-    // const url = `https://adminsimuladores.coovitel.coop/api/simuladorcredito/`
+    // const url = `http://127.0.0.1:8000/api/simuladorcredito/`
+    const url = `https://adminsimuladores.coovitel.coop/api/simuladorcredito/`
 
     const fetchDatas = async () => {
       const result = await fetchDatasSimualdor(url);
+
       if (result) {
         const sociales = result.sociales
         const nosociales = result.nosociales

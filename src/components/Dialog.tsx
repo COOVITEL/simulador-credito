@@ -40,6 +40,7 @@ export function Dialog({ setDialog }: DialogProps) {
     }
 
     return (
+        <div className="w-full h-full fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-50">
             <div className="fixed top-1/2 left-1/2 w-[90%] h-[90vh] bg-gray-100 border-2 border-gray-300 rounded-xl
                             transform -translate-x-1/2 -translate-y-1/2 shadow-[0_10px_20px_rgba(0,0,0,0.2)]">
               <div className="flex flex-col justify-center items-center gap-6 overflow-y-auto max-h-full pt-56">
@@ -202,6 +203,7 @@ export function Dialog({ setDialog }: DialogProps) {
                         {loading ? 'Generando...' : 'Descargar Comprobante'}
                     </button>
                 </div>
+            </div>
             </div>
         </div>
     )
