@@ -121,7 +121,12 @@ export default function Social({ montoControl }: ControlsProps ) {
 
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateCuota(parseInt(event.target.value))
-        if (currentType) updateTasa(searchTasaSocial(currentType, parseInt(event.target.value)))
+        console.log(event.target.value)
+        console.log(currentType)
+        if (currentType) {
+            updateTasa(searchTasaSocial(currentType, parseInt(event.target.value)))
+            console.log(searchTasaSocial(currentType, parseInt(event.target.value)))
+        }
         if (parseInt(event.target.value) > maxCuotas) {
             updateCuota(maxCuotas)
             if (currentType) updateTasa(searchTasaSocial(currentType, maxCuotas))
