@@ -25,6 +25,8 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         updateTasa,
         updatePorcentajeDescuento,
         tasa,
+        tasaAfiancol,
+        updateTasaAfiancol,
         capacidadPago,
         cuota,
         updateCuota,
@@ -98,7 +100,10 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         const valueCdat = parseInt(cdat.split("-")[0])
         const valueAportes = parseInt(aportes.split("-")[0])
         const descuento = calTasaDescuento(descuentos, valueCdat, valueCoovi, valueAportes, desScore, cuota, maximoDescuento, porcentajeDescuento, inputAfiliacion)
-        const totalTasa = tasaTecho - descuento
+        let totalTasa = tasaTecho - descuento
+        if (tasaAfiancol > 0) {
+            totalTasa = totalTasa + tasaAfiancol
+        }
         updateMontoMax(MontoMax(capacidadPago, totalTasa, cuota))
         updateMonto(0)
         updateBeneficioTasa(descuento)
@@ -115,18 +120,32 @@ export default function Nosociales({ montoControl }: ControlsProps) {
             // En este if se buscan los datos ingresado que generan un descuento en la tasa y se calcula el descuento, sobre el descuento maximo a obtener
             if (tasaDescuento > 0) {
                 // Si la tasa descuento existe se limpia el valor de pago mensual en caso de que alla sido calculada antes
-                updatePagoMensual(PagoMensual(monto, tasaDescuento, cuota))
+                // Valida si es con afiancol o seguro anticipado
+                if (tasaAfiancol > 0) {
+                    updatePagoMensual(PagoMensual(monto, tasaDescuento + tasaAfiancol, cuota))
+                } else {
+                    updatePagoMensual(PagoMensual(monto, tasaDescuento, cuota))
+                }            
+
             } else {
                 // Si no se pasa la tasa actual para hallar el pago mensual
-                updatePagoMensual(PagoMensual(monto, tasa, cuota))
+                // Valida si es con afiancol o seguro anticipado
+                if (tasaAfiancol > 0) {
+                    updatePagoMensual(PagoMensual(monto, tasa + tasaAfiancol, cuota))
+                } else {
+                    updatePagoMensual(PagoMensual(monto, tasa, cuota))
+                }
             }
             // Se busca el porcentaje del fondo de garantias segun el caso o tipo de asociado
             const typeAfi = inputAfiliacion.split("-")[0];
             const currentFondo = FindFondo(tasas, typeAfi, score)
+            // const currentFondo = 0.24
             // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado
-            if (currentFondo) {
+            if (currentFondo && currentFondo >= 1) {
                 const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
                 updateFondo(parseInt(porcentajeFondo))
+            } else {
+                updateFondo(0)
             }
         }
     }, [monto])
@@ -139,6 +158,14 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         const tasaT = value.split("-")[1]
         setTasaTecho(Number(tasaT))
         updateTasa(Number(tasaT))
+
+        // Buscar el porcentaje de fondo y mirar si es mensual o cobro anticipado
+        const typeAfi = inputAfiliacion.split("-")[0];
+        const currentFondo = FindFondo(tasas, typeAfi, score)
+        // const currentFondo = 0.24
+        if (currentFondo && currentFondo < 1) {
+            updateTasaAfiancol(currentFondo)
+        }
     }
 
     // Este handleCuotas actualiza en valor ingresado en el numero de cuotas

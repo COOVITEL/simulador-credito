@@ -26,6 +26,8 @@ export default function Social({ montoControl }: ControlsProps ) {
         montoMax,
         updateMontoMax,
         tasa,
+        tasaAfiancol,
+        updateTasaAfiancol,
         updateTasa,
         cuota,
         updateCuota,
@@ -69,20 +71,33 @@ export default function Social({ montoControl }: ControlsProps ) {
     }, [selectOption, debit, saludypension, cuota])
 
     useEffect(() => {
-        updateMontoMax(MontoMax(capacidadPago, tasa, cuota))
-        updateMonto(0)
+        if (tasaAfiancol > 0) {
+            updateMontoMax(MontoMax(capacidadPago, tasa + tasaAfiancol, cuota))
+            updateMonto(0)
+        } else {
+            updateMontoMax(MontoMax(capacidadPago, tasa, cuota))
+            updateMonto(0)
+        }
     }, [tasa, capacidadPago, cuota, inputAfiliacion, debit, others])
 
     useEffect(() => {
+        const typeAfi = inputAfiliacion.split("-")[0];
+        // const currentFondo = FindFondo(tasas, typeAfi, score)
+        const currentFondo = 0.24
+        // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado
+        if (currentFondo && currentFondo >= 1) {
+            const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
+            updateFondo(parseInt(porcentajeFondo))
+        } else {
+            updateFondo(0)
+        }
         if (isNaN(monto)) {
             updatePagoMensual(0)
         } else {
-            updatePagoMensual(PagoMensual(monto, tasa, cuota))
-            const typeAfi = inputAfiliacion.split("-")[0];
-            const currentFondo = FindFondo(tasas, typeAfi, score)
-            if (currentFondo) {
-                const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
-                updateFondo(parseInt(porcentajeFondo))
+            if (tasaAfiancol > 0) {
+                updatePagoMensual(PagoMensual(monto, tasa + tasaAfiancol, cuota))
+            } else {
+                updatePagoMensual(PagoMensual(monto, tasa, cuota))
             }
         }
     }, [monto])
@@ -117,15 +132,20 @@ export default function Social({ montoControl }: ControlsProps ) {
         if (inputAfiliacion.split("-")[1] === "Independiente" && garantia === "Garantia Real" && value === "Vivienda") {
             updateCuotaMaxima(84)
         }
+        // Buscar el porcentaje de fondo y evaluar si es cobro anticipado o mensual
+        const typeAfi = inputAfiliacion.split("-")[0];
+        // const currentFondo = FindFondo(tasas, typeAfi, score)
+        const currentFondo = 0.24
+
+        if (currentFondo && currentFondo < 1) {
+            updateTasaAfiancol(currentFondo)
+        }
     }
 
     const handleChangeCuotas = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateCuota(parseInt(event.target.value))
-        console.log(event.target.value)
-        console.log(currentType)
         if (currentType) {
             updateTasa(searchTasaSocial(currentType, parseInt(event.target.value)))
-            console.log(searchTasaSocial(currentType, parseInt(event.target.value)))
         }
         if (parseInt(event.target.value) > maxCuotas) {
             updateCuota(maxCuotas)

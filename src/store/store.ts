@@ -21,6 +21,7 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
     capacidadPago: 0,
     montoMax: 0,
     tasa: 0,
+    tasaAfiancol: 0,
     cuota: 0,
     monto: 0,
     pagoMensual: 0,
@@ -127,6 +128,9 @@ const useSimulatorStore = create<SimuladorStore>((set) => ({
     })),
     updateTasa: (newTasa: number) => set(() => ({
         tasa: newTasa,
+    })),
+    updateTasaAfiancol: (newTasa: number) => set(() => ({
+        tasaAfiancol: newTasa,
     })),
     updateMontoMax: (newValue: number) => set(() => ({
         montoMax: newValue,

@@ -170,7 +170,6 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.setFontSize(9)
     doc.text("Garantia", 112, 110)
     doc.line(110, 106, 200, 106)
-    doc.text("Valor FG + IVA", 112, 115.5)
     doc.line(110, 111.5, 200, 111.5)
     doc.text("Fidelización", 145, 121)
     doc.line(110, 117, 200, 117)
@@ -205,12 +204,31 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     const tasaBeneficio = tasaDescuen == "0" ? datas.tasa.toFixed(2) : datas.tasaDescuento.toFixed(3)
     doc.text(`${tasaBeneficio}% NM  -  ${tasaAnual(tasaBeneficio).toFixed(2)}% EA`, 156, 93.5)
     
+    // Garantias 
     doc.setFontSize(9)
-    doc.text("0.088% x millon", 156, 99)
+    doc.text("0.0123% x millon", 156, 99)
     doc.text(`$ ${setValue(datas.pagoMensual.toString())}`, 156, 104.5)
-    doc.text(datas.garantia, 156, 110)
-    const fondo = datas.garantia == "Fondo de Garantias" ? setValue(datas.fondo.toString()) : "0"
-    doc.text(`$ ${fondo}`, 156, 115.5)
+
+    let tipoGarantia = ""
+    if (datas.garantia == "Fondo de Garantias") {
+      if (datas.tasaAfiancol > 0) {
+        tipoGarantia = "Afiancol"
+      } else {
+        tipoGarantia = "Fondo de Garantias"
+      }
+    }
+    doc.text(tipoGarantia == "Fondo de Garantias" ? "Valor FG + IVA" : "% Mensual", 112, 115.5)
+
+    doc.text(tipoGarantia, 156, 110)
+
+    let valorGarantias = "0"
+    if (datas.garantia == "Fondo de Garantias") {
+        valorGarantias = `$ ${setValue(datas.fondo.toString())}`
+    }
+    if (Number(datas.tasaAfiancol) > 0) {
+        valorGarantias = `${datas.tasaAfiancol} %`
+    }
+    doc.text(valorGarantias, 156, 115.5)
     
     doc.setFont("helvetica", "normal");
     doc.text(`${datas.añoafiliacion}`, 128, 132)
@@ -240,8 +258,8 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text("Intereses Anticipados Presente Mes", 32, 177)
     doc.text(`$ ${setValue(diasInteres(datas.monto, datas.tasa).toString())}`, 110, 177)
     doc.line(30, 178.5, 180, 178.5)
-    doc.text("Valor FG + IVA", 32, 183)
-    doc.text(`$ ${fondo}`, 110, 183)
+    doc.text(tipoGarantia, 32, 183)
+    doc.text(valorGarantias, 110, 183)
     doc.line(30, 184.5, 180, 184.5)
     doc.text("Aproximado Neto a Desembolsar", 32, 189.5)
     const desembolso = datas.garantia == "Fondo de Garantias" ? setValue((datas.monto - datas.fondo - diasInteres(datas.monto, datas.tasa)).toString()) : setValue((datas.monto - diasInteres(datas.monto, datas.tasa)).toString())

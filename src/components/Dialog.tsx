@@ -39,6 +39,14 @@ export function Dialog({ setDialog }: DialogProps) {
         window.location.reload()
     }
 
+    let valorGarantias = "0"
+    if (store.garantia == "Fondo de Garantias") {
+        valorGarantias = `$ ${setValue(store.fondo.toString())}`
+    }
+    if (Number(store.tasaAfiancol) > 0) {
+        valorGarantias = `${store.tasaAfiancol} %`
+    }
+
     return (
         <div className="w-full h-full fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-50">
             <div className="fixed top-1/2 left-1/2 w-[90%] h-[90vh] bg-gray-100 border-2 border-gray-300 rounded-xl
@@ -165,18 +173,26 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tarifa Seguro de Vida Deudores:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">0.088% x millon</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">0.0123% x millon</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Valor Cuota(Seguro Incluído):</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">${setValue(store.pagoMensual.toString())}</p>
                         </div>
+
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
-                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Valor FG+IVA:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ 
-                                {store.garantia == "Fondo de Garantias" ? setValue(store.fondo.toString()) : "0"}
+                            <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">
+                                {
+                                    store.tasaAfiancol > 0 
+                                    ? "Tasa Afiancol:"
+                                    : "Valor FG+IVA"
+                                }
+                            </p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">
+                                {valorGarantias}
                             </p>
                         </div>
+
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Interes anticipados Presente Mes:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">$ {setValue(diasInteres(store.monto, store.tasa).toString())}</p>
@@ -189,7 +205,9 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de Garantia:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">{store.garantia}</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">
+                                {store.garantia == "Fondo de Garantias" && store.tasaAfiancol > 0 ? "Afiancol" : "Fondo de Garantias"}
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -17,6 +17,7 @@ export interface SimuladorStore {
     capacidadPago: number;
     montoMax: number;
     tasa: number;
+    tasaAfiancol: number;
     cuota: number;
     monto: number;
     pagoMensual: number;
@@ -70,6 +71,7 @@ export interface SimuladorStore {
     updateMonto: (newMonto: number) => void;
     updateCuota: (newCuota: number) => void;
     updateTasa: (newTasa: number) => void;
+    updateTasaAfiancol: (newTasa: number) => void;
     updateMontoMax: (newValue: number) => void;
     updateCapacidadPago: (newValue: number) => void;
     updateFormadepago: (newValue: string) => void;
