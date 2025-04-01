@@ -4,6 +4,7 @@ import { setValue } from "../utils/setValue"
 import { diasInteres } from "../utils/diasInteresAnticipado";
 import { downloadPFD } from "../utils/downloadPDF";
 import { CapacidadPago } from "../utils/capacidadPago";
+import { checkYears } from "../utils/edadSolicitante";
 
 interface DialogProps {
     setDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,8 @@ export function Dialog({ setDialog }: DialogProps) {
     const store = useSimulatorStore()
     const tasaDes = store.tasaDescuento == 0 ? store.tasa.toFixed(3) : store.tasaDescuento.toFixed(3)
     const [loading, setLoading] = useState(false)
+    const [controlAge, setControlAge] = useState(false)
+    const [controlMonto, setControlMonto] = useState(false)
 
     // HandleDownload llama a la funcion downloadPDF la cual crea y descarga el certificado los los datos de la simulacion
     const handleDownloads = async () => {
@@ -27,6 +30,13 @@ export function Dialog({ setDialog }: DialogProps) {
     };
 
     useEffect(() => {
+        if (store.monto >= 150000000) {
+            setControlMonto(true)
+        }
+        const años = checkYears(store.datasAsociado.date)
+        if (años) {
+            setControlAge(true)
+        }
     }, [store])
 
     /// Cierrar el dialog
@@ -165,7 +175,7 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tarifa Seguro de Vida Deudores:</p>
-                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">0.088% x millon</p>
+                            <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">0.00123%</p>
                         </div>
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Valor Cuota(Seguro Incluído):</p>
@@ -193,10 +203,33 @@ export function Dialog({ setDialog }: DialogProps) {
                         </div>
                     </div>
                 </div>
+                {
+                    (controlMonto && !controlAge) &&
+                    <p className="text-red-500 font-bold">Su solicitud supera los $150.000.000 de pesos, recuerde anexar el formato de POLIZA DE VIDA GRUPO DEUDOR MAPFRE SEGUROS COOVITEL.</p>
+                }
+                {
+                    (controlAge && !controlMonto) &&
+                    <p className="text-red-500 font-bold">Su edad supera los 70 años, recuerde anexar el formato de POLIZA DE VIDA GRUPO DEUDOR MAPFRE SEGUROS COOVITEL.</p>
+                }
+                {
+                    (controlAge && controlMonto) &&
+                    <p className="text-red-500 font-bold">Su solicitud supera los $150.000.000 de pesos y los 70 años, recuerde anexar el formato de POLIZA DE VIDA GRUPO DEUDOR MAPFRE SEGUROS COOVITEL.</p>
+                }
                 <div className="flex flex-row gap-12">
                     <button onClick={reload} className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]">
                         Nueva Simulacion
                     </button>
+                    {
+                        (controlAge || controlMonto)
+                        &&
+                        <a
+                            href="/documents/SOLICITUD VIDA GRUPO DEUDORES FORMATO MANUAL.XLSX"
+                            target="_black"
+                            className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]"
+                            >
+                            Formato Poliza
+                        </a>
+                    }
                     <button
                         className="px-4 py-1 mb-4 text-lg font-semibold duration-300 text-white rounded-lg bg-[#1D71B9] hover:bg-[#2D2D83]"
                         onClick={handleDownloads}>

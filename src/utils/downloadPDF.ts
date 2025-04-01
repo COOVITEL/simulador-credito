@@ -206,7 +206,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text(`${tasaBeneficio}% NM  -  ${tasaAnual(tasaBeneficio).toFixed(2)}% EA`, 156, 93.5)
     
     doc.setFontSize(9)
-    doc.text("0.088% x millon", 156, 99)
+    doc.text("0.00123%", 156, 99)
     doc.text(`$ ${setValue(datas.pagoMensual.toString())}`, 156, 104.5)
     doc.text(datas.garantia, 156, 110)
     const fondo = datas.garantia == "Fondo de Garantias" ? setValue(datas.fondo.toString()) : "0"
@@ -278,7 +278,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text("CC:", 110, 265)
     doc.line(120, 265, 185, 265)
     
-    doc.save('Simulacion.pdf')
+    doc.save('Simulacion Crédito.pdf')
   } catch (error) {
     console.log(error)
   }

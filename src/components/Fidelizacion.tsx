@@ -109,7 +109,6 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         const value = event.target.value
         updateCuota(parseInt(value))
         setCuotas(parseInt(value))
-        if (currentType) updateTasa(searchTasaFide(currentType, parseInt(value)))
         let moreHigt = 0
         if (cuotaMaxima < maxCuotas) {
             moreHigt = cuotaMaxima
@@ -119,7 +118,10 @@ export default function Fidelizaciones({ montoControl }: ControlsProps) {
         if (parseInt(value) > moreHigt) {
             setCuotas(moreHigt)
             updateCuota(moreHigt)
+        } else {
+            moreHigt = parseInt(value)
         }
+        if (currentType) updateTasa(searchTasaFide(currentType, moreHigt))
     }
 
     // Controla el valor del monto, controlando el valor maximo dependiendo del monto maximo a solicitar
