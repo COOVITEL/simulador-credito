@@ -206,7 +206,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     
     // Garantias 
     doc.setFontSize(9)
-    doc.text("0.0123% x millon", 156, 99)
+    doc.text("0.00123%", 156, 99)
     doc.text(`$ ${setValue(datas.pagoMensual.toString())}`, 156, 104.5)
 
     let tipoGarantia = ""
@@ -296,7 +296,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text("CC:", 110, 265)
     doc.line(120, 265, 185, 265)
     
-    doc.save('Simulacion.pdf')
+    doc.save('Simulacion Crédito.pdf')
   } catch (error) {
     console.log(error)
   }

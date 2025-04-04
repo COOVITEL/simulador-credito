@@ -82,8 +82,8 @@ export default function Social({ montoControl }: ControlsProps ) {
 
     useEffect(() => {
         const typeAfi = inputAfiliacion.split("-")[0];
-        // const currentFondo = FindFondo(tasas, typeAfi, score)
-        const currentFondo = 0.24
+        const currentFondo = FindFondo(tasas, typeAfi, score)
+        // const currentFondo = 0.24
         // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado
         if (currentFondo && currentFondo >= 1) {
             const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
@@ -134,8 +134,8 @@ export default function Social({ montoControl }: ControlsProps ) {
         }
         // Buscar el porcentaje de fondo y evaluar si es cobro anticipado o mensual
         const typeAfi = inputAfiliacion.split("-")[0];
-        // const currentFondo = FindFondo(tasas, typeAfi, score)
-        const currentFondo = 0.24
+        const currentFondo = FindFondo(tasas, typeAfi, score)
+        // const currentFondo = 0.24
 
         if (currentFondo && currentFondo < 1) {
             updateTasaAfiancol(currentFondo)
