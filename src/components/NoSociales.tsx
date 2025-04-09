@@ -10,6 +10,7 @@ import { calTasaDescuento } from "../utils/tasaDescuento"
 import { FindTasa } from "../utils/findTasa"
 import { FindScore } from "../utils/findScore"
 import { CapacidadPago } from "../utils/capacidadPago"
+import { FindTypeGarantia } from "../utils/findTypeGarantia"
 
 interface ControlsProps {
     montoControl: boolean
@@ -139,12 +140,16 @@ export default function Nosociales({ montoControl }: ControlsProps) {
             // Se busca el porcentaje del fondo de garantias segun el caso o tipo de asociado
             const typeAfi = inputAfiliacion.split("-")[0];
             const currentFondo = FindFondo(tasas, typeAfi, score)
-            // const currentFondo = 0.24
-            // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado
-            if (currentFondo && currentFondo >= 1) {
+            const typeGarantia = FindTypeGarantia(tasas, typeAfi, score)
+            // const typeGarantia = "Afiancol"
+            // const currentFondo = 0.46
+            // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado 
+            // }
+            // if (currentFondo && currentFondo >= 1) {
+            if (typeGarantia == "F.G" && currentFondo) {   // Esto es la prueba
                 const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
                 updateFondo(parseInt(porcentajeFondo))
-            } else {
+            } else if (typeGarantia == "Afiancol" || typeGarantia == "Firma") {
                 updateFondo(0)
             }
         }
@@ -162,8 +167,10 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         // Buscar el porcentaje de fondo y mirar si es mensual o cobro anticipado
         const typeAfi = inputAfiliacion.split("-")[0];
         const currentFondo = FindFondo(tasas, typeAfi, score)
-        // const currentFondo = 0.24
-        if (currentFondo && currentFondo < 1) {
+        const typeGarantia = FindTypeGarantia(tasas, typeAfi, score)
+        // const typeGarantia = "Afiancol"
+        // const currentFondo = 0.46
+        if (typeGarantia == "Afiancol" && currentFondo) {
             updateTasaAfiancol(currentFondo)
         }
     }

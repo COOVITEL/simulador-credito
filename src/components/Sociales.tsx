@@ -8,6 +8,7 @@ import { setValue } from "../utils/setValue"
 import { PagoMensual } from "../utils/cuota"
 import { FindFondo } from "../utils/findFondo"
 import { CapacidadPago } from "../utils/capacidadPago"
+import { FindTypeGarantia } from "../utils/findTypeGarantia"
 
 interface ControlsProps {
     montoControl: boolean
@@ -83,12 +84,15 @@ export default function Social({ montoControl }: ControlsProps ) {
     useEffect(() => {
         const typeAfi = inputAfiliacion.split("-")[0];
         const currentFondo = FindFondo(tasas, typeAfi, score)
-        // const currentFondo = 0.24
+        // const currentFondo = 0.46
+        const typeGanrantia = FindTypeGarantia(tasas, typeAfi, score)
+        // const typeGanrantia = "Afiancol"
         // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado
-        if (currentFondo && currentFondo >= 1) {
+        // if (currentFondo && currentFondo >= 1) {
+        if (currentFondo && typeGanrantia == "F.G") {
             const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
             updateFondo(parseInt(porcentajeFondo))
-        } else {
+        } else if (typeGanrantia == "Afiancol" || typeGanrantia == "Firma") {
             updateFondo(0)
         }
         if (isNaN(monto)) {
@@ -135,9 +139,11 @@ export default function Social({ montoControl }: ControlsProps ) {
         // Buscar el porcentaje de fondo y evaluar si es cobro anticipado o mensual
         const typeAfi = inputAfiliacion.split("-")[0];
         const currentFondo = FindFondo(tasas, typeAfi, score)
-        // const currentFondo = 0.24
+        // const currentFondo = 0.46
+        const typeGarantia = FindTypeGarantia(tasas, typeAfi, score)
+        // const typeGarantia = "Afiancol"
 
-        if (currentFondo && currentFondo < 1) {
+        if (currentFondo && typeGarantia == "F.G") {
             updateTasaAfiancol(currentFondo)
         }
     }

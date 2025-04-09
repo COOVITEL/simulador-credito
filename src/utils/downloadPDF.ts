@@ -122,7 +122,6 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.setFontSize(8)
     doc.setFont("helvetica", "normal");
     doc.text(datas.datasAsociado.name, 50, 55)
-    doc.setFontSize(9)
     doc.text(datas.datasAsociado.cedula, 50, 60.5)
     doc.text(datas.datasAsociado.afiliacion.split("-")[1], 50, 66)
     const contrato = datas.tipoContrato ? datas.tipoContrato : "No Aplica"
@@ -226,7 +225,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
         valorGarantias = `$ ${setValue(datas.fondo.toString())}`
     }
     if (Number(datas.tasaAfiancol) > 0) {
-        valorGarantias = `${datas.tasaAfiancol} %`
+        valorGarantias = `${datas.tasaAfiancol}%`
     }
     doc.text(valorGarantias, 156, 115.5)
     
@@ -259,6 +258,9 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text(`$ ${setValue(diasInteres(datas.monto, datas.tasa).toString())}`, 110, 177)
     doc.line(30, 178.5, 180, 178.5)
     doc.text(tipoGarantia, 32, 183)
+    if (tipoGarantia == "Afiancol") {
+      valorGarantias += "  mensual sobre saldos de capital"
+    }
     doc.text(valorGarantias, 110, 183)
     doc.line(30, 184.5, 180, 184.5)
     doc.text("Aproximado Neto a Desembolsar", 32, 189.5)
@@ -296,7 +298,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text("CC:", 110, 265)
     doc.line(120, 265, 185, 265)
     
-    doc.save('Simulacion Crédito.pdf')
+    doc.save(`Simulacion Crédito ${datas.datasAsociado.name}.pdf`)
   } catch (error) {
     console.log(error)
   }

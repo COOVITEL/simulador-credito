@@ -54,7 +54,7 @@ export function Dialog({ setDialog }: DialogProps) {
         valorGarantias = `$ ${setValue(store.fondo.toString())}`
     }
     if (Number(store.tasaAfiancol) > 0) {
-        valorGarantias = `${store.tasaAfiancol} %`
+        valorGarantias = `${store.tasaAfiancol}%  mensual sobre saldos de capital`
     }
 
     return (
