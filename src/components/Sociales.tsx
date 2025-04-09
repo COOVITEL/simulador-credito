@@ -89,7 +89,7 @@ export default function Social({ montoControl }: ControlsProps ) {
         // const typeGanrantia = "Afiancol"
         // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado
         // if (currentFondo && currentFondo >= 1) {
-        if (currentFondo && typeGanrantia == "F.G") {
+        if (currentFondo && typeGanrantia == "F.G.") {
             const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
             updateFondo(parseInt(porcentajeFondo))
         } else if (typeGanrantia == "Afiancol" || typeGanrantia == "Firma") {
@@ -143,7 +143,7 @@ export default function Social({ montoControl }: ControlsProps ) {
         const typeGarantia = FindTypeGarantia(tasas, typeAfi, score)
         // const typeGarantia = "Afiancol"
 
-        if (currentFondo && typeGarantia == "F.G") {
+        if (currentFondo && typeGarantia == "F.G.") {
             updateTasaAfiancol(currentFondo)
         }
     }

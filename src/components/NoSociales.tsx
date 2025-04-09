@@ -146,7 +146,10 @@ export default function Nosociales({ montoControl }: ControlsProps) {
             // Si existe el valor del fondo se calcula el valor de fondo de garantias sobre el monto solicitado 
             // }
             // if (currentFondo && currentFondo >= 1) {
-            if (typeGarantia == "F.G" && currentFondo) {   // Esto es la prueba
+            console.log("Prueba uno ",currentFondo)
+            console.log(typeGarantia)
+            if (typeGarantia == "F.G." && currentFondo) {   // Esto es la prueba
+                console.log(currentFondo)
                 const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
                 updateFondo(parseInt(porcentajeFondo))
             } else if (typeGarantia == "Afiancol" || typeGarantia == "Firma") {
