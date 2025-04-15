@@ -209,23 +209,34 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     doc.text(`$ ${setValue(datas.pagoMensual.toString())}`, 156, 104.5)
 
     let tipoGarantia = ""
-    if (datas.garantia == "Fondo de Garantias") {
-      if (datas.tasaAfiancol > 0) {
-        tipoGarantia = "Afiancol"
-      } else {
-        tipoGarantia = "Fondo de Garantias"
-      }
+    let titleGarantia = ""
+
+    if (datas.garantia == "Fondo de Garantias" && datas.tasaAfiancol == 0) {
+      tipoGarantia = "Fondo de Garantias"
+      titleGarantia = "Valor FG + IVA"
+    } else if (datas.tasaAfiancol > 0) {
+      tipoGarantia = "Afiancol"
+      titleGarantia = "% Mensual"
+    } else if (datas.garantia == "Garantia Real") {
+      tipoGarantia = "Garantia Real"
+      titleGarantia = ""
+    } else if (datas.garantia == "Aportes") {
+      tipoGarantia = "Aportes"
+      titleGarantia = ""
     }
-    doc.text(tipoGarantia == "Fondo de Garantias" ? "Valor FG + IVA" : "% Mensual", 112, 115.5)
+    doc.text(tipoGarantia, 156, 110) // tpo garantia
+    doc.text(titleGarantia, 112, 115.5)
 
-    doc.text(tipoGarantia, 156, 110)
 
-    let valorGarantias = "0"
+    let valorGarantias = ""
+    let garantia = ""
     if (datas.garantia == "Fondo de Garantias") {
         valorGarantias = `$ ${setValue(datas.fondo.toString())}`
+        garantia = "Fondo de Garantias"
     }
     if (Number(datas.tasaAfiancol) > 0) {
         valorGarantias = `${datas.tasaAfiancol}%`
+        garantia = "Afiancol"
     }
     doc.text(valorGarantias, 156, 115.5)
     

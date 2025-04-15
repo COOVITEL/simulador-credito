@@ -19,6 +19,8 @@ export function Dialog({ setDialog }: DialogProps) {
     const [loading, setLoading] = useState(false)
     const [controlAge, setControlAge] = useState(false)
     const [controlMonto, setControlMonto] = useState(false)
+    const [valorGarantias, setValorGarantias] = useState("")
+    const [tipoGarantia, setTipoGarantia] = useState("")
 
     // HandleDownload llama a la funcion downloadPDF la cual crea y descarga el certificado los los datos de la simulacion
     const handleDownloads = async () => {
@@ -37,6 +39,24 @@ export function Dialog({ setDialog }: DialogProps) {
         if (años) {
             setControlAge(true)
         }
+        console.log(store.garantia)
+        // Obtener el mensaje de la garantia
+        if (store.garantia == "Fondo de Garantias") {
+            setValorGarantias(`$ ${setValue(store.fondo.toString())}`)
+            setTipoGarantia("Fondo de Garantias")
+        }
+        if (Number(store.tasaAfiancol) > 0) {
+            setValorGarantias(`${store.tasaAfiancol}%  mensual sobre saldos de capital`)
+            setTipoGarantia("Afiancol")
+        }
+        if (store.garantia == "Garantia Real") {
+            setValorGarantias("0")
+            setTipoGarantia("Garantia Real")
+        }
+        if (store.garantia == "Aportes") {
+            setValorGarantias("0")
+            setTipoGarantia("Aportes")
+        }
     }, [store])
 
     /// Cierrar el dialog
@@ -49,13 +69,7 @@ export function Dialog({ setDialog }: DialogProps) {
         window.location.reload()
     }
 
-    let valorGarantias = "0"
-    if (store.garantia == "Fondo de Garantias") {
-        valorGarantias = `$ ${setValue(store.fondo.toString())}`
-    }
-    if (Number(store.tasaAfiancol) > 0) {
-        valorGarantias = `${store.tasaAfiancol}%  mensual sobre saldos de capital`
-    }
+
 
     return (
         <div className="w-full h-full fixed top-0 left-0 bg-[rgba(0,0,0,0.5)] z-50">
@@ -216,7 +230,7 @@ export function Dialog({ setDialog }: DialogProps) {
                         <div  className="flex flex-row justify-between border-2 border-gray-500 rounded-lg">
                             <p className="bg-blue-200 w-[50%] px-2 py-1 font-semibold">Tipo de Garantia:</p>
                             <p className="w-[50%] h-full text-center items-center align-middle px-2 py-1 font-semibold">
-                                {store.garantia == "Fondo de Garantias" && store.tasaAfiancol > 0 ? "Afiancol" : "Fondo de Garantias"}
+                                {tipoGarantia}
                             </p>
                         </div>
                     </div>
