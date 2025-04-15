@@ -229,14 +229,11 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
 
 
     let valorGarantias = ""
-    let garantia = ""
     if (datas.garantia == "Fondo de Garantias") {
         valorGarantias = `$ ${setValue(datas.fondo.toString())}`
-        garantia = "Fondo de Garantias"
     }
     if (Number(datas.tasaAfiancol) > 0) {
         valorGarantias = `${datas.tasaAfiancol}%`
-        garantia = "Afiancol"
     }
     doc.text(valorGarantias, 156, 115.5)
     
