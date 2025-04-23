@@ -223,6 +223,8 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     } else if (datas.garantia == "Aportes") {
       tipoGarantia = "Aportes"
       titleGarantia = ""
+    } else {
+      tipoGarantia = "Firma"
     }
     doc.text(tipoGarantia, 156, 110) // tpo garantia
     doc.text(titleGarantia, 112, 115.5)

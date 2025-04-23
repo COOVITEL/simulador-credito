@@ -45,18 +45,22 @@ export function Dialog({ setDialog }: DialogProps) {
             setValorGarantias(`$ ${setValue(store.fondo.toString())}`)
             setTipoGarantia("Fondo de Garantias")
         }
-        if (Number(store.tasaAfiancol) > 0) {
+        else if (Number(store.tasaAfiancol) > 0) {
             setValorGarantias(`${store.tasaAfiancol}%  mensual sobre saldos de capital`)
             setTipoGarantia("Afiancol")
         }
-        if (store.garantia == "Garantia Real") {
+        else if (store.garantia == "Garantia Real") {
             setValorGarantias("0")
             setTipoGarantia("Garantia Real")
         }
-        if (store.garantia == "Aportes") {
+        else if (store.garantia == "Aportes") {
             setValorGarantias("0")
             setTipoGarantia("Aportes")
+        } else {
+            setValorGarantias("0")
+            setTipoGarantia(store.garantia)
         }
+        console.log(store.garantia)
     }, [store])
 
     /// Cierrar el dialog
