@@ -220,7 +220,11 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     } else if (datas.garantia == "Garantia Real") {
       tipoGarantia = "Garantia Real"
       titleGarantia = ""
-    } else if (datas.garantia == "Aportes") {
+    } else if (datas.garantia == "Codeudor") {
+      tipoGarantia = "Codeudor"
+      titleGarantia = ""
+    }
+    else if (datas.garantia == "Aportes") {
       tipoGarantia = "Aportes"
       titleGarantia = ""
     } else {
