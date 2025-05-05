@@ -214,7 +214,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     if (datas.garantia == "Fondo de Garantias" && datas.tasaAfiancol == 0) {
       tipoGarantia = "Fondo de Garantias"
       titleGarantia = "Valor FG + IVA"
-    } else if (datas.tasaAfiancol > 0) {
+    } else if (datas.tasaAfiancol > 0 && datas.garantia == "Fondo de Garantias") {
       tipoGarantia = "Afiancol"
       titleGarantia = "% Mensual"
     } else if (datas.garantia == "Garantia Real") {
@@ -238,7 +238,7 @@ export function downloadPFD ( {datas}: DownloadPFDProps) {
     if (datas.garantia == "Fondo de Garantias") {
         valorGarantias = `$ ${setValue(datas.fondo.toString())}`
     }
-    if (Number(datas.tasaAfiancol) > 0) {
+    if (Number(datas.tasaAfiancol) > 0 && datas.garantia == "Fondo de Garantias") {
         valorGarantias = `${datas.tasaAfiancol}%`
     }
     doc.text(valorGarantias, 156, 115.5)

@@ -72,7 +72,7 @@ export default function Social({ montoControl }: ControlsProps ) {
     }, [selectOption, debit, saludypension, cuota])
 
     useEffect(() => {
-        if (tasaAfiancol > 0) {
+        if (tasaAfiancol > 0 && garantia == "Fondo de Garantias") {
             updateMontoMax(MontoMax(capacidadPago, tasa + tasaAfiancol, cuota))
             updateMonto(0)
         } else {
@@ -98,7 +98,7 @@ export default function Social({ montoControl }: ControlsProps ) {
         if (isNaN(monto)) {
             updatePagoMensual(0)
         } else {
-            if (tasaAfiancol > 0) {
+            if (tasaAfiancol > 0 && garantia == "Fondo de Garantias") {
                 updatePagoMensual(PagoMensual(monto, tasa + tasaAfiancol, cuota))
             } else {
                 updatePagoMensual(PagoMensual(monto, tasa, cuota))

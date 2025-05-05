@@ -39,13 +39,12 @@ export function Dialog({ setDialog }: DialogProps) {
         if (años) {
             setControlAge(true)
         }
-        console.log(store.garantia)
         // Obtener el mensaje de la garantia
-        if (store.garantia == "Fondo de Garantias") {
+        if (store.garantia == "Fondo de Garantias" && Number(store.tasaAfiancol) == 0) {
             setValorGarantias(`$ ${setValue(store.fondo.toString())}`)
             setTipoGarantia("Fondo de Garantias")
         }
-        else if (Number(store.tasaAfiancol) > 0) {
+        else if (Number(store.tasaAfiancol) > 0 && store.garantia == "Fondo de Garantias") {
             setValorGarantias(`${store.tasaAfiancol}%  mensual sobre saldos de capital`)
             setTipoGarantia("Afiancol")
         }
@@ -64,7 +63,6 @@ export function Dialog({ setDialog }: DialogProps) {
             setValorGarantias("0")
             setTipoGarantia(store.garantia)
         }
-        console.log(store.garantia)
     }, [store])
 
     /// Cierrar el dialog

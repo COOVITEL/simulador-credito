@@ -102,7 +102,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         const valueAportes = parseInt(aportes.split("-")[0])
         const descuento = calTasaDescuento(descuentos, valueCdat, valueCoovi, valueAportes, desScore, cuota, maximoDescuento, porcentajeDescuento, inputAfiliacion)
         let totalTasa = tasaTecho - descuento
-        if (tasaAfiancol > 0) {
+        if (tasaAfiancol > 0 && garantia == "Fondo de Garantia") {
             totalTasa = totalTasa + tasaAfiancol
         }
         updateMontoMax(MontoMax(capacidadPago, totalTasa, cuota))
@@ -122,7 +122,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
             if (tasaDescuento > 0) {
                 // Si la tasa descuento existe se limpia el valor de pago mensual en caso de que alla sido calculada antes
                 // Valida si es con afiancol o seguro anticipado
-                if (tasaAfiancol > 0) {
+                if (tasaAfiancol > 0 && garantia == "Fondo de Garantias") {
                     updatePagoMensual(PagoMensual(monto, tasaDescuento + tasaAfiancol, cuota))
                 } else {
                     updatePagoMensual(PagoMensual(monto, tasaDescuento, cuota))
@@ -131,7 +131,7 @@ export default function Nosociales({ montoControl }: ControlsProps) {
             } else {
                 // Si no se pasa la tasa actual para hallar el pago mensual
                 // Valida si es con afiancol o seguro anticipado
-                if (tasaAfiancol > 0) {
+                if (tasaAfiancol > 0 && garantia == "Fondo de Garantias") {
                     updatePagoMensual(PagoMensual(monto, tasa + tasaAfiancol, cuota))
                 } else {
                     updatePagoMensual(PagoMensual(monto, tasa, cuota))
@@ -148,7 +148,6 @@ export default function Nosociales({ montoControl }: ControlsProps) {
             // if (currentFondo && currentFondo >= 1) {
             if (typeGarantia == "F.G." && currentFondo) {   // Esto es la prueba
                 const porcentajeFondo = ((currentFondo / 100) * monto).toFixed(0)
-                console.log(porcentajeFondo)
                 updateFondo(parseInt(porcentajeFondo))
             } else if (typeGarantia == "Afiancol" || typeGarantia == "Firma") {
                 updateFondo(0)
@@ -171,7 +170,9 @@ export default function Nosociales({ montoControl }: ControlsProps) {
         const typeGarantia = FindTypeGarantia(tasas, typeAfi, score)
         // const typeGarantia = "Afiancol"
         // const currentFondo = 0.46
-        if (typeGarantia == "Afiancol" && currentFondo) {
+        console.log(garantia)
+        if (typeGarantia == "Afiancol" && currentFondo && garantia == "Fondo de Garantias") {
+            console.log(currentFondo)
             updateTasaAfiancol(currentFondo)
         }
     }
