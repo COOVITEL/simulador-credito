@@ -1,11 +1,13 @@
-export function ahorroMensual(salary: number, date: string) {
+export function ahorroMensual(salary: number, date: string, pagaduria: string) {
     // Esta funcion calcula el ahorro mensual de los asociados, dependiendo del año de afiliacion.
     const year = date.split("-")[0]
     const minSalary = 1000000
     // Control dependiendo del año de ingreso del asociado 
     if (parseInt(year) > 2021) {
         // Si es mayor al 2021 es el 0.02 del salario
-        const totalValue = salary * 0.02
+        console.log(pagaduria)
+        const porcentaje = pagaduria === "Colpensiones" ? 0.025 : 0.02
+        const totalValue = salary * porcentaje
         if (totalValue > 180000) return 180000
         return totalValue
     } else {
